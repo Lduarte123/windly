@@ -1,0 +1,63 @@
+.env
+dotenv
+node_modules
+# Logs
+logs
+npm-debug.log*
+# Test
+test
+# Coverage
+coverage
+# Build
+build
+# Misc
+
+# node
+.DS_Store
+# dotenv
+.env.local# Ambiente
+.env
+.env.*  # cobre .env.local, .env.development, etc.
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-debug.log*
+
+# Logs
+logs/
+*.log
+
+# Testes e Cobertura
+coverage/
+test/
+*.lcov
+
+# Build
+build/
+dist/
+out/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# IDEs/Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Misc
+*.tgz
+*.gz
+*.zip
+*.swp
+*.bak
+*.tmp
+
+# Optional: Ignorar arquivos do Docker (caso use)
+docker-compose.override.yml
