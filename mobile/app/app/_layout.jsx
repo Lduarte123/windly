@@ -1,28 +1,43 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { tabBarStyles } from './styles';
 
 export default function Layout() {
   return (
     <Tabs
-      screenOptions={({ route }) => ({
+      screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#004aad',  // azul escuro para ativo
-        tabBarInactiveTintColor: '#4f6d7a', // azul acinzentado para inativo
-        tabBarStyle: tabBarStyles.tabBarStyle,
-        tabBarLabelStyle: tabBarStyles.tabBarLabelStyle,
-        tabBarIcon: ({ color, size }) => {
-          let iconName;
-
-          if (route.name === 'home') iconName = 'home';
-          else if (route.name === 'login') iconName = 'log-in';
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-      })}
+        tabBarActiveTintColor: '#2D6BFD',
+        tabBarInactiveTintColor: '#aaa',
+        tabBarStyle: { height: 80, paddingBottom: 8, paddingTop: 8,},
+      }}
     >
-      <Tabs.Screen name="home" options={{ title: 'Home' }} />
-      <Tabs.Screen name="login" options={{ title: 'Login' }} />
+      <Tabs.Screen
+        name="index"
+        options={{
+          tabBarLabel: 'teste',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="teste"
+        options={{
+          tabBarLabel: 'Buscar',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="search-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          tabBarLabel: 'Config',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="settings-outline" size={size} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
