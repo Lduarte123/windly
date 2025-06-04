@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { TouchableOpacity, View } from 'react-native';
 
 export default function Layout() {
   return (
@@ -7,34 +8,63 @@ export default function Layout() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: '#2D6BFD',
-        tabBarInactiveTintColor: '#aaa',
-        tabBarStyle: { height: 80, paddingBottom: 8, paddingTop: 8,},
+        tabBarInactiveTintColor: '#ccc',
+        tabBarShowLabel: false, 
+        tabBarStyle: {
+          position: 'absolute',
+          left: 16,
+          right: 16,
+          elevation: 5,
+          backgroundColor: '#fff',
+          borderRadius: 20,
+          height: 80,
+          paddingBottom: 10,
+          paddingTop: 10,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 5 },
+          shadowOpacity: 0.1,
+          shadowRadius: 10,
+          borderTopWidth: 0,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '600',
+        },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          tabBarLabel: 'teste',
+          tabBarLabel: 'Início',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+            <Ionicons name="home-outline" size={24} color={color} />
+          ),
+          tabBarButton: (props) => (
+            <TouchableOpacity activeOpacity={0.7} {...props} />
           ),
         }}
       />
       <Tabs.Screen
-        name="teste"
+        name="cidades/index"
         options={{
-          tabBarLabel: 'Buscar',
+          tabBarLabel: 'Cidades',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="search-outline" size={size} color={color} />
+            <Ionicons name="logo-buffer" size={24} color={color} />
+          ),
+          tabBarButton: (props) => (
+            <TouchableOpacity activeOpacity={0.7} {...props} />
           ),
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="configuracoes/index"
         options={{
-          tabBarLabel: 'Config',
+          tabBarLabel: 'Configurações',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings-outline" size={size} color={color} />
+            <Ionicons name="settings-outline" size={24} color={color} />
+          ),
+          tabBarButton: (props) => (
+            <TouchableOpacity activeOpacity={0.7} {...props} />
           ),
         }}
       />
