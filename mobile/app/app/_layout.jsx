@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 export default function Layout() {
   return (
@@ -26,10 +26,6 @@ export default function Layout() {
           shadowRadius: 10,
           borderTopWidth: 0,
         },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '600',
-        },
       }}
     >
       <Tabs.Screen
@@ -45,11 +41,11 @@ export default function Layout() {
         }}
       />
       <Tabs.Screen
-        name="cidades/index"
+        name="cidades"
         options={{
           tabBarLabel: 'Cidades',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="logo-buffer" size={24} color={color} />
+            <Ionicons name="location-outline" size={24} color={color} />
           ),
           tabBarButton: (props) => (
             <TouchableOpacity activeOpacity={0.7} {...props} />

@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import styles from "./styles";
 
-export default function SearchBar({ value, onChangeText, placeholder = "Pesquisar..." }) {
+export default function SearchBar({ value, onChangeText, placeholder = "Pesquisar...", onSubmitEditing }) {
   return (
     <View style={styles.container}>
       <Feather name="search" size={20} color="#fff" style={styles.icon} />
@@ -13,6 +13,8 @@ export default function SearchBar({ value, onChangeText, placeholder = "Pesquisa
         value={value}
         onChangeText={onChangeText}
         placeholderTextColor="#fff"
+        returnKeyType="search"
+        onSubmitEditing={onSubmitEditing}
       />
     </View>
   );
