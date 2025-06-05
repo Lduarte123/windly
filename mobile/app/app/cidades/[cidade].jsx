@@ -13,7 +13,6 @@ export const options = {
 export default function CidadeDetalhe() {
   const { cidade } = useLocalSearchParams();
 
-  // Dados mockados
   const weatherData = {
     humidity: 70,
     feels_like: 32,
@@ -27,7 +26,7 @@ export default function CidadeDetalhe() {
   return (
     <ScrollView style={styles.container}>
       <MainSection>
-        <MainStats />
+        <MainStats city={cidade} desc="Nublado" temp="25"/>
       </MainSection>
       <ScrollView style={styles.whiteSection}>
         <Text style={{ fontWeight: "bold", fontSize: 20, margin: 16 }}>

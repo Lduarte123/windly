@@ -22,7 +22,7 @@ export default function App() {
   return (
     <ScrollView style={styles.container}>
       <MainSection>
-        <MainStats />
+        <MainStats city="Fortaleza, BR" desc="Algumas nuvens" temp="28"/>
       </MainSection>
       <ScrollView style={styles.whiteSection}>
         <WeatherCard />

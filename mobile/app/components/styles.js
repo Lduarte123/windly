@@ -13,6 +13,34 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingBottom: 110,
   },
+  cidadesContainer: {
+    flex: 1,
+    backgroundColor: "#F2F2F2",
+    paddingTop: 24,
+  },
+  loading: {
+    marginTop: 8,
+  },
+  erro: {
+    color: "#E53935",
+    alignSelf: "center",
+    marginTop: 8,
+  },
+  scroll: {
+    flex: 1,
+    marginTop: 24,
+  },
+  titulo: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginLeft: 24,
+    marginBottom: 8,
+  },
+  vazio: {
+    color: "#888",
+    alignSelf: "center",
+    marginTop: 32,
+  },
 });
 
 export default styles;
