@@ -50,6 +50,12 @@ const styles = StyleSheet.create({
     width: '25',
     borderRadius: 100
   },
+  statsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginTop: 16 
+  }
 });
 
 export default styles;

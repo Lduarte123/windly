@@ -5,6 +5,7 @@ import MainStats from "../../components/mainStats/MainStats";
 import WeatherCard from "../../components/weatherCard/WeatherCard";
 import StatsCard from "../../components/statsCard/StatsCard";
 import { Ionicons } from '@expo/vector-icons';
+import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from 'lucide-react-native';
 import styles from "../../components/styles";
 
 export const options = {
@@ -40,13 +41,43 @@ export default function CidadeDetalhe() {
           {cidade}
         </Text>
         <WeatherCard />
-        <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", marginTop: 16 }}>
-          <StatsCard titulo="Sensação" desc="Sensação térmica" stats={`${weatherData.feels_like}°`} icon="🌡️" />
-          <StatsCard titulo="Umidade" desc="Umidade relativa" stats={`${weatherData.humidity}%`} icon="💧" />
-          <StatsCard titulo="Pressão" desc="Pressão atmosférica" stats={`${weatherData.pressure} hPa`} icon="🌬️" />
-          <StatsCard titulo="Vento" desc="Velocidade do vento" stats={`${weatherData.wind_speed} m/s`} icon="🪁" />
-          <StatsCard titulo="Visibilidade" desc="Visibilidade" stats={`${weatherData.visibility / 1000} km`} icon="👁️" />
-          <StatsCard titulo="Nuvens" desc="Cobertura de nuvens" stats={`${weatherData.clouds}%`} icon="☁️" />
+        <View style={styles.statsContainer}>
+          <StatsCard
+            titulo="Sensação"
+            desc="Sensação térmica"
+            stats={`${weatherData.feels_like}°`}
+            icon={<Thermometer color="#fff" size={26} />}
+          />
+          <StatsCard
+            titulo="Umidade"
+            desc="Umidade relativa"
+            stats={`${weatherData.humidity}%`}
+            icon={<Droplets color="#fff" size={26} />}
+          />
+          <StatsCard
+            titulo="Pressão"
+            desc="Pressão atmosférica"
+            stats={`${weatherData.pressure} hPa`}
+            icon={<Gauge color="#fff" size={26} />}
+          />
+          <StatsCard
+            titulo="Vento"
+            desc="Velocidade do vento"
+            stats={`${weatherData.wind_speed} m/s`}
+            icon={<Wind color="#fff" size={26} />}
+          />
+          <StatsCard
+            titulo="Visibilidade"
+            desc="Visibilidade"
+            stats={`${weatherData.visibility / 1000} km`}
+            icon={<Eye color="#fff" size={26} />}
+          />
+          <StatsCard
+            titulo="Nuvens"
+            desc="Cobertura de nuvens"
+            stats={`${weatherData.clouds}%`}
+            icon={<Cloud color="#fff" size={26} />}
+          />
         </View>
       </ScrollView>
     </ScrollView>
