@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     width: '25',
     borderRadius: 100
   },
+<<<<<<< HEAD
   config:{
     width:'100%',
     height:100,
@@ -65,6 +66,14 @@ const styles = StyleSheet.create({
       marginTop:10
     }
     
+=======
+  statsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginTop: 16 
+  }
+>>>>>>> dd9cc15801e0e53d7f0a6b659f39aac4cf41ded2
 });
 
 

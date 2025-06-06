@@ -6,6 +6,7 @@ import MainStats from "../components/mainStats/MainStats";
 import styles from "../components/styles";
 import WeatherCard from "../components/weatherCard/WeatherCard";
 import StatsCard from "../components/statsCard/StatsCard";
+import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from 'lucide-react-native';
 
 export default function App() {
 
@@ -27,42 +28,42 @@ export default function App() {
       <ScrollView style={styles.whiteSection}>
         <WeatherCard />
 
-        <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", marginTop: 16 }}>
+        <View style={styles.statsContainer}>
           <StatsCard
             titulo="Sensação"
             desc="Sensação térmica"
             stats={`${weatherData.feels_like.toFixed(1)}°`}
-            icon="🌡️"
+            icon={<Thermometer color="#fff" size={26} />}
           />
           <StatsCard
             titulo="Umidade"
             desc="Umidade relativa"
             stats={`${weatherData.humidity}%`}
-            icon="💧"
+            icon={<Droplets color="#fff" size={26} />}
           />
           <StatsCard
             titulo="Pressão"
             desc="Pressão atmosférica"
             stats={`${weatherData.pressure} hPa`}
-            icon="🌬️"
+            icon={<Gauge color="#fff" size={26} />}
           />
           <StatsCard
             titulo="Vento"
             desc="Velocidade do vento"
             stats={`${weatherData.wind_speed} m/s`}
-            icon="🪁"
+            icon={<Wind color="#fff" size={26} />}
           />
           <StatsCard
             titulo="Visibilidade"
             desc="Visibilidade"
             stats={`${weatherData.visibility / 1000} km`}
-            icon="👁️"
+            icon={<Eye color="#fff" size={26} />}
           />
           <StatsCard
             titulo="Nuvens"
             desc="Cobertura de nuvens"
             stats={`${weatherData.clouds}%`}
-            icon="☁️"
+            icon={<Cloud color="#fff" size={26} />}
           />
         </View>
       </ScrollView>
