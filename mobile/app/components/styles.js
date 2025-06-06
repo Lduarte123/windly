@@ -50,6 +50,22 @@ const styles = StyleSheet.create({
     width: '25',
     borderRadius: 100
   },
+  config:{
+    width:'100%',
+    height:100,
+    alignItems: 'center',
+    justifyContent:'center',
+    backgroundColor:'#2784DF',
+    borderRadius:5
+    },
+    fontConfig:{
+      color:'white',
+      fontWeight:'bold',
+      fontSize:20,
+      marginTop:10
+    }
+    
 });
+
 
 export default styles;

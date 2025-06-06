@@ -12,7 +12,9 @@ export default function App(){
 
     return(
         <ScrollView>
-            <Text>Config</Text>
+            <View style={styles.config}>
+            <Text style={styles.fontConfig}>Configurações</Text>
+            </View>
         </ScrollView>
         
     )
