@@ -1,9 +1,10 @@
-import { useLocalSearchParams } from "expo-router";
-import { View, Text, ScrollView } from "react-native";
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import MainSection from "../../components/mainSection/MainSection";
 import MainStats from "../../components/mainStats/MainStats";
 import WeatherCard from "../../components/weatherCard/WeatherCard";
 import StatsCard from "../../components/statsCard/StatsCard";
+import { Ionicons } from '@expo/vector-icons';
 import styles from "../../components/styles";
 
 export const options = {
@@ -23,9 +24,15 @@ export default function CidadeDetalhe() {
     clouds: 10,
   };
 
+  const navigation = useNavigation();
+
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <MainSection>
+        <TouchableOpacity style={styles.backContainer} onPress={() => navigation.goBack()}>
+           <Ionicons name="arrow-back" size={24} />
+        </TouchableOpacity>
         <MainStats city={cidade} desc="Nublado" temp="25"/>
       </MainSection>
       <ScrollView style={styles.whiteSection}>

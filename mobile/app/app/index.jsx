@@ -20,7 +20,7 @@ export default function App() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <MainSection>
         <MainStats city="Fortaleza, BR" desc="Algumas nuvens" temp="28"/>
       </MainSection>

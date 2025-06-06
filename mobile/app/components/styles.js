@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     marginTop: 24,
+    paddingBottom: 200,
   },
   titulo: {
     fontWeight: "bold",
@@ -40,6 +41,14 @@ const styles = StyleSheet.create({
     color: "#888",
     alignSelf: "center",
     marginTop: 32,
+  },
+  backContainer: {
+    alignItems: "center",
+    marginTop: 6,
+    marginLeft: 12,
+    backgroundColor: "#fff",
+    width: '25',
+    borderRadius: 100
   },
 });
 

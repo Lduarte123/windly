@@ -1,17 +1,15 @@
 import { StyleSheet } from "react-native";
+import Constants from 'expo-constants';
 
 export default StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: 'transparent',
+    backgroundColor: '#DBDBDB',
     paddingHorizontal: 12,
     height: 40,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: 'center',
-    margin: 10,
-    borderWidth: 1,
-    borderColor: 'white',
-    width: '70%',
+    margin: Constants.statusBarHeight,
     alignSelf: 'center'
   },
   icon: {
@@ -20,6 +18,6 @@ export default StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 12,
-    color: 'white',
+    color: '#000',
   },
 });

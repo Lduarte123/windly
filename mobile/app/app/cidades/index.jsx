@@ -15,16 +15,17 @@ export default function Cidades() {
   const router = useRouter();
 
   const adicionarCidade = async () => {
-    if (!search.trim()) return;
+    const cidadeBusca = search.trim(); // remove espaços antes e depois
+    if (!cidadeBusca) return;
     setErro("");
     setLoading(true);
     try {
       const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(search)}&appid=${OPENWEATHER_API_KEY}&lang=pt_br`
+        `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cidadeBusca)}&appid=${OPENWEATHER_API_KEY}&lang=pt_br`
       );
       const data = await res.json();
       if (data.cod === 200) {
-        const nomeCidade = `${data.name}, ${data.sys.country}`;
+        const nomeCidade = `${data.name}, ${data.sys.country}`.trim();
         if (!cidades.includes(nomeCidade)) setCidades([...cidades, nomeCidade]);
         setSearch("");
         Keyboard.dismiss();
@@ -47,13 +48,16 @@ export default function Cidades() {
         placeholder="Adicionar cidade..."
         onSubmitEditing={adicionarCidade}
       />
+      <Text style={styles.titulo}>
+          Minhas cidades
+        </Text>
       {loading && <ActivityIndicator color="#2D6BFD" style={styles.loading} />}
       {!!erro && <Text style={styles.erro}>{erro}</Text>}
 
-      <ScrollView style={styles.scroll}>
-        <Text style={styles.titulo}>
-          Minhas cidades
-        </Text>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={{ paddingBottom: 90 }}
+      >
         {cidades.length === 0 ? (
           <Text style={styles.vazio}>
             Nenhuma cidade adicionada.
