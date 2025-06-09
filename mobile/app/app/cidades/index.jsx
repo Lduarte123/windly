@@ -3,6 +3,7 @@ import { ScrollView, Text, View, ActivityIndicator, Keyboard } from "react-nativ
 import { useRouter } from "expo-router";
 import SearchBar from "../../components/searchBar/SearchBar";
 import CidadeCard from "../../components/cidadeCard/CidadeCard";
+import { useTheme } from "../../components/ThemeContext";
 import styles from "../../components/styles";
 
 const OPENWEATHER_API_KEY = "69b60137458925882b3d327be216c401";
@@ -13,9 +14,13 @@ export default function Cidades() {
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState("");
   const router = useRouter();
+  const { dark } = useTheme();
+  const backgroundColor = dark ? '#151718' : '#F2F2F2';
+  const textColor = dark ? "#ECEDEE" : "#11181C";
+  const vazioColor = dark ? "#ECEDEE" : "#888";
 
   const adicionarCidade = async () => {
-    const cidadeBusca = search.trim(); // remove espaços antes e depois
+    const cidadeBusca = search.trim();
     if (!cidadeBusca) return;
     setErro("");
     setLoading(true);
@@ -41,16 +46,16 @@ export default function Cidades() {
   const removerCidade = (cidade) => setCidades(cidades.filter((c) => c !== cidade));
 
   return (
-    <View style={styles.cidadesContainer}>
+    <View style={[styles.cidadesContainer, { backgroundColor }]}>
       <SearchBar
         value={search}
         onChangeText={setSearch}
         placeholder="Adicionar cidade..."
         onSubmitEditing={adicionarCidade}
       />
-      <Text style={styles.titulo}>
-          Minhas cidades
-        </Text>
+      <Text style={[styles.titulo, { color: textColor }]}>
+        Minhas cidades
+      </Text>
       {loading && <ActivityIndicator color="#2D6BFD" style={styles.loading} />}
       {!!erro && <Text style={styles.erro}>{erro}</Text>}
 
@@ -59,7 +64,7 @@ export default function Cidades() {
         contentContainerStyle={{ paddingBottom: 90 }}
       >
         {cidades.length === 0 ? (
-          <Text style={styles.vazio}>
+          <Text style={[styles.vazio, { color: vazioColor }]}>
             Nenhuma cidade adicionada.
           </Text>
         ) : (

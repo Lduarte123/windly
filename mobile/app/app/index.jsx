@@ -1,14 +1,16 @@
 import React from "react";
-import { useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import MainSection from "../components/mainSection/MainSection";
 import MainStats from "../components/mainStats/MainStats";
-import styles from "../components/styles";
 import WeatherCard from "../components/weatherCard/WeatherCard";
 import StatsCard from "../components/statsCard/StatsCard";
 import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from 'lucide-react-native';
+import { useTheme } from "../components/ThemeContext";
+import getStyles from "../components/styles";
 
 export default function App() {
+  const { dark } = useTheme();
+  const styles = getStyles(dark);
 
   const weatherData = {
     humidity: 66,
@@ -20,12 +22,17 @@ export default function App() {
     clouds: 0,
   };
 
+  const whiteSectionStyle = [
+    styles.whiteSection,
+    dark && { backgroundColor: "#23272a" }
+  ];
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <MainSection>
         <MainStats city="Fortaleza, BR" desc="Algumas nuvens" temp="28"/>
       </MainSection>
-      <ScrollView style={styles.whiteSection}>
+      <ScrollView style={whiteSectionStyle}>
         <WeatherCard />
 
         <View style={styles.statsContainer}>
