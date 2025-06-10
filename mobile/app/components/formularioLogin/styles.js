@@ -34,25 +34,28 @@ export default StyleSheet.create({
     marginBottom: 5,
     marginTop: 15,
   },
-  input: {
-    backgroundColor: "rgba(255,255,255,0.2)",
-    color: "#000",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    borderColor: "#ccc",
-    borderWidth: 1,
-  },
-  button: {
-    backgroundColor: "#4fc3f7",
-    padding: 12,
-    borderRadius: 10,
-    marginTop: 30,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#000",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
+ input: {
+  backgroundColor: "rgba(255,255,255,0.2)",
+  color: "#000",
+  paddingHorizontal: 15,
+  paddingVertical: 12,
+  borderRadius: 10,
+  borderColor: "#ccc",
+  borderWidth: 1,
+  marginBottom: 10, // novo
+},
+ button: {
+  backgroundColor: "#4fc3f7",
+  paddingVertical: 14,
+  borderRadius: 10,
+  marginTop: 30,
+  alignItems: "center",
+  elevation: 2, // para Android
+},
+ buttonText: {
+  color: "#000",
+  fontWeight: "bold",
+  fontSize: 16,
+  textTransform: "uppercase", // opcional
+},
 });
