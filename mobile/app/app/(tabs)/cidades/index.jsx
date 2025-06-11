@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { ScrollView, Text, View, ActivityIndicator, Keyboard } from "react-native";
 import { useRouter } from "expo-router";
-import SearchBar from "../../components/searchBar/SearchBar";
-import CidadeCard from "../../components/cidadeCard/CidadeCard";
-import { useTheme } from "../../components/ThemeContext";
-import styles from "../../components/styles";
+import SearchBar from "../../../components/searchBar/SearchBar";
+import CidadeCard from "../../../components/cidadeCard/CidadeCard";
+import styles from "../../../components/styles";
 
 const OPENWEATHER_API_KEY = "69b60137458925882b3d327be216c401";
 

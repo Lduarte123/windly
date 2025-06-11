@@ -1,9 +1,11 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
-import MainSection from "../components/mainSection/MainSection";
-import MainStats from "../components/mainStats/MainStats";
-import WeatherCard from "../components/weatherCard/WeatherCard";
-import StatsCard from "../components/statsCard/StatsCard";
+import { useState } from "react";
+import { ScrollView, Text, View } from "react-native";
+import MainSection from "../../components/mainSection/MainSection";
+import MainStats from "../../components/mainStats/MainStats";
+import styles from "../../components/styles";
+import WeatherCard from "../../components/weatherCard/WeatherCard";
+import StatsCard from "../../components/statsCard/StatsCard";
 import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from 'lucide-react-native';
 import { useTheme } from "../components/ThemeContext";
 import getStyles from "../components/styles";

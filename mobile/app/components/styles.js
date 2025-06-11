@@ -12,17 +12,21 @@ const dark = {
 
 export default function getStyles(isDark) {
   const theme = isDark ? dark : light;
+
   return StyleSheet.create({
     config: {
-      flex: 1,
-      backgroundColor: theme.background,
-      padding: 20,
+      width: "100%",
+      height: 100,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#2784DF",
+      borderRadius: 5,
     },
     fontConfig: {
-      fontSize: 24,
+      color: "white",
       fontWeight: "bold",
-      color: theme.text,
-      marginBottom: 20,
+      fontSize: 20,
+      marginTop: 10,
     },
     container: {
       flex: 1,
@@ -70,7 +74,7 @@ export default function getStyles(isDark) {
       marginTop: 6,
       marginLeft: 12,
       backgroundColor: "#fff",
-      width: "25",
+      width: 25, // Corrigido de string para número
       borderRadius: 100,
     },
     statsContainer: {
@@ -79,6 +83,5 @@ export default function getStyles(isDark) {
       justifyContent: "center",
       marginTop: 16,
     },
-    // ...outros estilos...
   });
 }

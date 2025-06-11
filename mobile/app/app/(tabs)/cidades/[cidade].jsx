@@ -1,13 +1,12 @@
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import MainSection from "../../components/mainSection/MainSection";
-import MainStats from "../../components/mainStats/MainStats";
-import WeatherCard from "../../components/weatherCard/WeatherCard";
-import StatsCard from "../../components/statsCard/StatsCard";
+import MainSection from "../../../components/mainSection/MainSection";
+import MainStats from "../../../components/mainStats/MainStats";
+import WeatherCard from "../../../components/weatherCard/WeatherCard";
+import StatsCard from "../../../components/statsCard/StatsCard";
 import { Ionicons } from '@expo/vector-icons';
 import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from 'lucide-react-native';
-import { useTheme } from "../../components/ThemeContext";
-import getStyles from "../../components/styles";
+import styles from "../../../components/styles";
 
 export const options = {
   tabBarButton: () => null,
