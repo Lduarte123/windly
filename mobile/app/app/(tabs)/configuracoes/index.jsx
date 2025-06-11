@@ -1,8 +1,7 @@
 import React from "react";
-<<<<<<< HEAD:mobile/app/app/configuracoes/index.jsx
 import { Button, ScrollView, Text, View } from "react-native";
-import { useTheme } from "../../components/ThemeContext";
-import getStyles from "../../components/styles";
+import { useTheme } from "../../../components/ThemeContext";
+import getStyles from "../../../components/styles";
 
 export default function OutraTela() {
   const { dark, toggleTheme } = useTheme();
@@ -20,25 +19,4 @@ export default function OutraTela() {
       </View>
     </ScrollView>
   );
-=======
-import { useState } from "react";
-import { ScrollView, Text, View } from "react-native";
-import styles from "../../../components/styles";
-export default function App(){
-
-    const [search, setSearch] = useState("");
-
-    return(
-        <ScrollView>
-            <View style={styles.config}>
-            <Text style={styles.fontConfig}>Configurações</Text>
-            </View>
-
-            <View style={styles.listConfig}>
-
-            </View>
-        </ScrollView>
-        
-    )
->>>>>>> s-dev:mobile/app/app/(tabs)/configuracoes/index.jsx
 }

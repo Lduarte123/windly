@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, View } from 'react-native';
-import { ThemeProvider, useTheme } from '../components/ThemeContext';
+import { ThemeProvider, useTheme } from '../../components/ThemeContext';
 
 function ThemedTabs() {
   const { dark } = useTheme();

@@ -7,6 +7,8 @@ import StatsCard from "../../../components/statsCard/StatsCard";
 import { Ionicons } from '@expo/vector-icons';
 import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from 'lucide-react-native';
 import styles from "../../../components/styles";
+import { useTheme } from "../../../components/ThemeContext";
+import getStyles from "../../../components/styles";
 
 export const options = {
   tabBarButton: () => null,

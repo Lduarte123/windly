@@ -7,8 +7,8 @@ import styles from "../../components/styles";
 import WeatherCard from "../../components/weatherCard/WeatherCard";
 import StatsCard from "../../components/statsCard/StatsCard";
 import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from 'lucide-react-native';
-import { useTheme } from "../components/ThemeContext";
-import getStyles from "../components/styles";
+import { useTheme } from "../../components/ThemeContext";
+import getStyles from "../../components/styles";
 
 export default function App() {
   const { dark } = useTheme();

@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import SearchBar from "../../../components/searchBar/SearchBar";
 import CidadeCard from "../../../components/cidadeCard/CidadeCard";
 import styles from "../../../components/styles";
+import { useTheme } from "../../../components/ThemeContext";
 
 const OPENWEATHER_API_KEY = "69b60137458925882b3d327be216c401";
 
