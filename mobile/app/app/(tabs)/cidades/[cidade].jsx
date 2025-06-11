@@ -14,6 +14,8 @@ export const options = {
 
 export default function CidadeDetalhe() {
   const { cidade } = useLocalSearchParams();
+  const { dark } = useTheme();
+  const styles = getStyles(dark);
 
   const weatherData = {
     humidity: 70,
@@ -25,19 +27,25 @@ export default function CidadeDetalhe() {
     clouds: 10,
   };
 
-  const navigation = useNavigation();
+  // Mesmo ajuste da tela principal
+  const whiteSectionStyle = [
+    styles.whiteSection,
+    dark && { backgroundColor: "#23272a" }
+  ];
+  const textColor = dark ? "#ECEDEE" : "#11181C";
 
+  const navigation = useNavigation();
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <MainSection>
         <TouchableOpacity style={styles.backContainer} onPress={() => navigation.goBack()}>
-           <Ionicons name="arrow-back" size={24} />
+          <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
         <MainStats city={cidade} desc="Nublado" temp="25"/>
       </MainSection>
-      <ScrollView style={styles.whiteSection}>
-        <Text style={{ fontWeight: "bold", fontSize: 20, margin: 16 }}>
+      <ScrollView style={whiteSectionStyle}>
+        <Text style={{ fontWeight: "bold", fontSize: 20, margin: 16, color: textColor }}>
           {cidade}
         </Text>
         <WeatherCard />
