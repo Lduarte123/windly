@@ -1,63 +1,10 @@
-.env
-dotenv
-node_modules
-# Logs
-logs
-npm-debug.log*
-# Test
-test
-# Coverage
-coverage
-# Build
-build
-# Misc
-
-# node
-.DS_Store
-# dotenv
-.env.local# Ambiente
-.env
-.env.*  # cobre .env.local, .env.development, etc.
-
-# Node
+# Ignorar node_modules
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+
+# Ignorar variáveis de ambiente
+.env
+
+# Ignorar arquivos de travamento e dependência
 package-lock.json
-.pnpm-debug.log*
-
-# Logs
-logs/
-*.log
-
-# Testes e Cobertura
-coverage/
-test/
-*.lcov
-
-# Build
-build/
-dist/
-out/
-
-# Sistema
-.DS_Store
-Thumbs.db
-
-# IDEs/Editors
-.vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
-
-# Misc
-*.tgz
-*.gz
-*.zip
-*.swp
-*.bak
-*.tmp
-
-# Optional: Ignorar arquivos do Docker (caso use)
-docker-compose.override.yml
+package.json
+readme
