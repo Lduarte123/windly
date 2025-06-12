@@ -4,6 +4,9 @@ const cors = require('cors');
 const morgan = require('morgan');
 const profissionalRoutes = require('./routes/profissionalRoutes');
 const dbInit = require('./db/dbInit');
+const userRoutes = require('./routes/userRoutes');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger/swaggerConfig');
 
 class Server {
   constructor() {
@@ -21,18 +24,24 @@ class Server {
   }
 
   routes() {
-    // prefixo /api/profissionais para as rotas profissionais
-    this.app.use('/api/profissionais', profissionalRoutes);
+  // Rotas da aplicação
+  this.app.use('/api/profissionais', profissionalRoutes);
+  this.app.use('/api/users', userRoutes);
 
-    this.app.get('/', (req, res) => {
-      res.send('API de Profissionais está funcionando!');
-    });
+  // Rota raiz
+  this.app.get('/', (req, res) => {
+    res.send('API de Profissionais está funcionando!');
+  });
+this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-    this.app.use((err, req, res, next) => {
-      console.error(err.stack);
-      res.status(500).json({ error: 'Erro interno do servidor.' });
-    });
-  }
+
+  // Middleware de erro
+  this.app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Erro interno do servidor.' });
+  });
+}
+
 
   async initDb() {
     try {

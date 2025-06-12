@@ -1,32 +1,29 @@
-// db/dbInit.js
 const db = require('./db'); // Importa a conexão com o banco de dados
 
-// Script SQL para criar as tabelas profissional e cidade_favorita
+// Script SQL para criar as tabelas users e cidade_favorita
 const createTable = async () => {
-  // Verifica se a tabela profissional existe
-  const checkProfissionalTableQuery = `SELECT to_regclass('public.profissional');`;
+  // Verifica se a tabela users existe
+  const checkUsersTableQuery = `SELECT to_regclass('public.users');`;
   // Verifica se a tabela cidade_favorita existe
   const checkCidadeFavoritaTableQuery = `SELECT to_regclass('public.cidade_favorita');`;
 
   try {
-    // Profissional
-    const resultProfissional = await db.query(checkProfissionalTableQuery);
-    if (resultProfissional.rows[0].to_regclass === null) {
-      const createProfissionalQuery = `
-        CREATE TABLE profissional (
-          matricula SERIAL PRIMARY KEY,
-          nome VARCHAR(255) NOT NULL,
-          profissao VARCHAR(255) NOT NULL,
-          salario DECIMAL(10, 2) NOT NULL,
-          setor VARCHAR(255) NOT NULL,
-          cidade VARCHAR(255) NOT NULL,
-          estado CHAR(2) NOT NULL
+    // Users (Cadastro/Login)
+    const resultUsers = await db.query(checkUsersTableQuery);
+    if (resultUsers.rows[0].to_regclass === null) {
+      const createUsersQuery = `
+        CREATE TABLE users (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(100) NOT NULL,
+          email VARCHAR(100) UNIQUE NOT NULL,
+          password VARCHAR(255) NOT NULL,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
       `;
-      await db.query(createProfissionalQuery);
-      console.log('Tabela "profissional" criada com sucesso!');
+      await db.query(createUsersQuery);
+      console.log('Tabela "users" criada com sucesso!');
     } else {
-      console.log('Tabela "profissional" já existe.');
+      console.log('Tabela "users" já existe.');
     }
 
     // Cidade Favorita
