@@ -8,22 +8,34 @@ export default function FormularioLogin() {
   const [senha, setSenha] = useState("");
   const router = useRouter();
 
-  const handleLogin = () => {
-    if (!email || !senha) {
-      Alert.alert("Erro", "Preencha todos os campos");
-      return;
-    }
-// hgjklyyy
-// hgjklyyy
-    if (email === "leo@gmail.com" && senha === "123") {
-      Alert.alert("Sucesso", "Bem-vindes todes");
+  const handleLogin = async () => {
+  if (!email || !senha) {
+    Alert.alert("Erro", "Preencha todos os campos");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:3000/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email:email, password: senha }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      Alert.alert("Sucesso", `Bem-vindo, ${data.name}!`);
       setTimeout(() => {
         router.replace("/");
-      }, 1000); // tempo em ms
+      }, 1000);
     } else {
-      Alert.alert("Erro", "Email ou senha incorretos");
+      const error = await response.json();
+      Alert.alert("Erro", error.message || "Credenciais inválidas");
     }
-  };
+  } catch (error) {
+    Alert.alert("Erro", "Não foi possível conectar ao servidor");
+  }
+};
+
 
   return (
     <ImageBackground
