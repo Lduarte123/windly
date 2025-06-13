@@ -5,6 +5,8 @@ const morgan = require('morgan');
 const profissionalRoutes = require('./routes/profissionalRoutes');
 const dbInit = require('./db/dbInit');
 const userRoutes = require('./routes/userRoutes');
+const lembreteRoutes = require('./routes/lembreteRoutes');
+const previsaoRoutes = require('./routes/previsaoRoutes');  // <-- Importando as rotas de previsão do tempo
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger/swaggerConfig');
 
@@ -24,24 +26,25 @@ class Server {
   }
 
   routes() {
-  // Rotas da aplicação
-  this.app.use('/api/profissionais', profissionalRoutes);
-  this.app.use('/api/users', userRoutes);
+    // Rotas da aplicação
+    this.app.use('/api/profissionais', profissionalRoutes);
+    this.app.use('/api/users', userRoutes);
+    this.app.use('/api/lembretes', lembreteRoutes);
+    this.app.use('/api/weather', previsaoRoutes);  // <-- Adicionando a rota para previsões
 
-  // Rota raiz
-  this.app.get('/', (req, res) => {
-    res.send('API de Profissionais está funcionando!');
-  });
-this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    // Rota raiz
+    this.app.get('/', (req, res) => {
+      res.send('API de Profissionais está funcionando!');
+    });
 
+    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-  // Middleware de erro
-  this.app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Erro interno do servidor.' });
-  });
-}
-
+    // Middleware de erro
+    this.app.use((err, req, res, next) => {
+      console.error(err.stack);
+      res.status(500).json({ error: 'Erro interno do servidor.' });
+    });
+  }
 
   async initDb() {
     try {
