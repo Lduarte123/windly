@@ -73,6 +73,15 @@ function ThemedTabs() {
             ),
           }}
         />
+        <Tabs.Screen
+          name="login"
+          options={{
+            // NÃO use `href` aqui
+            tabBarButton: () => null, // isso esconde completamente o botão da Tab Bar
+            tabBarItemStyle: { display: 'none' }, // opcional: oculta a tab bar se for necessário
+          }}
+        />
+
       </Tabs>
     </View>
   );
