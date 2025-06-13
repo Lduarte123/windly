@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const profissionalRoutes = require('./routes/profissionalRoutes');
 const dbInit = require('./db/dbInit');
 const userRoutes = require('./routes/userRoutes');
+const lembreteRoutes = require('./routes/lembreteRoutes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger/swaggerConfig');
 
@@ -27,6 +28,7 @@ class Server {
   // Rotas da aplicação
   this.app.use('/api/profissionais', profissionalRoutes);
   this.app.use('/api/users', userRoutes);
+  this.app.use('/api/lembretes', lembreteRoutes);
 
   // Rota raiz
   this.app.get('/', (req, res) => {
