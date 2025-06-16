@@ -81,7 +81,7 @@ export default function App() {
         <MainStats city={city} desc={desc} temp={temp}/>
       </MainSection>
       <ScrollView style={whiteSectionStyle}>
-        <WeatherCard />
+        <WeatherCard city={city} />
 
         <View style={styles.statsContainer}>
           <StatsCard
