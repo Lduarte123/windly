@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, View } from 'react-native';
-import { ThemeProvider, useTheme } from '../../components/ThemeContext';
+import { ThemeProvider, useTheme } from '../components/ThemeContext';
 
 function ThemedTabs() {
   const { dark } = useTheme();
@@ -69,6 +69,15 @@ function ThemedTabs() {
             ),
           }}
         />
+        <Tabs.Screen
+          name="login"
+          options={{
+            // NÃO use `href` aqui
+            tabBarButton: () => null, // isso esconde completamente o botão da Tab Bar
+            tabBarItemStyle: { display: 'none' }, // opcional: oculta a tab bar se for necessário
+          }}
+        />
+
       </Tabs>
     </View>
   );

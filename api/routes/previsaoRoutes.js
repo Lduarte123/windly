@@ -1,9 +1,8 @@
-// routes/weatherRoutes.js
-import { Router } from 'express';
-import PrevisaoController from '../controllers/previsaoController.js';
+const express = require('express');
+const PrevisaoController = require('../controllers/previsaoController');
 
-const router = Router();
+const router = express.Router();
 
-router.get('/:cidade', PrevisaoController.getWeather);
+router.get('/forecast/:city', PrevisaoController.getForecast);
 
-export default router;
+module.exports = router;

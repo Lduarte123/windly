@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, Text, View, Switch, TouchableOpacity, Alert } from "react-native";
+import { ScrollView, Text, View, Switch, TouchableOpacity, Alert, Button } from "react-native";
 import { useTheme } from "../../../components/ThemeContext";
 import getStyles from "../../../components/styles";
 

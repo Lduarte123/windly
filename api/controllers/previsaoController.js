@@ -1,19 +1,27 @@
-// controllers/weatherController.js
-import PrevisaoService from '../services/previsaoService.js';
-import { formatResponse } from '../utils/responseFormatter.js';
+const PrevisaoService = require('../services/previsaoService');
+const { formatResponse, formatForecastResponse } = require('../utils/responseFormatter');
 
 class PrevisaoController {
-  static async getWeather(req, res, next) {
+  static async getForecast(req, res, next) {
     const { city } = req.params;
 
+    if (!city) {
+      return res.status(400).json({ error: 'Cidade é obrigatória' });
+    }
+
     try {
-      const weatherData = await PrevisaoService.getWeather(city);
-      const formattedData = formatResponse(weatherData);
+      const forecastData = await PrevisaoService.getForecast(city);
+
+      if (forecastData.error) {
+        return res.status(404).json({ error: forecastData.error });
+      }
+
+      const formattedData = formatForecastResponse(forecastData);
       return res.json(formattedData);
     } catch (error) {
-      next(error); // Passa o erro para o middleware de erro
+      next(error);
     }
   }
 }
 
-export default PrevisaoController;
+module.exports = PrevisaoController;
