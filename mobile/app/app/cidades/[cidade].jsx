@@ -1,47 +1,60 @@
-import React from "react";
-import { useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import MainSection from "../../components/mainSection/MainSection";
 import MainStats from "../../components/mainStats/MainStats";
-import styles from "../../components/styles";
 import WeatherCard from "../../components/weatherCard/WeatherCard";
 import StatsCard from "../../components/statsCard/StatsCard";
+import { Ionicons } from '@expo/vector-icons';
 import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from 'lucide-react-native';
 import { useTheme } from "../../components/ThemeContext";
 import getStyles from "../../components/styles";
 
-export default function App() {
+export const options = {
+  tabBarButton: () => null,
+};
+
+export default function CidadeDetalhe() {
+  const { cidade } = useLocalSearchParams();
   const { dark } = useTheme();
   const styles = getStyles(dark);
 
   const weatherData = {
-    humidity: 66,
-    feels_like: 34.26,
-    pressure: 1012,
-    visibility: 10000,
-    wind_speed: 7.2,
-    wind_deg: 110,
-    clouds: 0,
+    humidity: 70,
+    feels_like: 32,
+    pressure: 1015,
+    visibility: 9000,
+    wind_speed: 5.5,
+    wind_deg: 80,
+    clouds: 10,
   };
 
+  // Mesmo ajuste da tela principal
   const whiteSectionStyle = [
     styles.whiteSection,
     dark && { backgroundColor: "#23272a" }
   ];
+  const textColor = dark ? "#ECEDEE" : "#11181C";
+
+  const navigation = useNavigation();
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <MainSection>
-        <MainStats city="Fortaleza, BR" desc="Algumas nuvens" temp="28"/>
+        <TouchableOpacity style={styles.backContainer} onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={24} color="#fff" />
+        </TouchableOpacity>
+        <MainStats city={cidade} desc="Nublado" temp="25"/>
       </MainSection>
       <ScrollView style={whiteSectionStyle}>
+        <Text style={{ fontWeight: "bold", fontSize: 20, margin: 16, color: textColor }}>
+          {cidade}
+        </Text>
         <WeatherCard />
-
         <View style={styles.statsContainer}>
           <StatsCard
             titulo="Sensação"
             desc="Sensação térmica"
-            stats={`${weatherData.feels_like.toFixed(1)}°`}
+            stats={`${weatherData.feels_like}°`}
             icon={<Thermometer color="#fff" size={26} />}
           />
           <StatsCard

@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, ScrollView, Text, View } from "react-native";
-import { useTheme } from "../../../components/ThemeContext";
-import getStyles from "../../../components/styles";
+import { useTheme } from "../../components/ThemeContext";
+import getStyles from "../../components/styles";
 
 export default function OutraTela() {
   const { dark, toggleTheme } = useTheme();
