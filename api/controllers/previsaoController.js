@@ -1,9 +1,8 @@
-// controllers/weatherController.js
 const PrevisaoService = require('../services/previsaoService');
-const { formatResponse } = require('../utils/responseFormatter');
+const { formatResponse, formatForecastResponse } = require('../utils/responseFormatter');
 
 class PrevisaoController {
-  static async getWeather(req, res, next) {
+  static async getForecast(req, res, next) {
     const { city } = req.params;
 
     if (!city) {
@@ -11,17 +10,16 @@ class PrevisaoController {
     }
 
     try {
-      const weatherData = await PrevisaoService.getWeather(city);
+      const forecastData = await PrevisaoService.getForecast(city);
 
-      // Verifica se o retorno contém um erro
-      if (weatherData.error) {
-        return res.status(404).json({ error: weatherData.error });
+      if (forecastData.error) {
+        return res.status(404).json({ error: forecastData.error });
       }
 
-      const formattedData = formatResponse(weatherData);
+      const formattedData = formatForecastResponse(forecastData);
       return res.json(formattedData);
     } catch (error) {
-      next(error); // Passa o erro para o middleware de erro
+      next(error);
     }
   }
 }

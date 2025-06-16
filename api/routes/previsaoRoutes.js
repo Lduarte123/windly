@@ -1,9 +1,8 @@
-// routes/weatherRoutes.js
-const { Router } = require('express');
+const express = require('express');
 const PrevisaoController = require('../controllers/previsaoController');
 
-const router = Router();
+const router = express.Router();
 
-router.get('/:city', PrevisaoController.getWeather);
+router.get('/forecast/:city', PrevisaoController.getForecast);
 
 module.exports = router;

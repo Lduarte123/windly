@@ -1,43 +1,34 @@
-// services/weatherService.js
 const axios = require('axios');
 
-// Definindo diretamente o baseUrl da API e a chave da API
-const baseUrl = 'http://api.openweathermap.org/data/2.5/weather';
-const apiKey = '69b60137458925882b3d327be216c401';  // Substitua com sua chave de API
-
 class PrevisaoService {
-  static async getWeather(city) {
+  static async getForecast(city) {
+    const apiKey = '69b60137458925882b3d327be216c401'
+    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric&lang=pt_br`;
+
     try {
-      // O nome da cidade agora será passado sem o código do país
-      const cityQuery = city.trim();
+      const response = await axios.get(url);
+      const list = response.data.list;
 
-      console.log(`Buscando clima para: ${cityQuery}`);
-
-      const response = await axios.get(baseUrl, {
-        params: {
-          q: cityQuery,  // Buscando somente pela cidade
-          appid: apiKey,
-          lang: 'pt_br',  // Resposta em português
-          units: 'metric',  // Temperatura em Celsius
+      // Agrupa por dia e pega o status das 12:00 (ou o mais próximo)
+      const daily = {};
+      list.forEach(item => {
+        const [date, hour] = item.dt_txt.split(' ');
+        // Se ainda não tem ou se está mais próximo das 12:00
+        if (
+          !daily[date] ||
+          Math.abs(parseInt(hour.split(':')[0]) - 12) < Math.abs(parseInt(daily[date].hour.split(':')[0]) - 12)
+        ) {
+          daily[date] = { ...item, hour };
         }
       });
 
-      // Se a resposta não for encontrada (código 404)
-      if (response.data.cod === '404') {
-        return { error: 'Cidade não encontrada' };  // Retorna um erro com a mensagem
-      }
-
-      return response.data;
+      // Retorna um array com a data
+      return Object.entries(daily).map(([date, item]) => ({
+        date,
+        ...item
+      }));
     } catch (error) {
-      console.error('Erro ao fazer requisição:', error.response ? error.response.data : error.message);
-
-      // Se o erro for relacionado ao OpenWeatherMap ou se a cidade não foi encontrada
-      if (error.response && error.response.data.cod === '404') {
-        return { error: 'Cidade não encontrada' };
-      }
-
-      // Se outro erro ocorrer, retorna uma mensagem genérica
-      return { error: 'Erro ao buscar o clima: ' + error.message };
+      return { error: 'Erro ao buscar previsão do tempo' };
     }
   }
 }

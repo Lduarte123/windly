@@ -8,3 +8,14 @@ export function formatResponse(weatherData) {
     humidity: weatherData.main.humidity,
   };
 }
+
+export function formatForecastResponse(forecastData) {
+  return forecastData.map(item => ({
+    date: item.date,
+    temperature: item.main.temp,
+    weatherMain: item.weather[0].main,
+    description: item.weather[0].description,
+    windSpeed: item.wind.speed,
+    humidity: item.main.humidity,
+  }));
+}
