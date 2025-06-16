@@ -9,6 +9,7 @@ const lembreteRoutes = require('./routes/lembreteRoutes');
 const previsaoRoutes = require('./routes/previsaoRoutes');  // <-- Importando as rotas de previsão do tempo
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger/swaggerConfig');
+const climaRoutes = require('./routes/climaRoutes')
 
 class Server {
   constructor() {
@@ -30,7 +31,8 @@ class Server {
     this.app.use('/api/profissionais', profissionalRoutes);
     this.app.use('/api/users', userRoutes);
     this.app.use('/api/lembretes', lembreteRoutes);
-    this.app.use('/api/weather', previsaoRoutes);  // <-- Adicionando a rota para previsões
+    this.app.use('/api/weather', previsaoRoutes);
+    this.app.use('/api/clima_atual', climaRoutes);  // <-- Adicionando a rota para previsões
 
     // Rota raiz
     this.app.get('/', (req, res) => {
