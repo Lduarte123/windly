@@ -9,6 +9,10 @@ const rainSchema = new mongoose.Schema({
   chuva: {
     type: Boolean,
     required: true
+  },
+  diasSemChuva: {
+    type: [Boolean], // novo campo
+    default: [false, false, false, false, false, false, false]
   }
 });
 

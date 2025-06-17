@@ -1,8 +1,8 @@
 const Rain = require('../models/rainModel');
 
-const createRain = async (chuva) => {
+const createRain = async (data) => {
   try {
-    const newRain = new Rain({ chuva });
+    const newRain = new Rain(data);
     await newRain.save();
     return newRain;
   } catch (error) {

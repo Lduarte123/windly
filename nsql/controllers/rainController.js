@@ -2,8 +2,8 @@ const rainService = require('../services/rainService');
 
 exports.createRain = async (req, res) => {
   try {
-    const { chuva } = req.body;
-    const newRain = await rainService.createRain(chuva);
+    const { chuva, diasSemChuva } = req.body;
+    const newRain = await rainService.createRain({ chuva, diasSemChuva });
     res.status(201).json(newRain);
   } catch (error) {
     res.status(500).json({ error: error.message });

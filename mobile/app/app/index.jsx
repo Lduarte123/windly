@@ -9,6 +9,7 @@ import { useTheme } from "../components/ThemeContext";
 import getStyles from "../components/styles";
 import api from "../api/api";
 import { getUserCity } from "../api/getUserCity";
+import DiasSemChuvaCheckbox from "../components/diasSemChuva/DiasSemChuvaCheckbox";
 
 export default function App() {
   const { dark } = useTheme();
@@ -145,6 +146,7 @@ export default function App() {
             icon={<Cloud color="#fff" size={26} />}
           />
         </View>
+        <DiasSemChuvaCheckbox />
       </ScrollView>
     </ScrollView>
   );
