@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import api from '../api/api';
+import { useRouter } from "expo-router";
 
-export default function RegisterScreen({ navigation }) {
+export default function RegisterScreen() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function handleRegister() {
     setLoading(true);
@@ -14,8 +16,8 @@ export default function RegisterScreen({ navigation }) {
       await api.post('/users', { name, email, password });
       setLoading(false);
       Alert.alert('Sucesso', 'Cadastro realizado!');
-      navigation.navigate('Login');
-      return; // Impede execução do restante
+      router.replace('Login');
+      return;
     } catch (e) {
       setLoading(false);
       Alert.alert('Erro', `O ${email} já está em uso!`);
@@ -52,7 +54,7 @@ export default function RegisterScreen({ navigation }) {
           secureTextEntry
         />
         <Button title={loading ? "Cadastrando..." : "Cadastrar"} onPress={handleRegister} disabled={loading} />
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => router.replace('login')}>
           <Text style={styles.link}>Já tem conta? Entrar</Text>
         </TouchableOpacity>
       </View>

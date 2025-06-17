@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView, Text, View, Switch, TouchableOpacity, Alert, Button } from "react-native";
-import { useTheme } from "../../../components/ThemeContext";
-import getStyles from "../../../components/styles";
+import { useTheme } from "../../components/ThemeContext";
+import getStyles from "../../components/styles";
 
 export default function Configuracoes() {
   const { dark, toggleTheme } = useTheme();

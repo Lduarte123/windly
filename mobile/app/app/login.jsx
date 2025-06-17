@@ -1,21 +1,31 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import api from '../api/api';
+import { useAuth } from '../components/authContext/AuthContext';
+import { useRouter } from "expo-router";
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const { login, user } = useAuth();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (user) {
+      router.replace('index');
+    }
+  }, [user]);
 
   async function handleLogin() {
     setLoading(true);
     try {
-      // Busca usuário pelo e-mail
       const response = await api.get(`/users?email=${email}`);
-      const user = response.data;
-      if (user && user.password === password) {
-        Alert.alert('Bem-vindo!', `Olá, ${user.name}`);
-        // navigation.replace('Home');
+      const users = response.data;
+      const userData = Array.isArray(users) ? users[0] : users;
+      if (userData && userData.password === password) {
+        await login(userData);
+        Alert.alert('Bem-vindo!', `Olá, ${userData.name}`);
       } else {
         Alert.alert('Erro', 'E-mail ou senha inválidos.');
       }
@@ -44,7 +54,7 @@ export default function LoginScreen({ navigation }) {
         secureTextEntry
       />
       <Button title={loading ? "Entrando..." : "Entrar"} onPress={handleLogin} disabled={loading} />
-      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+      <TouchableOpacity onPress={() => router.replace('register')}>
         <Text style={styles.link}>Não tem conta? Cadastre-se</Text>
       </TouchableOpacity>
     </View>
