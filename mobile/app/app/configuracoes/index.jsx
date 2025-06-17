@@ -1,32 +1,25 @@
 import React, { useState } from "react";
-import { ScrollView, Text, View, Switch, TouchableOpacity, Alert, Button } from "react-native";
+import { ScrollView, Text, View, Switch, TouchableOpacity, Alert } from "react-native";
 import { useTheme } from "../../components/ThemeContext";
 import getStyles from "../../components/styles";
+import useLogout from "../logout"; // ✅ Importa o hook corretamente
 
 export default function Configuracoes() {
   const { dark, toggleTheme } = useTheme();
   const styles = getStyles(dark);
+  const logout = useLogout(); // ✅ Usa o hook para obter a função de logout
 
   const backgroundColor = dark ? "#151718" : "#fff";
   const textColor = dark ? "#ECEDEE" : "#11181C";
 
-  // Estado para notificações (exemplo)
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
-  // Função simulada para abrir "Sobre"
   const handleAbout = () => {
-    Alert.alert(
-      "Sobre o App",
-      "Windly App\nVersão 1.0.0\nDesenvolvido por Você"
-    );
+    Alert.alert("Sobre o App", "Windly App\nVersão 1.0.0\nDesenvolvido por Você");
   };
 
-  // Função simulada para privacidade
   const handlePrivacy = () => {
-    Alert.alert(
-      "Privacidade",
-      "Suas informações estão protegidas de acordo com nossa política de privacidade."
-    );
+    Alert.alert("Privacidade", "Suas informações estão protegidas de acordo com nossa política de privacidade.");
   };
 
   return (
@@ -74,6 +67,11 @@ export default function Configuracoes() {
           <Text style={{ color: "#2D6BFD", fontWeight: "600" }}>Ver</Text>
         </TouchableOpacity>
 
+        {/* 🔴 Botão de Logout */}
+        <TouchableOpacity style={styles.section} onPress={logout}>
+          <Text style={[styles.label, { color: textColor }]}>Sair</Text>
+          <Text style={{ color: "#E53935", fontWeight: "600" }}>Logout</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

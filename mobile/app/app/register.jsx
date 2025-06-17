@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import api from '../api/api';
 import { useRouter } from "expo-router";
+import getStyles from '../components/styles'; // <== FUNÇÃO!
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -10,6 +11,8 @@ export default function RegisterScreen() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const styles = getStyles(false); // false = tema claro
+
   async function handleRegister() {
     setLoading(true);
     try {
@@ -17,7 +20,6 @@ export default function RegisterScreen() {
       setLoading(false);
       Alert.alert('Sucesso', 'Cadastro realizado!');
       router.replace('Login');
-      return;
     } catch (e) {
       setLoading(false);
       Alert.alert('Erro', `O ${email} já está em uso!`);
@@ -53,7 +55,11 @@ export default function RegisterScreen() {
           onChangeText={setPassword}
           secureTextEntry
         />
-        <Button title={loading ? "Cadastrando..." : "Cadastrar"} onPress={handleRegister} disabled={loading} />
+        <Button
+          title={loading ? "Cadastrando..." : "Cadastrar"}
+          onPress={handleRegister}
+          disabled={loading}
+        />
         <TouchableOpacity onPress={() => router.replace('login')}>
           <Text style={styles.link}>Já tem conta? Entrar</Text>
         </TouchableOpacity>
@@ -61,10 +67,3 @@ export default function RegisterScreen() {
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 24 },
-  title: { fontSize: 24, marginBottom: 24, textAlign: 'center' },
-  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 6, padding: 12, marginBottom: 12 },
-  link: { color: '#007bff', marginTop: 16, textAlign: 'center' }
-});

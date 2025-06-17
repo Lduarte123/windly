@@ -101,8 +101,9 @@ export default function getStyles(isDark) {
     // 🔥 Estilos novos para a tela de configurações
     configContainer: {
       borderRadius: 12,
-      padding: 16,
+      padding: 20,
       gap: 24,
+      marginTop: 40,
     },
 
     title: {
@@ -123,5 +124,34 @@ export default function getStyles(isDark) {
     label: {
       fontSize: 18,
     },
-  });
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      padding: 24,
+      backgroundColor: '#ffffff', // fundo branco
+    },
+    title: {
+      fontSize: 26,
+      marginBottom: 24,
+      textAlign: 'center',
+      color: '#003366', // azul escuro para o título
+      fontWeight: '600',
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: '#007bff', // azul mais suave
+      backgroundColor: '#f0f8ff', // azul bem claro no fundo do input
+      borderRadius: 10,
+      padding: 12,
+      marginBottom: 12,
+      color: '#003366',
+    },
+    link: {
+      color: '#007bff',
+      marginTop: 16,
+      textAlign: 'center',
+      fontWeight: '500',
+      borderRadius: 10,
+    },
+    });
 }

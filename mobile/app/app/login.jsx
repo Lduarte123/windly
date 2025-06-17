@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
 import api from '../api/api';
 import { useAuth } from '../components/authContext/AuthContext';
 import { useRouter } from "expo-router";
+import getStyles from '../components/styles'; // <== FUNÇÃO!
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -10,8 +11,10 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const { login, user } = useAuth();
   const router = useRouter();
+  
+  const styles = getStyles(false); // aqui você define se é modo escuro ou claro
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       router.replace('index');
     }
@@ -60,10 +63,3 @@ export default function LoginScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 24 },
-  title: { fontSize: 24, marginBottom: 24, textAlign: 'center' },
-  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 6, padding: 12, marginBottom: 12 },
-  link: { color: '#007bff', marginTop: 16, textAlign: 'center' },
-});
