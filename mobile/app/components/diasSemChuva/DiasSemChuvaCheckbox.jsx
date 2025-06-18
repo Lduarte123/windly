@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Alert } from "react-native";
-import api from "../../api/api";
 import styles from "./styles";
-import { useTheme } from "../ThemeContext"; // Importa o hook de tema
+import { useTheme } from "../ThemeContext";
 
 const diasSemana = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 
 export default function DiasSemChuvaCheckbox() {
   const [dias, setDias] = useState([false, false, false, false, false, false, false]);
   const [loading, setLoading] = useState(false);
-  const { dark } = useTheme(); // Usa o tema
+  const { dark } = useTheme();
 
   const toggleDia = (index) => {
     const novosDias = [...dias];
@@ -17,15 +16,13 @@ export default function DiasSemChuvaCheckbox() {
     setDias(novosDias);
   };
 
-  const salvarDias = async () => {
-    setLoading(true);
-    try {
-      await api.post("/rain", { diasSemChuva: dias });
-      Alert.alert("Sucesso", "Dias sem chuva salvos!");
-    } catch (e) {
-      Alert.alert("Erro", "Não foi possível salvar.");
-    }
-    setLoading(false);
+  const salvarDias = () => {
+    Alert.alert("Salvo", "Estado dos dias salvo apenas no app enquanto estiver aberto.");
+  };
+
+  const resetarDias = () => {
+    setDias([false, false, false, false, false, false, false]);
+    Alert.alert("Resetado", "Todos os dias foram desmarcados.");
   };
 
   // Estilos dinâmicos para tema escuro
@@ -36,8 +33,8 @@ export default function DiasSemChuvaCheckbox() {
   const labelStyle = (checked) => [
     styles.label,
     checked && styles.labelChecked,
-    dark && checked && { color: "#23272a" }, // texto escuro no checkbox claro
-    dark && !checked && { color: "#fff" },   // texto branco no checkbox escuro
+    dark && checked && { color: "#23272a" },
+    dark && !checked && { color: "#fff" },
   ];
   const checkboxStyle = (checked) => [
     styles.checkbox,
@@ -61,9 +58,18 @@ export default function DiasSemChuvaCheckbox() {
           </TouchableOpacity>
         ))}
       </View>
-      <TouchableOpacity style={styles.button} onPress={salvarDias} disabled={loading}>
-        <Text style={styles.buttonText}>{loading ? "Salvando..." : "Salvar"}</Text>
-      </TouchableOpacity>
+      <View style={{ flexDirection: "row", gap: 12 }}>
+        <TouchableOpacity style={styles.button} onPress={salvarDias} disabled={loading}>
+          <Text style={styles.buttonText}>Salvar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: "#888" }]}
+          onPress={resetarDias}
+          disabled={loading}
+        >
+          <Text style={styles.buttonText}>Resetar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
