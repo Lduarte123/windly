@@ -36,26 +36,39 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Entrar</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="E-mail"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Senha"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Button title={loading ? "Entrando..." : "Entrar"} onPress={handleLogin} disabled={loading} />
-      <TouchableOpacity onPress={() => router.replace('register')}>
-        <Text style={styles.link}>Não tem conta? Cadastre-se</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  <Text style={styles.mainTitle}>Entrar</Text>
+
+  <TextInput
+    style={styles.input}
+    placeholder="E-mail"
+    placeholderTextColor="#888"
+    value={email}
+    onChangeText={setEmail}
+    keyboardType="email-address"
+    autoCapitalize="none"
+  />
+  <TextInput
+    style={styles.input}
+    placeholder="Senha"
+    placeholderTextColor="#888"
+    value={password}
+    onChangeText={setPassword}
+    secureTextEntry
+  />
+
+  <TouchableOpacity
+    style={[styles.botao, loading && { opacity: 0.6 }]}
+    onPress={handleLogin}
+    disabled={loading}
+  >
+    <Text style={styles.botaoTexto}>
+      {loading ? "Entrando..." : "Entrar"}
+    </Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity onPress={() => router.replace('register')}>
+    <Text style={styles.link}>Não tem conta? Cadastre-se</Text>
+  </TouchableOpacity>
+</View>
+  )
 }

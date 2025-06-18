@@ -38,7 +38,7 @@ export default function getStyles(isDark) {
     },
 
     whiteSection: {
-      backgroundColor: "transparent",
+      backgroundColor: "white",
       flex: 1,
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,
@@ -70,6 +70,7 @@ export default function getStyles(isDark) {
     },
 
     titulo: {
+      marginTop: 100,
       fontWeight: "bold",
       fontSize: 18,
       marginLeft: 24,
@@ -132,32 +133,51 @@ export default function getStyles(isDark) {
     },
     mainContainer: {
       flex: 1,
-      justifyContent: 'center',
+      justifyContent: "center",
       padding: 24,
-      backgroundColor: '#ffffff',
+      backgroundColor: "#ffffff",
     },
     mainTitle: {
       fontSize: 26,
       marginBottom: 24,
-      textAlign: 'center',
-      color: '#003366',
-      fontWeight: '600',
+      textAlign: "center",
+      color: "#003366",
+      fontWeight: "600",
+      marginTop: '60%',
     },
+
     input: {
       borderWidth: 1,
-      borderColor: '#007bff', // azul mais suave
-      backgroundColor: '#f0f8ff', // azul bem claro no fundo do input
+      borderColor: "#007bff", // azul mais suave
+      backgroundColor: "#f0f8ff", // azul bem claro no fundo do input
       borderRadius: 10,
       padding: 12,
-      marginBottom: 12,
-      color: '#003366',
+      marginBottom: 8,
+      color: "#003366",
+      width: 350,
+      alignSelf: 'center',
     },
     link: {
-      color: '#007bff',
+      color: "#007bff",
       marginTop: 16,
-      textAlign: 'center',
-      fontWeight: '500',
+      textAlign: "center",
+      fontWeight: "500",
       borderRadius: 10,
     },
-    });
+    botao: {
+      backgroundColor: "#2784DF",
+      paddingVertical: 14,
+      borderRadius: 8,
+      alignItems: "center",
+      marginTop: 12,
+      width: 350,
+      alignSelf: 'center',
+    },
+
+    botaoTexto: {
+      color: "#fff",
+      fontWeight: "600",
+      fontSize: 16,
+    },
+  });
 }

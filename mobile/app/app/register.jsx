@@ -34,22 +34,26 @@ export default function RegisterScreen() {
   }
 
   return (
+     
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={60}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Cadastro</Text>
+        <Text style={styles.mainTitle}>Cadastro</Text>
+
         <TextInput
           style={styles.input}
           placeholder="Nome"
+          placeholderTextColor="#888"
           value={name}
           onChangeText={setName}
         />
         <TextInput
           style={styles.input}
           placeholder="E-mail"
+          placeholderTextColor="#888"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -58,15 +62,22 @@ export default function RegisterScreen() {
         <TextInput
           style={styles.input}
           placeholder="Senha"
+          placeholderTextColor="#888"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
         />
-        <Button
-          title={loading ? "Cadastrando..." : "Cadastrar"}
+
+        <TouchableOpacity
+          style={[styles.botao, loading && { opacity: 0.6 }]}
           onPress={handleRegister}
           disabled={loading}
-        />
+        >
+          <Text style={styles.botaoTexto}>
+            {loading ? "Cadastrando..." : "Cadastrar"}
+          </Text>
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={() => router.replace('login')}>
           <Text style={styles.link}>Já tem conta? Entrar</Text>
         </TouchableOpacity>
