@@ -20,3 +20,4 @@ const rainSchema = new mongoose.Schema({
 const Rain = mongoose.model('Rain', rainSchema);
 
 module.exports = Rain;
+

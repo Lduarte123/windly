@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Alert } from "react-native";
 import apiNsql from "../../api/apiNsql";
 import styles from "./styles";
@@ -9,7 +9,25 @@ const diasSemana = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 export default function DiasSemChuvaCheckbox() {
   const [dias, setDias] = useState([false, false, false, false, false, false, false]);
   const [loading, setLoading] = useState(false);
+  const [rainId, setRainId] = useState(null); // Para atualizar registro existente
   const { dark } = useTheme();
+
+  // Buscar estado salvo ao montar
+  useEffect(() => {
+    async function fetchDias() {
+      try {
+        const res = await apiNsql.get("/rain");
+        if (res.data && res.data.length > 0) {
+          const ultimo = res.data[res.data.length - 1];
+          setDias(ultimo.diasSemChuva || [false, false, false, false, false, false, false]);
+          setRainId(ultimo._id);
+        }
+      } catch (e) {
+        // Pode ignorar erro silenciosamente
+      }
+    }
+    fetchDias();
+  }, []);
 
   const toggleDia = (index) => {
     const novosDias = [...dias];
@@ -17,18 +35,37 @@ export default function DiasSemChuvaCheckbox() {
     setDias(novosDias);
   };
 
-  const salvarDias = () => {
-    Alert.alert("Salvo", "Estado dos dias salvo apenas no app enquanto estiver aberto.");
+  // Salvar dias no backend
+  const salvarDias = async () => {
+    setLoading(true);
+    try {
+      if (rainId) {
+        // Atualiza registro existente
+        await apiNsql.put(`/rain/${rainId}`, { chuva: false, diasSemChuva: dias });
+      } else {
+        // Cria novo registro
+        const res = await apiNsql.post("/rain", { chuva: false, diasSemChuva: dias });
+        setRainId(res.data._id);
+      }
+      Alert.alert("Salvo", "Dias sem chuva salvos no backend!");
+    } catch (e) {
+      Alert.alert("Erro", "Não foi possível salvar no backend.");
+    }
+    setLoading(false);
   };
 
+  // Resetar dias no backend
   const resetarDias = async () => {
     setDias([false, false, false, false, false, false, false]);
+    setLoading(true);
     try {
-      await apiNsql.post("/rain/reset");
+      const res = await apiNsql.post("/rain/reset");
+      setRainId(res.data._id); // Atualiza ID do registro resetado/criado
       Alert.alert("Resetado", "Dias sem chuva resetados!");
     } catch (e) {
       Alert.alert("Erro", "Não foi possível resetar no backend.");
     }
+    setLoading(false);
   };
 
   // Estilos dinâmicos para tema escuro

@@ -19,9 +19,13 @@ const getAllRains = async () => {
   }
 };
 
-const updateRainById = async (id, chuva) => {
+const updateRainById = async (id, chuva, diasSemChuva) => {
   try {
-    const updatedRain = await Rain.findByIdAndUpdate(id, { chuva }, { new: true });
+    const updateFields = {};
+    if (chuva !== undefined) updateFields.chuva = chuva;
+    if (diasSemChuva !== undefined) updateFields.diasSemChuva = diasSemChuva;
+
+    const updatedRain = await Rain.findByIdAndUpdate(id, updateFields, { new: true });
     if (!updatedRain) throw new Error('Registro não encontrado');
     return updatedRain;
   } catch (error) {

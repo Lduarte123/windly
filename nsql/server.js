@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const rainService = require('./services/rainService');
 const rainRoutes = require('./routes/rainRoutes');
 require('./config/dbInit');
 const morgan = require('morgan'); // Adicione esta linha
