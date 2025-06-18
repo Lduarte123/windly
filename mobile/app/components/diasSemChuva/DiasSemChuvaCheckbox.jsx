@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Alert } from "react-native";
+import apiNsql from "../../api/apiNsql";
 import styles from "./styles";
 import { useTheme } from "../ThemeContext";
 
@@ -20,9 +21,14 @@ export default function DiasSemChuvaCheckbox() {
     Alert.alert("Salvo", "Estado dos dias salvo apenas no app enquanto estiver aberto.");
   };
 
-  const resetarDias = () => {
+  const resetarDias = async () => {
     setDias([false, false, false, false, false, false, false]);
-    Alert.alert("Resetado", "Todos os dias foram desmarcados.");
+    try {
+      await apiNsql.post("/rain/reset");
+      Alert.alert("Resetado", "Dias sem chuva resetados!");
+    } catch (e) {
+      Alert.alert("Erro", "Não foi possível resetar no backend.");
+    }
   };
 
   // Estilos dinâmicos para tema escuro
@@ -45,7 +51,7 @@ export default function DiasSemChuvaCheckbox() {
 
   return (
     <View style={wrapperStyle}>
-      <Text style={[styles.titulo, dark && { color: "#fff" }]}>Dias sem chuva</Text>
+      <Text style={[styles.titulo, dark && { color: "#fff" }]}>Chuvas na Semana</Text>
       <View style={styles.container}>
         {diasSemana.map((dia, idx) => (
           <TouchableOpacity
@@ -60,7 +66,7 @@ export default function DiasSemChuvaCheckbox() {
       </View>
       <View style={{ flexDirection: "row", gap: 12 }}>
         <TouchableOpacity style={styles.button} onPress={salvarDias} disabled={loading}>
-          <Text style={styles.buttonText}>Salvar</Text>
+          <Text style={styles.buttonText}>{loading ? "Salvando..." : "Salvar"}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, { backgroundColor: "#888" }]}
