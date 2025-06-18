@@ -38,7 +38,7 @@ export default function getStyles(isDark) {
     },
 
     whiteSection: {
-      backgroundColor: theme.background,
+      backgroundColor: "transparent",
       flex: 1,
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,
@@ -106,7 +106,7 @@ export default function getStyles(isDark) {
       marginTop: 40,
     },
 
-    title: {
+    configTitle: {
       fontSize: 24,
       fontWeight: "bold",
     },
@@ -115,26 +115,32 @@ export default function getStyles(isDark) {
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      paddingVertical: 12,
-      paddingHorizontal: 8,
-      borderRadius: 8,
-      backgroundColor: isDark ? "#2D6BFD20" : "#2D6BFD10",
+      paddingVertical: 16,
+      paddingHorizontal: 18,
+      borderRadius: 12,
+      backgroundColor: isDark ? "#23272a" : "#fff",
+      marginBottom: 12,
+      elevation: 2,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.08,
+      shadowRadius: 4,
     },
 
     label: {
       fontSize: 18,
     },
-    container: {
+    mainContainer: {
       flex: 1,
       justifyContent: 'center',
       padding: 24,
-      backgroundColor: '#ffffff', // fundo branco
+      backgroundColor: '#ffffff',
     },
-    title: {
+    mainTitle: {
       fontSize: 26,
       marginBottom: 24,
       textAlign: 'center',
-      color: '#003366', // azul escuro para o título
+      color: '#003366',
       fontWeight: '600',
     },
     input: {

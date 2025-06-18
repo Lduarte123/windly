@@ -1,16 +1,18 @@
 import React, { useState } from "react";
+import useLogout from "../logout";
+import { ScrollView, Text, View, Switch, TouchableOpacity, Alert, Platform } from "react-native";
 import { useTheme } from "../../components/ThemeContext";
 import getStyles from "../../components/styles";
-import useLogout from "../logout"; // ✅ Importa o hook corretamente
-import { ScrollView, Text, View, Switch, TouchableOpacity, Alert, Platform, } from "react-native";
-import { useTheme } from "../../components/ThemeContext";
-import getStyles from "../../components/styles";
-import Feather from "react-native-vector-icons/Feather"; // ícones
+import Feather from "react-native-vector-icons/Feather";
+import { useAuth } from "../../components/authContext/AuthContext"; // Adicione esta linha
+import { useRouter } from "expo-router"; // Adicione esta linha
 
 export default function Configuracoes() {
   const { dark, toggleTheme } = useTheme();
   const styles = getStyles(dark);
-  const logout = useLogout(); // ✅ Usa o hook para obter a função de logout
+  const logout = useLogout();
+  const { user } = useAuth(); // Pega o usuário logado
+  const router = useRouter(); // Para navegação
 
   const backgroundColor = dark ? "#151718" : "#fff";
   const textColor = dark ? "#ECEDEE" : "#11181C";
@@ -26,6 +28,8 @@ export default function Configuracoes() {
 
   const handlePrivacy = () => {
     Alert.alert("Privacidade", "Suas informações estão protegidas de acordo com nossa política de privacidade.");
+  };
+
   const showAlert = (message) => {
     if (Platform.OS === "web") {
       window.alert(message);
@@ -43,12 +47,14 @@ export default function Configuracoes() {
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor }}
-      contentContainerStyle={{ padding: 16 }}
+      contentContainerStyle={{
+        padding: 16,
+      }}
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.configContainer}>
         <Text
-          style={[styles.title, { color: textColor, marginBottom: 20 }]}
+          style={[styles.configTitle, { color: textColor, marginBottom: 20 }]}
         >
           Configurações
         </Text>
@@ -120,11 +126,21 @@ export default function Configuracoes() {
           <Text style={{ color: "#2D6BFD", fontWeight: "600" }}>Ver</Text>
         </TouchableOpacity>
 
-        {/* 🔴 Botão de Logout */}
-        <TouchableOpacity style={styles.section} onPress={logout}>
-          <Text style={[styles.label, { color: textColor }]}>Sair</Text>
-          <Text style={{ color: "#E53935", fontWeight: "600" }}>Logout</Text>
-        </TouchableOpacity>
+        {/* Botão de Logout ou Login */}
+        {user ? (
+          <TouchableOpacity style={styles.section} onPress={logout}>
+            <Text style={[styles.label, { color: textColor }]}>Sair</Text>
+            <Text style={{ color: "#E53935", fontWeight: "600" }}>Logout</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.section}
+            onPress={() => router.replace("login")}
+          >
+            <Text style={[styles.label, { color: textColor }]}>Entrar</Text>
+            <Text style={{ color: "#2D6BFD", fontWeight: "600" }}>Login</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </ScrollView>
   );

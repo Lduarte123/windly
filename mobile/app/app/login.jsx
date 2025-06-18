@@ -3,34 +3,30 @@ import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-na
 import api from '../api/api';
 import { useAuth } from '../components/authContext/AuthContext';
 import { useRouter } from "expo-router";
-import getStyles from '../components/styles'; // <== FUNÇÃO!
+import getStyles from '../components/styles';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login, user } = useAuth();
+  const { login, user, loading: authLoading } = useAuth();
   const router = useRouter();
-  
-  const styles = getStyles(false); // aqui você define se é modo escuro ou claro
+  const styles = getStyles(false);
 
   useEffect(() => {
-    if (user) {
-      router.replace('index');
+    if (!authLoading && user) {
+      router.replace('cidades');
     }
-  }, [user]);
+  }, [user, authLoading]);
 
   async function handleLogin() {
     setLoading(true);
     try {
-      const response = await api.get(`/users?email=${email}`);
-      const users = response.data;
-      const userData = Array.isArray(users) ? users[0] : users;
-      if (userData && userData.password === password) {
-        await login(userData);
+      const response = await api.post('/auth/login', { email, password });
+      const { token, user: userData } = response.data;
+      if (token && userData) {
+        await login({ user: userData, token });
         Alert.alert('Bem-vindo!', `Olá, ${userData.name}`);
-      } else {
-        Alert.alert('Erro', 'E-mail ou senha inválidos.');
       }
     } catch (e) {
       Alert.alert('Erro', 'Não foi possível fazer login.');

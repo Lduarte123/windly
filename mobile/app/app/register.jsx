@@ -16,10 +16,17 @@ export default function RegisterScreen() {
   async function handleRegister() {
     setLoading(true);
     try {
-      await api.post('/users', { name, email, password });
-      setLoading(false);
-      Alert.alert('Sucesso', 'Cadastro realizado!');
-      router.replace('Login');
+      const response = await api.post('/users', { name, email, password });
+      // Se o backend já retorna token e user:
+      if (response.data.token && response.data.user) {
+        await login({ user: response.data.user, token: response.data.token });
+        Alert.alert('Sucesso', 'Cadastro realizado!');
+        router.replace('index');
+      } else {
+        setLoading(false);
+        Alert.alert('Sucesso', 'Cadastro realizado!');
+        router.replace('login');
+      }
     } catch (e) {
       setLoading(false);
       Alert.alert('Erro', `O ${email} já está em uso!`);

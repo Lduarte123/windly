@@ -5,25 +5,37 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true); // NOVO
 
   useEffect(() => {
-    AsyncStorage.getItem("user").then((u) => {
-      if (u) setUser(JSON.parse(u));
-    });
+    (async () => {
+      const storedUser = await AsyncStorage.getItem("user");
+      const storedToken = await AsyncStorage.getItem("token");
+      if (storedUser && storedToken) {
+        setUser(JSON.parse(storedUser));
+        setToken(storedToken);
+      }
+      setLoading(false); // NOVO
+    })();
   }, []);
 
-  const login = async (userData) => {
-    setUser(userData);
-    await AsyncStorage.setItem("user", JSON.stringify(userData));
+  const login = async ({ user, token }) => {
+    setUser(user);
+    setToken(token);
+    await AsyncStorage.setItem("user", JSON.stringify(user));
+    await AsyncStorage.setItem("token", token);
   };
 
   const logout = async () => {
     setUser(null);
+    setToken(null);
     await AsyncStorage.removeItem("user");
+    await AsyncStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

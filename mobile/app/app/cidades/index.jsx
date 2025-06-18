@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { ScrollView, Text, View, ActivityIndicator, Keyboard } from "react-native";
+import { ScrollView, Text, View, ActivityIndicator, Keyboard, SafeAreaView, Platform, StatusBar } from "react-native";
 import { useRouter, useNavigation } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import SearchBar from "../../components/searchBar/SearchBar";
@@ -8,6 +8,7 @@ import { useTheme } from "../../components/ThemeContext";
 import api from '../../api/api';
 import { useAuth } from '../../components/authContext/AuthContext';
 import styles from "../../components/styles";
+import { Ionicons } from '@expo/vector-icons';
 
 const OPENWEATHER_API_KEY = "69b60137458925882b3d327be216c401";
 
@@ -20,14 +21,13 @@ export default function Cidades() {
   const navigation = useNavigation();
   const router = useRouter();
   const { dark } = useTheme();
+  const themeStyles = styles(dark);
+  const backgroundColor = dark ? '#151718' : '#fff';
+  const textColor = dark ? "#ECEDEE" : "#11181C";
+  const vazioColor = dark ? "#ECEDEE" : "#888";
   const { user } = useAuth();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
-  const backgroundColor = dark ? '#151718' : '#F2F2F2';
-  const textColor = dark ? "#ECEDEE" : "#11181C";
-  const vazioColor = dark ? "#ECEDEE" : "#888";
-
-  // Redireciona para login se não estiver logado
   useFocusEffect(
     useCallback(() => {
       if (!user) {
@@ -36,7 +36,6 @@ export default function Cidades() {
     }, [user])
   );
 
-  // Busca cidades favoritas do backend ao carregar
   useEffect(() => {
     if (user) {
       setLoading(true);
@@ -47,7 +46,6 @@ export default function Cidades() {
     }
   }, [user]);
 
-  // Busca configurações do usuário (exemplo: notificações)
   useEffect(() => {
     if (user) {
       api.get(`/users/${user.id}/config`)
@@ -55,7 +53,6 @@ export default function Cidades() {
     }
   }, [user]);
 
-  // Adiciona cidade favorita
   const adicionarCidade = async () => {
     const cidadeBusca = search.trim();
     if (!cidadeBusca) return;
@@ -71,7 +68,7 @@ export default function Cidades() {
         if (!cidades.includes(nomeCidade)) {
           // Salva no backend
           const resPost = await api.post('/cidades-favoritas', { nome: nomeCidade, usuario_id: user.id });
-          setCidades([...cidades, resPost.data.data]); // Adiciona o objeto completo retornado pelo backend
+          setCidades([...cidades, resPost.data.data]);
         }
         setSearch("");
         Keyboard.dismiss();
@@ -94,7 +91,6 @@ export default function Cidades() {
     }
   };
 
-  // Navega para detalhes da cidade
   const handleCidadePress = (cidade) => {
     if (!user || navegando) return;
     setNavegando(true);
@@ -110,29 +106,32 @@ export default function Cidades() {
   };
 
   return (
-    <View style={[styles.cidadesContainer, { backgroundColor }]}>
+    <SafeAreaView style={[themeStyles.container, { backgroundColor, flex: 1, paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 }]}>
+      <View style={{ flexDirection: "row", alignItems: "center", marginTop: 8, marginBottom: 8, marginHorizontal: 24 }}>
+        <Ionicons name="location-outline" size={28} color="#2D6BFD" style={{ marginRight: 8 }} />
+        <Text style={[themeStyles.titulo, { color: textColor, fontSize: 26, fontWeight: "bold", letterSpacing: 1 }]}>
+          Minhas cidades
+        </Text>
+      </View>
       <SearchBar
         value={search}
         onChangeText={setSearch}
         placeholder="Adicionar cidade..."
         onSubmitEditing={adicionarCidade}
       />
-      <Text style={[styles.titulo, { color: textColor }]}>
-        Minhas cidades
-      </Text>
-      {loading && <ActivityIndicator color="#2D6BFD" style={styles.loading} />}
-      {!!erro && <Text style={styles.erro}>{erro}</Text>}
+      {loading && <ActivityIndicator color="#2D6BFD" style={themeStyles.loading} />}
+      {!!erro && <Text style={themeStyles.erro}>{erro}</Text>}
 
       <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={{ paddingBottom: 90 }}
+        style={themeStyles.scroll}
+        contentContainerStyle={{ paddingBottom: 90, paddingHorizontal: 0 }}
+        showsVerticalScrollIndicator={false}
       >
         {cidades.length === 0 ? (
-          <Text style={[styles.vazio, { color: vazioColor }]}>
+          <Text style={[themeStyles.vazio, { color: vazioColor, fontSize: 18, marginTop: 48 }]}>
             Nenhuma cidade adicionada.
           </Text>
         ) : (
-          console.log(cidades),
           cidades.map((cidadeObj) => (
             <CidadeCard
               key={cidadeObj.id}
@@ -144,6 +143,6 @@ export default function Cidades() {
           ))
         )}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
