@@ -179,5 +179,31 @@ export default function getStyles(isDark) {
       fontWeight: "600",
       fontSize: 16,
     },
+
+    errorModal: {
+      position: "absolute",
+      top: '30%',
+      alignSelf: "center",
+      borderRadius: 16,
+      paddingVertical: 18,
+      paddingHorizontal: 28,
+      alignItems: "center",
+      width: 320,
+      elevation: 8,
+      shadowColor: "#000",
+      shadowOpacity: 0.15,
+      shadowRadius: 8,
+      shadowOffset: { width: 0, height: 2 },
+      zIndex: 999,
+    },
+    errorModalTitle: {
+      fontSize: 18,
+      fontWeight: "bold",
+      marginBottom: 6,
+    },
+    errorModalMessage: {
+      fontSize: 15,
+      textAlign: "center",
+    },
   });
 }
