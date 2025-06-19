@@ -21,7 +21,7 @@ export default function App() {
   const [desc, setDesc] = useState("");
   const [temp, setTemp] = useState("--");
   const [errorMsg, setErrorMsg] = useState("");
-  const [showErrorModal, setShowErrorModal] = useState(true);
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   useEffect(() => {
     async function fetchWeather() {
@@ -54,31 +54,16 @@ export default function App() {
 
   if (!weatherData && !errorMsg) {
     return (
-      <View style={{
-        flex: 1,
-        backgroundColor: dark ? "#151718" : "#fff",
-        justifyContent: "center",
-        alignItems: "center"
-      }}>
+      <View style={styles.loadingContainer}>
         <Video
           source={require("../assets/wind.mp4")}
-          style={{
-            width: 140,
-            height: 140,
-            borderRadius: 70,
-            backgroundColor: "#e0f7fa"
-          }}
+          style={styles.loadingGif}
           resizeMode="cover"
           isLooping
           shouldPlay
           isMuted
         />
-        <Text style={{
-          marginTop: 32,
-          fontSize: 22,
-          color: dark ? "#ECEDEE" : "#11181C",
-          fontWeight: "bold"
-        }}>
+        <Text style={styles.loadingText}>
           Carregando clima...
         </Text>
       </View>
@@ -87,12 +72,7 @@ export default function App() {
 
   if (errorMsg) {
     return (
-      <View style={{
-        flex: 1,
-        backgroundColor: dark ? "#151718" : "#fff",
-        justifyContent: "flex-start",
-        alignItems: "center"
-      }}>
+      <View style={styles.errorContainer}>
         <ErrorModal
           visible={true}
           message={errorMsg}

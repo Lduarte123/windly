@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import styles from './styles';
 import api from '../../api/api';
 
@@ -38,7 +38,15 @@ export default function WeatherCard({ city }) {
     return (
       <View style={styles.card}>
         <Text style={styles.title}>Previsões</Text>
-        <Text>Carregando...</Text>
+        <View style={{ height: 8 }} />
+        {[0, 1, 2].map((_, idx) => (
+          <View key={idx} style={[styles.row, { opacity: 0.5 }]}>
+            <View style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: "#ffffff33", marginRight: 8 }} />
+            <View style={{ width: 60, height: 16, borderRadius: 8, backgroundColor: "#ffffff33", marginRight: 8 }} />
+            <View style={{ flex: 1, height: 16, borderRadius: 8, backgroundColor: "#ffffff33", marginRight: 8 }} />
+            <View style={{ width: 60, height: 16, borderRadius: 8, backgroundColor: "#ffffff33" }} />
+          </View>
+        ))}
       </View>
     );
   }

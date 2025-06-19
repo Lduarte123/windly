@@ -205,5 +205,55 @@ export default function getStyles(isDark) {
       fontSize: 15,
       textAlign: "center",
     },
+    cidadesHeader: {
+      padding: 20,
+      flexDirection: "row",
+      alignItems: "center",
+      alignSelf: "left",
+      marginTop: 24,
+    },
+    cidadesHeaderIcon: {
+      marginRight: 8,
+    },
+    cidadesHeaderTitle: {
+      fontSize: 26,
+      fontWeight: "bold",
+    },
+    cidadesScroll: {
+      flex: 1,
+      marginTop: 4,
+      paddingBottom: 90,
+      paddingHorizontal: 0,
+    },
+    cidadesVazio: {
+      color: isDark ? "#ECEDEE" : "#888",
+      fontSize: 18,
+      marginTop: 48,
+      alignSelf: "center",
+    },
+    loadingContainer: {
+      flex: 1,
+      backgroundColor: isDark ? "#151718" : "#fff",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    loadingText: {
+      marginTop: 32,
+      fontSize: 22,
+      color: isDark ? "#ECEDEE" : "#11181C",
+      fontWeight: "bold",
+    },
+    loadingGif: {
+      width: 140,
+      height: 140,
+      borderRadius: 70,
+      backgroundColor: "#e0f7fa",
+    },
+    errorContainer: {
+      flex: 1,
+      backgroundColor: isDark ? "#151718" : "#fff",
+      justifyContent: "flex-start",
+      alignItems: "center",
+    },
   });
 }

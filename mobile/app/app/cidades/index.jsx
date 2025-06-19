@@ -66,7 +66,6 @@ export default function Cidades() {
       if (data.cod === 200) {
         const nomeCidade = `${data.name}, ${data.sys.country}`.trim();
         if (!cidades.includes(nomeCidade)) {
-          // Salva no backend
           const resPost = await api.post('/cidades-favoritas', { nome: nomeCidade, usuario_id: user.id });
           setCidades([...cidades, resPost.data.data]);
         }
@@ -81,7 +80,6 @@ export default function Cidades() {
     setLoading(false);
   };
 
-  // Remove cidade favorita
   const removerCidade = async (cidadeId) => {
     try {
       await api.delete(`/cidades-favoritas/${cidadeId}`);
@@ -98,7 +96,6 @@ export default function Cidades() {
     setTimeout(() => setNavegando(false), 1200);
   };
 
-  // Altera configuração de notificações
   const handleToggleNotifications = async () => {
     const newValue = !notificationsEnabled;
     setNotificationsEnabled(newValue);
@@ -106,29 +103,36 @@ export default function Cidades() {
   };
 
   return (
-    <SafeAreaView style={[themeStyles.container, { backgroundColor, flex: 1, paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 }]}>
-      <View style={{ flexDirection: "row", alignItems: "center", marginTop: 8, marginBottom: 8, marginHorizontal: 24 }}>
-        <Ionicons name="location-outline" size={28} color="#2D6BFD" style={{ marginRight: 8 }} />
-        <Text style={[themeStyles.titulo, { color: textColor, fontSize: 26, fontWeight: "bold", letterSpacing: 1 }]}>
-          Minhas cidades
-        </Text>
+    <SafeAreaView style={[
+      themeStyles.container,
+      { backgroundColor, flex: 1, paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 }
+    ]}>
+      <View style={themeStyles.cidadesHeader}>
+        <Ionicons
+          name="location-outline"
+          size={28}
+          color="#2D6BFD"
+          style={themeStyles.cidadesHeaderIcon}
+        />
+        <Text style={[themeStyles.cidadesHeaderTitle,{ color: textColor }]}>Minhas cidades </Text>
       </View>
       <SearchBar
         value={search}
         onChangeText={setSearch}
         placeholder="Adicionar cidade..."
         onSubmitEditing={adicionarCidade}
+        style={themeStyles.searchBar}
       />
       {loading && <ActivityIndicator color="#2D6BFD" style={themeStyles.loading} />}
       {!!erro && <Text style={themeStyles.erro}>{erro}</Text>}
 
       <ScrollView
-        style={themeStyles.scroll}
+        style={themeStyles.cidadesScroll}
         contentContainerStyle={{ paddingBottom: 90, paddingHorizontal: 0 }}
         showsVerticalScrollIndicator={false}
       >
         {cidades.length === 0 ? (
-          <Text style={[themeStyles.vazio, { color: vazioColor, fontSize: 18, marginTop: 48 }]}>
+          <Text style={themeStyles.cidadesVazio}>
             Nenhuma cidade adicionada.
           </Text>
         ) : (
@@ -139,6 +143,7 @@ export default function Cidades() {
               onRemover={() => removerCidade(cidadeObj.id)}
               onPress={() => handleCidadePress(cidadeObj.nome)}
               disabled={navegando || !user}
+              dark={dark}
             />
           ))
         )}

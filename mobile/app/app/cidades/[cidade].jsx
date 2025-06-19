@@ -40,7 +40,6 @@ export default function CidadeDetalhe() {
     if (cidade) fetchWeather();
   }, [cidade]);
 
-  // Mesmo ajuste da tela principal
   const whiteSectionStyle = [
     styles.whiteSection,
     dark && { backgroundColor: "#23272a" }
