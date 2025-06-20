@@ -2,11 +2,11 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, View } from 'react-native';
 import { ThemeProvider, useTheme } from '../components/ThemeContext';
+import { AuthProvider } from '../components/authContext/AuthContext';
 
 function ThemedTabs() {
   const { dark } = useTheme();
 
-  // Defina as cores do tema
   const backgroundColor = dark ? '#151718' : '#fff';
   const textColor = dark ? '#ECEDEE' : '#11181C';
 
@@ -23,7 +23,7 @@ function ThemedTabs() {
             left: 16,
             right: 16,
             elevation: 5,
-            backgroundColor, // tabBar segue o tema
+            backgroundColor,
             borderTopEndRadius: 20,
             borderTopStartRadius: 20,
             height: 80,
@@ -40,8 +40,7 @@ function ThemedTabs() {
         <Tabs.Screen
           name="index"
           options={{
-            tabBarLabel: 'Início',
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({ color }) => (
               <Ionicons name="home-outline" size={24} color={color} />
             ),
             tabBarButton: (props) => (
@@ -52,8 +51,7 @@ function ThemedTabs() {
         <Tabs.Screen
           name="cidades"
           options={{
-            tabBarLabel: 'Cidades',
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({ color }) => (
               <Ionicons name="location-outline" size={24} color={color} />
             ),
             tabBarButton: (props) => (
@@ -64,8 +62,7 @@ function ThemedTabs() {
         <Tabs.Screen
           name="configuracoes/index"
           options={{
-            tabBarLabel: 'Configurações',
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({ color }) => (
               <Ionicons name="settings-outline" size={24} color={color} />
             ),
             tabBarButton: (props) => (
@@ -81,16 +78,35 @@ function ThemedTabs() {
             tabBarItemStyle: { display: 'none' }, // opcional: oculta a tab bar se for necessário
           }}
         />
+        <Tabs.Screen
+          name="register"
+          options={{
+            // NÃO use `href` aqui
+            tabBarButton: () => null, // isso esconde completamente o botão da Tab Bar
+            tabBarItemStyle: { display: 'none' }, // opcional: oculta a tab bar se for necessário
+          }}
+        />
+        <Tabs.Screen
+          name="logout"
+          options={{
+            // NÃO use `href` aqui
+            tabBarButton: () => null, // isso esconde completamente o botão da Tab Bar
+            tabBarItemStyle: { display: 'none' }, // opcional: oculta a tab bar se for necessário
+          }}
+        />
 
       </Tabs>
     </View>
   );
 }
 
+// CORRIGIDO: Agora estamos retornando o ThemedTabs dentro do ThemeProvider
 export default function Layout() {
   return (
-    <ThemeProvider>
-      <ThemedTabs />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <ThemedTabs />
+      </ThemeProvider>
+    </AuthProvider>
   );
 }

@@ -7,7 +7,7 @@ export async function getUserCity() {
   }
   let location = await Location.getCurrentPositionAsync({});
   let places = await Location.reverseGeocodeAsync(location.coords);
-  // Use subregion como fallback se city for nulo
+  
   let city = places[0]?.city || places[0]?.subregion || places[0]?.region;
   if (!city) {
     throw new Error('Cidade não encontrada');

@@ -18,6 +18,8 @@ export function formatForecastResponse(forecastData) {
   return forecastData.map(item => ({
     date: item.date,
     temperature: item.main.temp,
+    temp_max: item.main.temp_max,
+    temp_min: item.main.temp_min,
     weatherMain: item.weather[0].main,
     description: item.weather[0].description,
     windSpeed: item.wind.speed,

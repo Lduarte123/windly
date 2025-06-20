@@ -1,28 +1,89 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
 import styles from './styles';
+import api from '../../api/api';
 
-export default function WeatherCard() {
-  const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-  const hoje = new Date();
-  const terceiroDiaIndex = (hoje.getDay() + 2) % 7;
-  const terceiroDiaNome = diasSemana[terceiroDiaIndex];
+function getWeekDayName(dateString) {
+  const dias = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const date = new Date(dateString);
+  return dias[date.getDay()];
+}
 
-  const forecast = [
-    { day: 'Hoje', description: 'Céu limpo', max: 37, min: 28, icon: '☀️' },
-    { day: 'Amanhã', description: 'Trovoada', max: 35, min: 28, icon: '🌩️' },
-    { day: terceiroDiaNome, description: 'Nublado', max: 35, min: 28, icon: '⛅' },
-  ];
+function capitalize(str) {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+export default function WeatherCard({ city }) {
+  const [forecast, setForecast] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [erro, setErro] = useState("");
+
+  useEffect(() => {
+    async function fetchForecast() {
+      setLoading(true);
+      setErro("");
+      try {
+        const response = await api.get(`/weather/forecast/${city}`);
+        setForecast(response.data);
+      } catch (e) {
+        setErro("Erro ao buscar previsão.");
+      }
+      setLoading(false);
+    }
+    if (city) fetchForecast();
+  }, [city]);
+
+  if (loading) {
+    return (
+      <View style={styles.card}>
+        <Text style={styles.title}>Previsões</Text>
+        <View style={{ height: 8 }} />
+        {[0, 1, 2].map((_, idx) => (
+          <View key={idx} style={[styles.row, { opacity: 0.5 }]}>
+            <View style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: "#ffffff33", marginRight: 8 }} />
+            <View style={{ width: 60, height: 16, borderRadius: 8, backgroundColor: "#ffffff33", marginRight: 8 }} />
+            <View style={{ flex: 1, height: 16, borderRadius: 8, backgroundColor: "#ffffff33", marginRight: 8 }} />
+            <View style={{ width: 60, height: 16, borderRadius: 8, backgroundColor: "#ffffff33" }} />
+          </View>
+        ))}
+      </View>
+    );
+  }
+
+  if (erro) {
+    return (
+      <View style={styles.card}>
+        <Text style={styles.title}>Previsões</Text>
+        <Text style={{ color: "red" }}>{erro}</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.card}>
       <Text style={styles.title}>Previsões</Text>
-      {forecast.map((item, index) => (
+      {forecast.slice(0, 3).map((item, index) => (
         <View key={index} style={styles.row}>
-          <Text style={styles.icon}>{item.icon}</Text>
-          <Text style={styles.day}>{item.day}</Text>
-          <Text style={styles.desc}>{item.description}</Text>
-          <Text style={styles.temp}>{item.max}° / {item.min}°</Text>
+          <Text style={styles.icon}>
+            {item.weatherMain === "Rain" ? "🌧️" :
+             item.weatherMain === "Thunderstorm" ? "🌩️" :
+             item.weatherMain === "Clouds" ? "⛅" :
+             item.weatherMain === "Clear" ? "☀️" : "🌡️"}
+          </Text>
+          <Text style={styles.day}>
+            {index === 0
+              ? "Hoje"
+              : index === 1
+                ? "Amanhã"
+                : getWeekDayName(item.date || item.dt_txt)}
+          </Text>
+          <Text style={styles.desc}>{capitalize(item.description)}</Text>
+          <Text style={styles.temp}>
+            {item.temp_max !== undefined && item.temp_min !== undefined
+              ? `${Number.parseInt(item.temp_max)}° / ${Number.parseInt(item.temp_min)}°`
+              : "--"}
+          </Text>
         </View>
       ))}
     </View>

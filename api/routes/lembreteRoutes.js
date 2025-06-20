@@ -1,5 +1,6 @@
 const express = require('express');
 const controller = require('../controllers/lembreteController');
+const authenticateToken = require('../middleware/authMiddleware');
 
 /**
  * @swagger
@@ -121,7 +122,7 @@ class LembreteRoutes {
   }
 
   registerRoutes() {
-    this.router.get('/usuario/:usuario_id', controller.getAllByUser);
+    this.router.get('/usuario/:usuario_id', authenticateToken, controller.getAllByUser);
     this.router.get('/:id', controller.getById);
     this.router.post('/', controller.create);
     this.router.put('/:id', controller.update);

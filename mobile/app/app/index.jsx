@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView, View, Text, Animated, Easing } from "react-native";
 import MainSection from "../components/mainSection/MainSection";
 import MainStats from "../components/mainStats/MainStats";
 import WeatherCard from "../components/weatherCard/WeatherCard";
@@ -10,6 +10,8 @@ import getStyles from "../components/styles";
 import api from "../api/api";
 import { getUserCity } from "../api/getUserCity";
 import DiasSemChuvaCheckbox from "../components/diasSemChuva/DiasSemChuvaCheckbox";
+import { Video } from 'expo-av';
+import ErrorModal from "../components/errorModal/ErrorModal";
 
 export default function App() {
   const { dark } = useTheme();
@@ -20,6 +22,7 @@ export default function App() {
   const [desc, setDesc] = useState("");
   const [temp, setTemp] = useState("--");
   const [errorMsg, setErrorMsg] = useState("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   useEffect(() => {
     async function fetchWeather() {
@@ -40,6 +43,7 @@ export default function App() {
         setTemp(Math.round(data.temperature));
       } catch (error) {
         setErrorMsg(error.message || "Erro desconhecido");
+        setShowErrorModal(true); // Mostra o modal
         setCity("Erro ao obter cidade");
         setDesc("Erro ao obter clima");
         setTemp("--");
@@ -48,26 +52,34 @@ export default function App() {
     fetchWeather();
   }, []);
 
+
   if (!weatherData && !errorMsg) {
     return (
-      <ScrollView style={styles.container}>
-        <MainSection>
-          <MainStats city="Carregando..." desc="Carregando..." temp="--"/>
-        </MainSection>
-      </ScrollView>
+      <View style={styles.loadingContainer}>
+        <Video
+          source={require("../assets/wind.mp4")}
+          style={styles.loadingGif}
+          resizeMode="cover"
+          isLooping
+          shouldPlay
+          isMuted
+        />
+        <Text style={styles.loadingText}>
+          Carregando clima...
+        </Text>
+      </View>
     );
   }
 
   if (errorMsg) {
     return (
-      <ScrollView style={styles.container}>
-        <MainSection>
-          <MainStats city={city} desc={desc} temp={temp}/>
-        </MainSection>
-        <View style={{ padding: 20 }}>
-          <Text style={{ color: "red" }}>{errorMsg}</Text>
-        </View>
-      </ScrollView>
+      <View style={styles.errorContainer}>
+        <ErrorModal
+          visible={true}
+          message={errorMsg}
+          dark={dark}
+        />
+      </View>
     );
   }
 
@@ -77,12 +89,18 @@ export default function App() {
   ];
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <MainSection>
-        <MainStats city={city} desc={desc} temp={temp}/>
-      </MainSection>
-      <ScrollView style={whiteSectionStyle}>
-        <WeatherCard />
+    <>
+      <ErrorModal
+        visible={showErrorModal}
+        message={errorMsg}
+        onClose={() => setShowErrorModal(false)}
+      />
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <MainSection>
+          <MainStats city={city} desc={desc} temp={temp}/>
+        </MainSection>
+        <ScrollView style={whiteSectionStyle}>
+          <WeatherCard city={city} />
 
         <View style={styles.statsContainer}>
           <StatsCard
@@ -147,7 +165,9 @@ export default function App() {
           />
         </View>
         <DiasSemChuvaCheckbox />
+          </View>
+        </ScrollView>
       </ScrollView>
-    </ScrollView>
+    </>
   );
 }
