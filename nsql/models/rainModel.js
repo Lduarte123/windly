@@ -8,10 +8,16 @@ const rainSchema = new mongoose.Schema({
   },
   chuva: {
     type: Boolean,
-    required: true
+    required: false, // altere para false
+    default: false
+  },
+  diasSemChuva: {
+    type: [Boolean], // novo campo
+    default: [false, false, false, false, false, false, false]
   }
 });
 
 const Rain = mongoose.model('Rain', rainSchema);
 
 module.exports = Rain;
+
