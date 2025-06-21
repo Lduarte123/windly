@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import styles from './styles';
 import api from '../../api/api';
 
@@ -12,6 +14,49 @@ function getWeekDayName(dateString) {
 function capitalize(str) {
   if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+function getWeatherIcon(main, size = 22, color = "#fff") {
+  if (main === "Rain") return <MaterialCommunityIcons name="weather-rainy" size={size} color={color} />;
+  if (main === "Thunderstorm") return <MaterialCommunityIcons name="weather-lightning" size={size} color={color} />;
+  if (main === "Clouds") return <MaterialCommunityIcons name="weather-cloudy" size={size} color={color} />;
+  if (main === "Clear") return <MaterialCommunityIcons name="weather-sunny" size={size} color={color} />;
+  return <MaterialCommunityIcons name="weather-partly-cloudy" size={size} color={color} />;
+}
+
+function TempBar({ min, max, temp }) {
+  let percent = 0.5;
+  if (max !== min) {
+    percent = (temp - min) / (max - min);
+    percent = Math.max(0, Math.min(percent, 1));
+  }
+  const [barWidth, setBarWidth] = React.useState(0);
+
+  return (
+    <View style={styles.tempBarContainer}>
+      <Text style={styles.tempBarText}>{parseInt(min)}°</Text>
+      <View
+        style={styles.tempBar}
+        onLayout={e => setBarWidth(e.nativeEvent.layout.width)}
+      >
+        <LinearGradient
+          colors={['#4fc3f7', '#ffd54f', '#e57373']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.tempBarGradient}
+        />
+        {barWidth > 0 && (
+          <View
+            style={[
+              styles.tempBarMarker,
+              { left: barWidth * percent - 6 }
+            ]}
+          />
+        )}
+      </View>
+      <Text style={styles.tempBarText}>{parseInt(max)}°</Text>
+    </View>
+  );
 }
 
 export default function WeatherCard({ city }) {
@@ -65,25 +110,23 @@ export default function WeatherCard({ city }) {
       <Text style={styles.title}>Previsões</Text>
       {forecast.slice(0, 3).map((item, index) => (
         <View key={index} style={styles.row}>
-          <Text style={styles.icon}>
-            {item.weatherMain === "Rain" ? "🌧️" :
-             item.weatherMain === "Thunderstorm" ? "🌩️" :
-             item.weatherMain === "Clouds" ? "⛅" :
-             item.weatherMain === "Clear" ? "☀️" : "🌡️"}
-          </Text>
-          <Text style={styles.day}>
-            {index === 0
-              ? "Hoje"
-              : index === 1
-                ? "Amanhã"
-                : getWeekDayName(item.date || item.dt_txt)}
-          </Text>
+          <View style={styles.iconDay}>
+            {getWeatherIcon(item.weatherMain, 22)}
+            <View style={{ width: 8 }} />
+            <Text style={styles.day}>
+              {index === 0
+                ? "Hoje"
+                : index === 1
+                  ? "Amanhã"
+                  : getWeekDayName(item.date || item.dt_txt)}
+            </Text>
+          </View>
           <Text style={styles.desc}>{capitalize(item.description)}</Text>
-          <Text style={styles.temp}>
-            {item.temp_max !== undefined && item.temp_min !== undefined
-              ? `${Number.parseInt(item.temp_max)}° / ${Number.parseInt(item.temp_min)}°`
-              : "--"}
-          </Text>
+          <TempBar
+            min={item.temp_min}
+            max={item.temp_max}
+            temp={item.temp}
+          />
         </View>
       ))}
     </View>

@@ -2,7 +2,12 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
-    marginTop: '15%',
+    marginTop: '10%',
+    alignItems: 'center',
+    width: '100%',
+  },
+  iconWrapper: {
+    flexDirection: 'coloumn',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -10,23 +15,28 @@ export default StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 4,
+    marginTop: 8,
   },
   temp: {
-    fontSize: 48,
-    fontWeight: 'bold',
+    fontSize: 62,
     color: '#fff',
-    marginBottom: 4,
+    marginVertical: 8,
   },
   description: {
-    fontSize: 16,
-    color: '#e0e0e0',
-    marginBottom: 8,
+    fontSize: 18,
+    color: '#fff',
+    textAlign: 'center',
   },
   brand: {
     fontSize: 14,
     color: '#b0c4de',
     letterSpacing: 2,
     marginTop: 8,
+  },
+  dateTime: {
+    color: '#f1f1f1',
+    fontSize: 12,
+    marginTop: 2,
+    marginBottom: 2,
   },
 });

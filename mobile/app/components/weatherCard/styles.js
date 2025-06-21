@@ -23,20 +23,54 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginBottom: 8,
   },
-  icon: {
-    fontSize: 18,
+  iconDay: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginRight: 8,
+    minWidth: 90,
   },
   day: {
     color: '#fff',
-    width: 70,
+    fontSize: 15,
   },
   desc: {
     color: '#fff',
     flex: 1,
+    fontSize: 15,
   },
-  temp: {
-    color: '#fff',
-    fontWeight: '600',
+  tempBarContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 8,
+  },
+  tempBarText: {
+    color: "#fff",
+    fontSize: 12,
+  },
+  tempBar: {
+    height: 8,
+    flex: 1,
+    marginHorizontal: 6,
+    borderRadius: 4,
+    overflow: 'hidden',
+    position: 'relative',
+    backgroundColor: "#fff2",
+    justifyContent: 'center',
+  },
+  tempBarGradient: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 4,
+  },
+  tempBarMarker: {
+    position: 'absolute',
+    top: -4,
+    width: 12,
+    height: 16,
+    borderRadius: 6,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#2784DF',
+    elevation: 2,
   },
 });

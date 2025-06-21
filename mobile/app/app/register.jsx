@@ -14,10 +14,15 @@ export default function RegisterScreen() {
   const styles = getStyles(false); // false = tema claro
 
   async function handleRegister() {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Alert.alert('Erro', 'Digite um e-mail válido!');
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await api.post('/users', { name, email, password });
-      // Se o backend já retorna token e user:
       if (response.data.token && response.data.user) {
         await login({ user: response.data.user, token: response.data.token });
         Alert.alert('Sucesso', 'Cadastro realizado!');

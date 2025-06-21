@@ -102,70 +102,69 @@ export default function App() {
         <ScrollView style={whiteSectionStyle}>
           <WeatherCard city={city} />
 
-        <View style={styles.statsContainer}>
-          <StatsCard
-            titulo="Sensação"
-            desc="Sensação térmica"
-            stats={
-              weatherData.feelsLike !== undefined && weatherData.feelsLike !== null
-                ? `${weatherData.feelsLike}°`
-                : "--"
-            }
-            icon={<Thermometer color="#fff" size={26} />}
-          />
-          <StatsCard
-            titulo="Umidade"
-            desc="Umidade relativa"
-            stats={
-              weatherData.humidity !== undefined && weatherData.humidity !== null
-                ? `${weatherData.humidity}%`
-                : "--"
-            }
-            icon={<Droplets color="#fff" size={26} />}
-          />
-          <StatsCard
-            titulo="Pressão"
-            desc="Pressão atmosférica"
-            stats={
-              weatherData.pressure !== undefined && weatherData.pressure !== null
-                ? `${weatherData.pressure} hPa`
-                : "--"
-            }
-            icon={<Gauge color="#fff" size={26} />}
-          />
-          <StatsCard
-            titulo="Vento"
-            desc="Velocidade do vento"
-            stats={
-              weatherData.windSpeed !== undefined && weatherData.windSpeed !== null
-                ? `${weatherData.windSpeed} m/s`
-                : "--"
-            }
-            icon={<Wind color="#fff" size={26} />}
-          />
-          <StatsCard
-            titulo="Visibilidade"
-            desc="Visibilidade"
-            stats={
-              weatherData.visibility !== undefined && weatherData.visibility !== null
-                ? `${(weatherData.visibility / 1000).toFixed(1)} km`
-                : "--"
-            }
-            icon={<Eye color="#fff" size={26} />}
-          />
-          <StatsCard
-            titulo="Nuvens"
-            desc="Cobertura de nuvens"
-            stats={
-              weatherData.cloudiness !== undefined && weatherData.cloudiness !== null
-                ? `${weatherData.cloudiness}%`
-                : "--"
-            }
-            icon={<Cloud color="#fff" size={26} />}
-          />
-        </View>
-        <DiasSemChuvaCheckbox />
+          <View style={styles.statsContainer}>
+            <StatsCard
+              titulo="Sensação"
+              desc="Sensação térmica"
+              stats={
+                weatherData.feelsLike !== undefined && weatherData.feelsLike !== null
+                  ? `${weatherData.feelsLike}°`
+                  : "--"
+              }
+              icon={<Thermometer color="#fff" size={26} />}
+            />
+            <StatsCard
+              titulo="Umidade"
+              desc="Umidade relativa"
+              stats={
+                weatherData.humidity !== undefined && weatherData.humidity !== null
+                  ? `${weatherData.humidity}%`
+                  : "--"
+              }
+              icon={<Droplets color="#fff" size={26} />}
+            />
+            <StatsCard
+              titulo="Pressão"
+              desc="Pressão atmosférica"
+              stats={
+                weatherData.pressure !== undefined && weatherData.pressure !== null
+                  ? `${weatherData.pressure} hPa`
+                  : "--"
+              }
+              icon={<Gauge color="#fff" size={26} />}
+            />
+            <StatsCard
+              titulo="Vento"
+              desc="Velocidade do vento"
+              stats={
+                weatherData.windSpeed !== undefined && weatherData.windSpeed !== null
+                  ? `${weatherData.windSpeed} m/s`
+                  : "--"
+              }
+              icon={<Wind color="#fff" size={26} />}
+            />
+            <StatsCard
+              titulo="Visibilidade"
+              desc="Visibilidade"
+              stats={
+                weatherData.visibility !== undefined && weatherData.visibility !== null
+                  ? `${(weatherData.visibility / 1000).toFixed(1)} km`
+                  : "--"
+              }
+              icon={<Eye color="#fff" size={26} />}
+            />
+            <StatsCard
+              titulo="Nuvens"
+              desc="Cobertura de nuvens"
+              stats={
+                weatherData.cloudiness !== undefined && weatherData.cloudiness !== null
+                  ? `${weatherData.cloudiness}%`
+                  : "--"
+              }
+              icon={<Cloud color="#fff" size={26} />}
+            />
           </View>
+          <DiasSemChuvaCheckbox />
         </ScrollView>
       </ScrollView>
     </>

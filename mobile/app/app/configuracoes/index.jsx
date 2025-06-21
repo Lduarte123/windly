@@ -116,7 +116,6 @@ export default function Configuracoes() {
           >
             <Text style={{ color: textColor }}>Windly App</Text>
             <Text style={{ color: textColor }}>Versão 1.0.0</Text>
-            <Text style={{ color: textColor }}>Desenvolvido por Você</Text>
           </View>
         )}
 

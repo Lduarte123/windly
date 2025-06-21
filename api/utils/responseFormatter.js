@@ -1,3 +1,8 @@
+function formatTime(unix) {
+  const date = new Date(unix * 1000);
+  return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+}
+
 export function formatResponse(weatherData) {
   return {
     city: weatherData.name,
@@ -9,10 +14,11 @@ export function formatResponse(weatherData) {
     humidity: weatherData.main.humidity,
     pressure: weatherData.main.pressure,
     visibility: weatherData.visibility,
-    cloudiness: weatherData.clouds.all
+    cloudiness: weatherData.clouds.all,
+    sunrise: formatTime(weatherData.sys.sunrise),
+    sunset: formatTime(weatherData.sys.sunset)
   };
 }
-
 
 export function formatForecastResponse(forecastData) {
   return forecastData.map(item => ({
