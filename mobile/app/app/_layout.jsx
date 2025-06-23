@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, View } from 'react-native';
 import { ThemeProvider, useTheme } from '../components/ThemeContext';
 import { AuthProvider } from '../components/authContext/AuthContext';
+import { ConfigProvider } from '../components/configContext';
 
 function ThemedTabs() {
   const { dark } = useTheme();
@@ -101,12 +102,14 @@ function ThemedTabs() {
 }
 
 // CORRIGIDO: Agora estamos retornando o ThemedTabs dentro do ThemeProvider
-export default function Layout() {
+export default function RootLayout() {
   return (
     <AuthProvider>
-      <ThemeProvider>
-        <ThemedTabs />
-      </ThemeProvider>
+      <ConfigProvider>
+        <ThemeProvider>
+          <ThemedTabs />
+        </ThemeProvider>
+      </ConfigProvider>
     </AuthProvider>
   );
 }

@@ -9,7 +9,9 @@ import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from 'lucide-react-nat
 import { useTheme } from "../../components/ThemeContext";
 import getStyles from "../../components/styles";
 import api from "../../api/api";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useAuth } from '../../components/authContext/AuthContext';
+import { useFocusEffect } from "@react-navigation/native";
 
 export const options = {
   tabBarButton: () => null,
@@ -20,6 +22,7 @@ export default function CidadeDetalhe() {
   const { dark } = useTheme();
   const styles = getStyles(dark);
   const navigation = useNavigation();
+  const { user, loading: authLoading } = useAuth();
 
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -40,11 +43,24 @@ export default function CidadeDetalhe() {
     if (cidade) fetchWeather();
   }, [cidade]);
 
+  useFocusEffect(
+    useCallback(() => {
+      if (authLoading) return; // Não faz nada enquanto carrega
+      if (!user) {
+        navigation.replace('login');
+      }
+    }, [user, authLoading])
+  );
+
   const whiteSectionStyle = [
     styles.whiteSection,
     dark && { backgroundColor: "#23272a" }
   ];
   const textColor = dark ? "#ECEDEE" : "#11181C";
+
+  if (authLoading) {
+    return null; // ou um loading spinner
+  }
 
   if (loading) {
     return (

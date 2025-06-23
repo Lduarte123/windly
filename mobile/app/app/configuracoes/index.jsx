@@ -6,6 +6,9 @@ import getStyles from "../../components/styles";
 import Feather from "react-native-vector-icons/Feather";
 import { useAuth } from "../../components/authContext/AuthContext"; // Adicione esta linha
 import { useRouter } from "expo-router"; // Adicione esta linha
+import RNPickerSelect from "react-native-picker-select";
+import { useConfig } from "../../components/configContext";
+import api from "../../api/api"; // ajuste o caminho conforme seu projeto
 
 export default function Configuracoes() {
   const { dark, toggleTheme } = useTheme();
@@ -13,6 +16,7 @@ export default function Configuracoes() {
   const logout = useLogout();
   const { user } = useAuth(); // Pega o usuário logado
   const router = useRouter(); // Para navegação
+  const { config, setConfig } = useConfig();
 
   const backgroundColor = dark ? "#151718" : "#fff";
   const textColor = dark ? "#ECEDEE" : "#11181C";
@@ -44,12 +48,20 @@ export default function Configuracoes() {
     showAlert(newValue ? "Notificações ativadas" : "Notificações desativadas");
   };
 
+  function updateConfig(newConfig) {
+    setConfig(prev => {
+      const updated = { ...prev, ...newConfig };
+      if (user?.id) {
+        api.put(`/user-config/${user.id}`, updated).catch(() => {});
+      }
+      return updated;
+    });
+  }
+
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor }}
-      contentContainerStyle={{
-        padding: 16,
-      }}
+      contentContainerStyle={{ padding: 16 }}
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.configContainer}>
@@ -124,6 +136,26 @@ export default function Configuracoes() {
           <Text style={[styles.label, { color: textColor }]}>Privacidade</Text>
           <Text style={{ color: "#2D6BFD", fontWeight: "600" }}>Ver</Text>
         </TouchableOpacity>
+
+        {/* Unidade de Temperatura */}
+        <View style={styles.section}>
+          <Text style={[styles.label, { color: textColor }]}>Temperatura</Text>
+          <RNPickerSelect
+            value={config.temp_unit}
+            onValueChange={value => updateConfig({ temp_unit: value })}
+            items={[
+              { label: "Celsius (°C)", value: "C" },
+              { label: "Fahrenheit (°F)", value: "F" }
+            ]}
+            useNativeAndroidPickerStyle={false}
+            style={{
+              inputIOS: { color: textColor, height: 48, fontSize: 16, paddingLeft: 8 },
+              inputAndroid: { color: textColor, height: 48, fontSize: 16, paddingLeft: 8 },
+              placeholder: { color: "#888" }
+            }}
+            placeholder={{}}
+          />
+        </View>
 
         {/* Botão de Logout ou Login */}
         {user ? (

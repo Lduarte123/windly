@@ -15,7 +15,7 @@ export default function LoginScreen() {
 
   useEffect(() => {
     if (!authLoading && user) {
-      router.replace('cidades');
+      router.replace('/'); // ou 'cidades'
     }
   }, [user, authLoading]);
 

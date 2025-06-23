@@ -2,6 +2,8 @@ import React from "react";
 import styles from './styles';
 import { View, Text } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useConfig } from "../configContext";
+import { convertTemp } from "../../utils/convertTemp";
 
 function getWeatherIcon(desc, size = 48) {
   const d = desc.toLowerCase();
@@ -27,16 +29,19 @@ function getDateTimeString() {
 }
 
 export default function MainStats({ city = "", temp = "", desc = "" }) {
+  const { config } = useConfig();
+  const tempValue = convertTemp(temp, config.temp_unit);
+
   return (
     <View style={styles.container}>
       <Text style={styles.city}>{city}</Text>
       <Text style={styles.dateTime}>{getDateTimeString()}</Text>
-      <View style= {{ flexDirection: 'row'}}>
-        <Text style={styles.temp}>{temp}º</Text> 
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={styles.temp}>{tempValue}º</Text>
         <View style={styles.iconWrapper}>
           {getWeatherIcon(desc, 32)}
           <Text style={styles.description}>{desc} </Text>
-      </View>
+        </View>
       </View>
     </View>
   );

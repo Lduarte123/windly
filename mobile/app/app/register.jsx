@@ -24,9 +24,9 @@ export default function RegisterScreen() {
     try {
       const response = await api.post('/users', { name, email, password });
       if (response.data.token && response.data.user) {
-        await login({ user: response.data.user, token: response.data.token });
+        await login({ user: response.data.user, token });
         Alert.alert('Sucesso', 'Cadastro realizado!');
-        router.replace('index');
+        router.replace('index'); // ou 'cidades', se preferir
       } else {
         setLoading(false);
         Alert.alert('Sucesso', 'Cadastro realizado!');
