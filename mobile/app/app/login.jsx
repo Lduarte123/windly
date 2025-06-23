@@ -19,20 +19,29 @@ export default function LoginScreen() {
     }
   }, [user, authLoading]);
 
-  async function handleLogin() {
-    setLoading(true);
-    try {
-      const response = await api.post('/auth/login', { email, password });
-      const { token, user: userData } = response.data;
-      if (token && userData) {
-        await login({ user: userData, token });
-        Alert.alert('Bem-vindo!', `Olá, ${userData.name}`);
-      }
-    } catch (e) {
-      Alert.alert('Erro', 'Não foi possível fazer login.');
+ async function handleLogin() {
+  setLoading(true);
+  try {
+    const response = await api.post('/auth/login', { email, password });
+    
+    // O backend só vai retornar uma mensagem tipo:
+    // { message: "Código 2FA enviado por e-mail" }
+    if (response.data.message.includes("Código")) {
+      Alert.alert('Código enviado', response.data.message);
+
+      // Envia o usuário para a tela de verificação passando o e-mail
+      router.replace({
+        pathname: '/verificacao',
+        params: { email }
+      });
+    } else {
+      Alert.alert('Erro', 'Resposta inesperada do servidor.');
     }
-    setLoading(false);
+  } catch (e) {
+    Alert.alert('Erro', e.response?.data?.error || 'Não foi possível fazer login.');
   }
+  setLoading(false);
+}
 
   return (
     <View style={styles.container}>

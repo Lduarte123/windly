@@ -94,6 +94,14 @@ function ThemedTabs() {
             tabBarItemStyle: { display: 'none' }, // opcional: oculta a tab bar se for necessário
           }}
         />
+        <Tabs.Screen
+          name="verificacao"
+          options={{
+            // NÃO use `href` aqui
+            tabBarButton: () => null, // isso esconde completamente o botão da Tab Bar
+            tabBarItemStyle: { display: 'none' }, // opcional: oculta a tab bar se for necessário
+          }}
+        />
 
       </Tabs>
     </View>

@@ -1,36 +1,49 @@
-const userRepository = require('../repositories/userRepository');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../db/db');
-const { sendLoginNotification } = require('../services/emailService'); // <-- importar o serviço de email
+const { sendLoginNotification } = require('../services/emailService');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'segredo_super_secreto';
+const JWT_SECRET = process.env.JWT_SECRET || 'super_secreto';
 
-const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+// Guardar os códigos 2FA temporariamente (em produção use Redis ou banco)
+const twoFACodes = {};
 
-    const dbUser = await db.query('SELECT * FROM users WHERE email = $1', [email]);
-    if (!dbUser.rows[0]) return res.status(401).json({ error: 'Usuário ou senha inválidos' });
+const loginStepOne = async (req, res) => {
+  const { email, password } = req.body;
 
-    const valid = await bcrypt.compare(password, dbUser.rows[0].password);
-    if (!valid) return res.status(401).json({ error: 'Usuário ou senha inválidos' });
+  const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+  const user = result.rows[0];
+  if (!user) return res.status(401).json({ error: 'Credenciais inválidas' });
 
-    // Geração do token
-    const token = jwt.sign(
-      { id: dbUser.rows[0].id, name: dbUser.rows[0].name, email: dbUser.rows[0].email },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+  const valid = await bcrypt.compare(password, user.password);
+  if (!valid) return res.status(401).json({ error: 'Credenciais inválidas' });
 
-    // Notificação por e-mail
-    await sendLoginNotification(dbUser.rows[0].email, dbUser.rows[0].name);
+  const code = Math.floor(100000 + Math.random() * 900000);
+  const expires = Date.now() + 5 * 60 * 1000;
 
-    res.json({ token, user: { id: dbUser.rows[0].id, name: dbUser.rows[0].name, email: dbUser.rows[0].email } });
-  } catch (error) {
-    console.error("Erro no login:", error.message);
-    res.status(500).json({ error: 'Erro ao fazer login' });
-  }
+  twoFACodes[email] = { code, expires };
+
+  await sendLoginNotification(email, `Seu código de verificação é: <strong>${code}</strong>`);
+
+  res.json({ message: 'Código 2FA enviado por e-mail' });
 };
 
-module.exports = { login };
+const verify2FA = async (req, res) => {
+  const { email, code } = req.body;
+  const saved = twoFACodes[email];
+
+  if (!saved || Date.now() > saved.expires || parseInt(code) !== saved.code) {
+    return res.status(401).json({ error: 'Código inválido ou expirado' });
+  }
+
+  delete twoFACodes[email];
+
+  const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+  const user = result.rows[0];
+
+  const token = jwt.sign({ id: user.id, name: user.name, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+
+  res.json({ message: 'Login autorizado', token, user });
+};
+
+module.exports = { loginStepOne, verify2FA };

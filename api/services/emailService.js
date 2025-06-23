@@ -1,5 +1,4 @@
 // services/emailService.js
-// services/emailService.js
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
@@ -36,4 +35,19 @@ const sendLoginNotification = async (to, name) => {
   }
 };
 
-module.exports = { sendLoginNotification };
+const sendAdminNotification = async (subject, message) => {
+  try {
+    await transporter.sendMail({
+      from: `"Seu App" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER, // envia para seu próprio email do .env
+      subject,
+      html: `<p>${message}</p>`
+    });
+
+    console.log(`✅ E-mail administrativo enviado: ${subject}`);
+  } catch (error) {
+    console.error("❌ Erro no envio do e-mail administrativo:", error.message);
+  }
+};
+
+module.exports = { sendLoginNotification, sendAdminNotification };
