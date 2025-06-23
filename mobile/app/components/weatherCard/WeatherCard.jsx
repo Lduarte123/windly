@@ -4,6 +4,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import styles from './styles';
 import api from '../../api/api';
+import { useConfig } from "../configContext";
+import { convertTemp } from "../../utils/convertTemp";
 
 function getWeekDayName(dateString) {
   const dias = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -60,6 +62,7 @@ function TempBar({ min, max, temp }) {
 }
 
 export default function WeatherCard({ city }) {
+  const { config } = useConfig();
   const [forecast, setForecast] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState("");
@@ -123,9 +126,9 @@ export default function WeatherCard({ city }) {
           </View>
           <Text style={styles.desc}>{capitalize(item.description)}</Text>
           <TempBar
-            min={item.temp_min}
-            max={item.temp_max}
-            temp={item.temp}
+            min={convertTemp(item.temp_min, config.temp_unit)}
+            max={convertTemp(item.temp_max, config.temp_unit)}
+            temp={convertTemp(item.temp, config.temp_unit)}
           />
         </View>
       ))}

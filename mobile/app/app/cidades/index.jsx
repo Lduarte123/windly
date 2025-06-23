@@ -48,7 +48,7 @@ export default function Cidades() {
 
   useEffect(() => {
     if (user) {
-      api.get(`/users/${user.id}/config`)
+      api.get(`/user-config/${user.id}`)
         .then(res => setNotificationsEnabled(res.data.notifications_enabled));
     }
   }, [user]);

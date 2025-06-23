@@ -12,6 +12,7 @@ const swaggerSpec = require('./swagger/swaggerConfig');
 const climaRoutes = require('./routes/climaRoutes')
 const authRoutes = require('./routes/authRoutes');
 const cidadeFavoritaRoutes = require('./routes/cidadeFavoritaRoutes');
+const userConfigRoutes = require('./routes/userConfigRoutes');
 
 class Server {
   constructor() {
@@ -37,6 +38,7 @@ class Server {
     this.app.use('/api/clima_atual', climaRoutes);  // <-- Adicionando a rota para previsões
     this.app.use('/api/auth', authRoutes);
     this.app.use('/api/cidades-favoritas', cidadeFavoritaRoutes);
+    this.app.use('/api/user-config', userConfigRoutes);
 
     // Rota raiz
     this.app.get('/', (req, res) => {
