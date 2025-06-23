@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const profissionalRoutes = require('./routes/profissionalRoutes');
 const dbInit = require('./db/dbInit');
 const userRoutes = require('./routes/userRoutes');
 const lembreteRoutes = require('./routes/lembreteRoutes');
@@ -31,7 +30,6 @@ class Server {
 
   routes() {
     // Rotas da aplicação
-    this.app.use('/api/profissionais', profissionalRoutes);
     this.app.use('/api/users', userRoutes);
     this.app.use('/api/lembretes', lembreteRoutes);
     this.app.use('/api/weather', previsaoRoutes);

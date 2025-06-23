@@ -45,7 +45,7 @@ export default function CidadeDetalhe() {
 
   useFocusEffect(
     useCallback(() => {
-      if (authLoading) return; // Não faz nada enquanto carrega
+      if (authLoading) return; 
       if (!user) {
         navigation.replace('login');
       }
@@ -59,15 +59,15 @@ export default function CidadeDetalhe() {
   const textColor = dark ? "#ECEDEE" : "#11181C";
 
   if (authLoading) {
-    return null; // ou um loading spinner
+    return null;
   }
 
   if (loading) {
     return (
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <MainSection>
-          <TouchableOpacity style={styles.backContainer} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={24} color="#fff" />
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={24} color={dark ? "#ECEDEE" : "#11181C"} />
           </TouchableOpacity>
           <MainStats city={cidade} desc="Carregando..." temp="--"/>
         </MainSection>
@@ -80,8 +80,8 @@ export default function CidadeDetalhe() {
     return (
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <MainSection>
-          <TouchableOpacity style={styles.backContainer} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={24} color="#fff" />
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={24} color={dark ? "#ECEDEE" : "#11181C"} />
           </TouchableOpacity>
           <MainStats city={cidade} desc="Erro" temp="--"/>
         </MainSection>
@@ -95,8 +95,8 @@ export default function CidadeDetalhe() {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <MainSection>
-        <TouchableOpacity style={styles.backContainer} onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#fff" />
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={24} color={dark ? "#ECEDEE" : "#11181C"} />
         </TouchableOpacity>
         <MainStats city={weatherData.city || cidade} desc={weatherData.description} temp={Math.round(weatherData.temperature)}/>
       </MainSection>

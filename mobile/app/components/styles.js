@@ -14,7 +14,6 @@ export default function getStyles(isDark) {
   const theme = isDark ? dark : light;
 
   return StyleSheet.create({
-    // 🟦 Container da tela de configurações
     config: {
       width: "100%",
       height: 100,
@@ -31,7 +30,6 @@ export default function getStyles(isDark) {
       marginTop: 10,
     },
 
-    // 🔥 Container geral
     container: {
       flex: 1,
       backgroundColor: theme.background,
@@ -92,6 +90,21 @@ export default function getStyles(isDark) {
       borderRadius: 100,
     },
 
+    backButton: {
+      position: "absolute",
+      top: 50,
+      left: 16,
+      zIndex: 10,
+      backgroundColor: "#fff",
+      borderRadius: 20,
+      padding: 6,
+      elevation: 2,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.2,
+      shadowRadius: 2,
+    },
+
     statsContainer: {
       flexDirection: "row",
       flexWrap: "wrap",
@@ -99,7 +112,6 @@ export default function getStyles(isDark) {
       marginTop: 16,
     },
 
-    // 🔥 Estilos novos para a tela de configurações
     configContainer: {
       borderRadius: 12,
       padding: 20,
@@ -148,8 +160,8 @@ export default function getStyles(isDark) {
 
     input: {
       borderWidth: 1,
-      borderColor: "#007bff", // azul mais suave
-      backgroundColor: "#f0f8ff", // azul bem claro no fundo do input
+      borderColor: "#007bff",
+      backgroundColor: "#f0f8ff",
       borderRadius: 10,
       padding: 12,
       marginBottom: 8,

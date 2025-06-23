@@ -74,33 +74,29 @@ function ThemedTabs() {
         <Tabs.Screen
           name="login"
           options={{
-            // NÃO use `href` aqui
-            tabBarButton: () => null, // isso esconde completamente o botão da Tab Bar
-            tabBarItemStyle: { display: 'none' }, // opcional: oculta a tab bar se for necessário
+            tabBarButton: () => null,
+            tabBarItemStyle: { display: 'none' },
           }}
         />
         <Tabs.Screen
           name="register"
           options={{
-            // NÃO use `href` aqui
-            tabBarButton: () => null, // isso esconde completamente o botão da Tab Bar
-            tabBarItemStyle: { display: 'none' }, // opcional: oculta a tab bar se for necessário
+            tabBarButton: () => null,
+            tabBarItemStyle: { display: 'none' },
           }}
         />
         <Tabs.Screen
           name="logout"
           options={{
-            // NÃO use `href` aqui
-            tabBarButton: () => null, // isso esconde completamente o botão da Tab Bar
-            tabBarItemStyle: { display: 'none' }, // opcional: oculta a tab bar se for necessário
+            tabBarButton: () => null,
+            tabBarItemStyle: { display: 'none' },
           }}
         />
         <Tabs.Screen
           name="verificacao"
           options={{
-            // NÃO use `href` aqui
-            tabBarButton: () => null, // isso esconde completamente o botão da Tab Bar
-            tabBarItemStyle: { display: 'none' }, // opcional: oculta a tab bar se for necessário
+            tabBarButton: () => null,
+            tabBarItemStyle: { display: 'none' },
           }}
         />
 
@@ -109,7 +105,6 @@ function ThemedTabs() {
   );
 }
 
-// CORRIGIDO: Agora estamos retornando o ThemedTabs dentro do ThemeProvider
 export default function RootLayout() {
   return (
     <AuthProvider>

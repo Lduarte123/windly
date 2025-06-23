@@ -9,8 +9,9 @@ import api from '../../api/api';
 import { useAuth } from '../../components/authContext/AuthContext';
 import styles from "../../components/styles";
 import { Ionicons } from '@expo/vector-icons';
+import Constants from "expo-constants";
 
-const OPENWEATHER_API_KEY = "69b60137458925882b3d327be216c401";
+const OPENWEATHER_API_KEY = Constants.expoConfig?.extra?.OPENWEATHER_API_KEY;
 
 export default function Cidades() {
   const [search, setSearch] = useState("");

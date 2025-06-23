@@ -1,4 +1,3 @@
-// routes/weatherRoutes.js
 const { Router } = require('express');
 const PrevisaoController = require('../controllers/climaController');
 
