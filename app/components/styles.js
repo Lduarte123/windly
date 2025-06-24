@@ -155,7 +155,7 @@ export default function getStyles(isDark) {
       textAlign: "center",
       color: "#003366",
       fontWeight: "600",
-      marginTop: '60%',
+      marginTop: "50%"
     },
 
     input: {
@@ -266,6 +266,49 @@ export default function getStyles(isDark) {
       backgroundColor: isDark ? "#151718" : "#fff",
       justifyContent: "flex-start",
       alignItems: "center",
+    },
+    registerFormWrapper: {
+      marginTop: "40%",
+      paddingHorizontal: 24,
+    },
+    registerMainTitle: {
+      fontSize: 26,
+      marginBottom: 24,
+      textAlign: "center",
+      color: "#003366",
+      fontWeight: "600",
+    },
+    registerInput: {
+      borderWidth: 1,
+      borderColor: "#007bff",
+      backgroundColor: "#f0f8ff",
+      borderRadius: 10,
+      padding: 12,
+      marginBottom: 8,
+      color: "#003366",
+      width: "100%",
+      alignSelf: 'center',
+    },
+    registerLink: {
+      color: "#007bff",
+      marginTop: 16,
+      textAlign: "center",
+      fontWeight: "500",
+      borderRadius: 10,
+    },
+    registerBotao: {
+      backgroundColor: "#2784DF",
+      paddingVertical: 14,
+      borderRadius: 8,
+      alignItems: "center",
+      marginTop: 12,
+      width: "100%",
+      alignSelf: 'center',
+    },
+    registerBotaoTexto: {
+      color: "#fff",
+      fontWeight: "600",
+      fontSize: 16,
     },
   });
 }

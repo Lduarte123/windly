@@ -4,6 +4,7 @@ import api from '../api/api';
 import { useAuth } from '../components/authContext/AuthContext';
 import { useRouter } from "expo-router";
 import getStyles from '../components/styles';
+import { useTheme } from "../components/ThemeContext";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -11,11 +12,12 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const { login, user, loading: authLoading } = useAuth();
   const router = useRouter();
-  const styles = getStyles(false);
+  const { dark } = useTheme();
+  const styles = getStyles(dark);
 
   useEffect(() => {
     if (!authLoading && user) {
-      router.replace('/'); // ou 'cidades'
+      router.replace('/');
     }
   }, [user, authLoading]);
 
@@ -45,12 +47,12 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-  <Text style={styles.mainTitle}>Entrar</Text>
+  <Text style={[styles.mainTitle, { color: dark ? "#ECEDEE" : "#003366" }]}>Entrar</Text>
 
   <TextInput
     style={styles.input}
     placeholder="E-mail"
-    placeholderTextColor="#888"
+    placeholderTextColor={dark ? "#000" : "#888"}
     value={email}
     onChangeText={setEmail}
     keyboardType="email-address"
@@ -59,7 +61,7 @@ export default function LoginScreen() {
   <TextInput
     style={styles.input}
     placeholder="Senha"
-    placeholderTextColor="#888"
+    placeholderTextColor={dark ? "#000" : "#888"}
     value={password}
     onChangeText={setPassword}
     secureTextEntry
