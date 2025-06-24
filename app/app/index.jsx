@@ -12,10 +12,13 @@ import { getUserCity } from "../api/getUserCity";
 import DiasSemChuvaCheckbox from "../components/diasSemChuva/DiasSemChuvaCheckbox";
 import { Video } from 'expo-av';
 import ErrorModal from "../components/errorModal/ErrorModal";
+import { useConfig } from "../components/configContext";
+import formatWind from "../utils/convertWind";
 
 export default function App() {
   const { dark } = useTheme();
   const styles = getStyles(dark);
+  const { config } = useConfig();
 
   const [weatherData, setWeatherData] = useState(null);
   const [city, setCity] = useState("Carregando...");
@@ -33,7 +36,6 @@ export default function App() {
         const response = await api.get(`/clima_atual/${userCity}`);
         const data = response.data;
 
-        // Checagem para o novo formato
         if (!data || !data.temperature || !data.weatherMain) {
           throw new Error("Dados de clima não encontrados para esta cidade.");
         }
@@ -50,7 +52,7 @@ export default function App() {
       }
     }
     fetchWeather();
-  }, []);
+  }, [config.wind_unit]);
 
 
   if (!weatherData && !errorMsg) {
@@ -138,7 +140,7 @@ export default function App() {
               desc="Velocidade do vento"
               stats={
                 weatherData.windSpeed !== undefined && weatherData.windSpeed !== null
-                  ? `${weatherData.windSpeed} m/s`
+                  ? formatWind(weatherData.windSpeed, config.wind_unit)
                   : "--"
               }
               icon={<Wind color="#fff" size={26} />}

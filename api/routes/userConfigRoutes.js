@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const userConfigController = require('../controllers/userConfigController');
-const authenticateToken = require('../middleware/authMiddleware');
+const controller = require('../controllers/userConfigController');
 
 /**
  * @swagger
@@ -64,7 +63,7 @@ const authenticateToken = require('../middleware/authMiddleware');
  *         description: Configuração não encontrada
  */
 
-router.get('/:usuario_id', authenticateToken, userConfigController.getConfig);
-router.put('/:usuario_id', authenticateToken, userConfigController.updateConfig);
+router.get('/:usuario_id', controller.getConfig);
+router.put('/:usuario_id', controller.updateConfig);
 
 module.exports = router;

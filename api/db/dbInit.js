@@ -36,7 +36,8 @@ const createTable = async () => {
       const createCidadeFavoritaQuery = `
         CREATE TABLE cidade_favorita (
           id SERIAL PRIMARY KEY,
-          nome VARCHAR(255) NOT NULL
+          nome VARCHAR(255) NOT NULL,
+          usuario_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
         );
       `;
       await db.query(createCidadeFavoritaQuery);
