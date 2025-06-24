@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
 const sendLoginNotification = async (to, name) => {
   try {
     await transporter.sendMail({
-      from: `"Seu App" <${process.env.EMAIL_USER}>`,
+      from: `"Windly" <${process.env.EMAIL_USER}>`,
       to,
       subject: 'Login realizado com sucesso!',
       html: `
@@ -38,7 +38,7 @@ const sendLoginNotification = async (to, name) => {
 const sendAdminNotification = async (subject, message) => {
   try {
     await transporter.sendMail({
-      from: `"Seu App" <${process.env.EMAIL_USER}>`,
+      from: `"Windly" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER, // envia para seu próprio email do .env
       subject,
       html: `<p>${message}</p>`

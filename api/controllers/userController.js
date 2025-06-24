@@ -1,10 +1,15 @@
 const userRepository = require('../repositories/userRepository');
+const userConfigRepository = require('../repositories/userConfigRepository');
 
 // Criar novo usuário
 const createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const user = await userRepository.createUser(name, email, password);
+
+    // Cria configuração padrão para o novo usuário
+    await userConfigRepository.create(user.id);
+
     res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ error: 'Erro ao criar usuário' });

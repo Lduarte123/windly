@@ -1,23 +1,30 @@
-const userConfigRepository = require('../repositories/userConfigRepository');
+const service = require('../services/userConfigService');
 
 exports.getConfig = async (req, res) => {
   const { usuario_id } = req.params;
-  const config = await userConfigRepository.getConfigByUserId(usuario_id);
-  if (!config) {
-    // Retorna configs padrão se não existir
-    return res.json({
-      temp_unit: "C",
-      pressure_unit: "hPa",
-      wind_unit: "m/s",
-      notifications_enabled: true
-    });
+  try {
+    let config = await service.getConfig(usuario_id);
+    if (!config) {
+      config = await service.createConfig(usuario_id);
+    }
+    res.json(config);
+  } catch (err) {
+    res.status(500).json({ error: "Erro ao buscar configuração" });
   }
-  res.json(config);
 };
 
 exports.updateConfig = async (req, res) => {
   const { usuario_id } = req.params;
-  const config = req.body;
-  const updated = await userConfigRepository.upsertConfig(usuario_id, config);
-  res.json(updated);
+  const { temp_unit, pressure_unit, wind_unit, notifications_enabled } = req.body;
+  try {
+    // Garante que existe config antes de atualizar
+    let config = await service.getConfig(usuario_id);
+    if (!config) {
+      await service.createConfig(usuario_id);
+    }
+    const updated = await service.updateConfig(usuario_id, { temp_unit, pressure_unit, wind_unit, notifications_enabled });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: "Erro ao atualizar configuração" });
+  }
 };

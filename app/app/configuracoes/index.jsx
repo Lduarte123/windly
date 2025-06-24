@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useLogout from "../logout";
 import { ScrollView, Text, View, Switch, TouchableOpacity, Alert, Platform } from "react-native";
 import { useTheme } from "../../components/ThemeContext";
@@ -17,6 +17,20 @@ export default function Configuracoes() {
   const { user } = useAuth(); // Pega o usuário logado
   const router = useRouter(); // Para navegação
   const { config, setConfig } = useConfig();
+
+  useEffect(() => {
+    async function fetchConfig() {
+      if (user?.id) {
+        try {
+          const res = await api.get(`/user-config/${user.id}`);
+          setConfig(res.data);
+        } catch (e) {
+          // Se não existir, pode criar aqui se quiser
+        }
+      }
+    }
+    fetchConfig();
+  }, [user?.id]);
 
   const backgroundColor = dark ? "#151718" : "#fff";
   const textColor = dark ? "#ECEDEE" : "#11181C";
@@ -146,6 +160,27 @@ export default function Configuracoes() {
             items={[
               { label: "Celsius (°C)", value: "C" },
               { label: "Fahrenheit (°F)", value: "F" }
+            ]}
+            useNativeAndroidPickerStyle={false}
+            style={{
+              inputIOS: { color: textColor, height: 48, fontSize: 16, paddingLeft: 8 },
+              inputAndroid: { color: textColor, height: 48, fontSize: 16, paddingLeft: 8 },
+              placeholder: { color: "#888" }
+            }}
+            placeholder={{}}
+          />
+        </View>
+
+        {/* Unidade de Vento */}
+        <View style={styles.section}>
+          <Text style={[styles.label, { color: textColor }]}>Unidade do Vento</Text>
+          <RNPickerSelect
+            value={config.wind_unit}
+            onValueChange={value => updateConfig({ wind_unit: value })}
+            items={[
+              { label: "m/s", value: "m/s" },
+              { label: "km/h", value: "km/h" },
+              { label: "mph", value: "mph" }
             ]}
             useNativeAndroidPickerStyle={false}
             style={{

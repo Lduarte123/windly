@@ -12,6 +12,8 @@ import api from "../../api/api";
 import React, { useEffect, useState, useCallback } from "react";
 import { useAuth } from '../../components/authContext/AuthContext';
 import { useFocusEffect } from "@react-navigation/native";
+import { useConfig } from "../../components/configContext";
+import formatWind from "../../utils/convertWind";
 
 export const options = {
   tabBarButton: () => null,
@@ -23,6 +25,7 @@ export default function CidadeDetalhe() {
   const styles = getStyles(dark);
   const navigation = useNavigation();
   const { user, loading: authLoading } = useAuth();
+  const { config } = useConfig();
 
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -141,7 +144,7 @@ export default function CidadeDetalhe() {
             desc="Velocidade do vento"
             stats={
               weatherData.windSpeed !== undefined && weatherData.windSpeed !== null
-                ? `${weatherData.windSpeed} m/s`
+                ? formatWind(weatherData.windSpeed, config.wind_unit)
                 : "--"
             }
             icon={<Wind color="#fff" size={26} />}

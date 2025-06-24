@@ -310,5 +310,48 @@ export default function getStyles(isDark) {
       fontWeight: "600",
       fontSize: 16,
     },
+    editModalOverlay: {
+      flex: 1,
+      backgroundColor: "#0008",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    editModalContainer: {
+      backgroundColor: isDark ? "#23272a" : "#fff",
+      padding: 24,
+      borderRadius: 12,
+      width: "80%",
+    },
+    editModalTitle: {
+      fontSize: 18,
+      fontWeight: "bold",
+      color: isDark ? "#ECEDEE" : "#003366",
+      marginBottom: 12,
+    },
+    editModalInput: {
+      borderWidth: 1,
+      borderColor: "#2D6BFD",
+      borderRadius: 8,
+      padding: 10,
+      marginBottom: 16,
+      color: isDark ? "#ECEDEE" : "#003366",
+      backgroundColor: isDark ? "#151718" : "#f0f8ff",
+    },
+    editModalError: {
+      color: "#E53935",
+      marginBottom: 8,
+    },
+    editModalActions: {
+      flexDirection: "row",
+      justifyContent: "flex-end",
+    },
+    editModalCancel: {
+      color: "#888",
+      marginRight: 16,
+    },
+    editModalSave: {
+      color: "#2D6BFD",
+      fontWeight: "bold",
+    },
   });
 }

@@ -27,8 +27,8 @@ export default function Verificacao() {
 
       await login({ user, token });
 
-      Alert.alert("✅ Sucesso", "Login autorizado");
-      router.replace('/'); // redireciona para a tela principal
+      Alert.alert("👋 Seja bem-vindo", `Olá, ${user.name}!`);
+      router.replace('/');
     } catch (error) {
       Alert.alert("Erro", error.response?.data?.error || "Código inválido ou expirado");
     }
@@ -38,34 +38,36 @@ export default function Verificacao() {
   return (
     <View style={[styles.container, { flex: 1 }]}>
       <KeyboardAvoidingView
-        style={{ flex: 1, justifyContent: "center" }}
+        style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={60}
       >
-        <Text style={[styles.mainTitle, { color: dark ? "#ECEDEE" : "#003366" }]}>Verificação</Text>
+        <View style={styles.registerFormWrapper}>
+          <Text style={[styles.mainTitle, { color: dark ? "#ECEDEE" : "#003366" }]}>Verificação</Text>
 
-        <TextInput
-          style={styles.input}
-          keyboardType="numeric"
-          value={code}
-          onChangeText={setCode}
-          placeholder="Código de 6 dígitos"
-          placeholderTextColor={dark ? "#000" : "#888"}
-        />
+          <TextInput
+            style={styles.input}
+            keyboardType="numeric"
+            value={code}
+            onChangeText={setCode}
+            placeholder="Código de 6 dígitos"
+            placeholderTextColor={dark ? "#000" : "#888"}
+          />
 
-        <TouchableOpacity
-          style={[styles.botao, loading && { opacity: 0.6 }]}
-          onPress={verificarCodigo}
-          disabled={loading}
-        >
-          <Text style={styles.botaoTexto}>
-            {loading ? "Verificando..." : "Verificar"}
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.botao, loading && { opacity: 0.6 }]}
+            onPress={verificarCodigo}
+            disabled={loading}
+          >
+            <Text style={styles.botaoTexto}>
+              {loading ? "Verificando..." : "Verificar"}
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.replace('login')}>
-          <Text style={styles.link}>Voltar para login</Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => router.replace('login')}>
+            <Text style={styles.link}>Voltar para login</Text>
+          </TouchableOpacity>
+        </View>
       </KeyboardAvoidingView>
     </View>
   );
