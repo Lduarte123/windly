@@ -26,7 +26,7 @@ export default function Verificacao() {
       await login({ user, token });
 
       Alert.alert("✅ Sucesso", "Login autorizado");
-      router.replace('/cidades'); // redireciona para a tela principal
+      router.replace('/'); // redireciona para a tela principal
     } catch (error) {
       Alert.alert("Erro", error.response?.data?.error || "Código inválido ou expirado");
     }
