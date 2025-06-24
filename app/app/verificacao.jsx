@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAuth } from '../components/authContext/AuthContext';
 import api from '../api/api';
 import getStyles from '../components/styles';
+import { useTheme } from "../components/ThemeContext";
 
 export default function Verificacao() {
   const { email } = useLocalSearchParams();
@@ -11,7 +12,8 @@ export default function Verificacao() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const router = useRouter();
-  const styles = getStyles(false);
+  const { dark } = useTheme();
+  const styles = getStyles(dark);
 
   const verificarCodigo = async () => {
     setLoading(true);
@@ -34,15 +36,13 @@ export default function Verificacao() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={60}
-    >
-      <View style={styles.container}>
-        <Text style={styles.mainTitle}>Verificação
-            
-        </Text>
+    <View style={[styles.container, { flex: 1 }]}>
+      <KeyboardAvoidingView
+        style={{ flex: 1, justifyContent: "center" }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={60}
+      >
+        <Text style={[styles.mainTitle, { color: dark ? "#ECEDEE" : "#003366" }]}>Verificação</Text>
 
         <TextInput
           style={styles.input}
@@ -50,7 +50,7 @@ export default function Verificacao() {
           value={code}
           onChangeText={setCode}
           placeholder="Código de 6 dígitos"
-          placeholderTextColor="#888"
+          placeholderTextColor={dark ? "#000" : "#888"}
         />
 
         <TouchableOpacity
@@ -66,7 +66,7 @@ export default function Verificacao() {
         <TouchableOpacity onPress={() => router.replace('login')}>
           <Text style={styles.link}>Voltar para login</Text>
         </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
