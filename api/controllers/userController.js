@@ -1,13 +1,11 @@
 const userRepository = require('../repositories/userRepository');
 const userConfigRepository = require('../repositories/userConfigRepository');
 
-// Criar novo usuário
 const createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const user = await userRepository.createUser(name, email, password);
 
-    // Cria configuração padrão para o novo usuário
     await userConfigRepository.create(user.id);
 
     res.status(201).json(user);
@@ -16,7 +14,6 @@ const createUser = async (req, res) => {
   }
 };
 
-// Buscar por ID
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -28,7 +25,6 @@ const getUserById = async (req, res) => {
   }
 };
 
-// Buscar por e-mail (login simplificado)
 const getUserByEmail = async (req, res) => {
   try {
     const { email } = req.query;
@@ -40,7 +36,6 @@ const getUserByEmail = async (req, res) => {
   }
 };
 
-// Atualizar nome e email
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -52,13 +47,13 @@ const updateUser = async (req, res) => {
   }
 };
 
-// Deletar
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
     await userRepository.deleteUser(id);
     res.json({ message: 'Usuário deletado com sucesso' });
   } catch (error) {
+    console.error(error); // Adicione isso para debugar
     res.status(500).json({ error: 'Erro ao deletar usuário' });
   }
 };

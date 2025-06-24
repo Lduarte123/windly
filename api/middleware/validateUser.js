@@ -1,8 +1,8 @@
 const validateUser = (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email } = req.body;
 
-  if (!name || !email || !password) {
-    return res.status(400).json({ error: 'name, email e password são obrigatórios' });
+  if (!name || !email) {
+    return res.status(400).json({ error: 'name e email são obrigatórios' });
   }
 
   next();

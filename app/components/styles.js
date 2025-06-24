@@ -95,7 +95,7 @@ export default function getStyles(isDark) {
       top: 50,
       left: 16,
       zIndex: 10,
-      backgroundColor: "#fff",
+      backgroundColor: isDark ? "#23272a" : "#fff", // muda conforme o tema
       borderRadius: 20,
       padding: 6,
       elevation: 2,
@@ -337,21 +337,56 @@ export default function getStyles(isDark) {
       color: isDark ? "#ECEDEE" : "#003366",
       backgroundColor: isDark ? "#151718" : "#f0f8ff",
     },
-    editModalError: {
+    editModalTopActions: {
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      gap: 24,
+      marginBottom: 24,
+      marginTop: 4,
+    },
+    editModalIconButton: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingVertical: 4,
+      paddingHorizontal: 8,
+      borderRadius: 6,
+      backgroundColor: "transparent",
+    },
+    editModalIconText: {
       color: "#E53935",
-      marginBottom: 8,
+      fontWeight: "bold",
+      marginLeft: 6,
+      fontSize: 15,
     },
     editModalActions: {
       flexDirection: "row",
-      justifyContent: "flex-end",
+      justifyContent: "space-between",
+      marginTop: 32,
+      gap: 16,
+    },
+    editModalActionButton: {
+      flex: 1,
+      alignItems: "center",
+      paddingVertical: 12,
+      borderRadius: 8,
+    },
+    editModalCancelButton: {
+      backgroundColor: "#ECEDEE",
+      marginRight: 8,
+    },
+    editModalSaveButton: {
+      backgroundColor: "#2D6BFD",
+      marginLeft: 8,
     },
     editModalCancel: {
       color: "#888",
-      marginRight: 16,
+      fontWeight: "bold",
+      fontSize: 16,
     },
     editModalSave: {
-      color: "#2D6BFD",
+      color: "#fff",
       fontWeight: "bold",
+      fontSize: 16,
     },
   });
 }

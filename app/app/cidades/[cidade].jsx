@@ -70,7 +70,7 @@ export default function CidadeDetalhe() {
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <MainSection>
           <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={24} color={dark ? "#ECEDEE" : "#11181C"} />
+            <Ionicons name="arrow-back" size={24} color={textColor} />
           </TouchableOpacity>
           <MainStats city={cidade} desc="Carregando..." temp="--"/>
         </MainSection>
@@ -84,7 +84,7 @@ export default function CidadeDetalhe() {
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <MainSection>
           <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={24} color={dark ? "#ECEDEE" : "#11181C"} />
+            <Ionicons name="arrow-back" size={24} color={textColor} />
           </TouchableOpacity>
           <MainStats city={cidade} desc="Erro" temp="--"/>
         </MainSection>
@@ -99,7 +99,7 @@ export default function CidadeDetalhe() {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <MainSection>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color={dark ? "#ECEDEE" : "#11181C"} />
+          <Ionicons name="arrow-back" size={24} color={textColor} />
         </TouchableOpacity>
         <MainStats city={weatherData.city || cidade} desc={weatherData.description} temp={Math.round(weatherData.temperature)}/>
       </MainSection>
