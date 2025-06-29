@@ -36,6 +36,7 @@ const getUserByEmail = async (req, res) => {
   }
 };
 
+
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;

@@ -7,7 +7,7 @@ const validateUser = require('../middleware/validateUser');
  * @swagger
  * tags:
  *   name: Users
- *   description: Operações relacionadas a usuários
+ *   description: Gerenciamento de usuários
  */
 
 /**
@@ -29,10 +29,13 @@ const validateUser = require('../middleware/validateUser');
  *             properties:
  *               name:
  *                 type: string
+ *                 example: João Silva
  *               email:
  *                 type: string
+ *                 example: joao@email.com
  *               password:
  *                 type: string
+ *                 example: senha123
  *     responses:
  *       201:
  *         description: Usuário criado com sucesso
@@ -40,48 +43,18 @@ const validateUser = require('../middleware/validateUser');
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
- *       500:
- *         description: Erro interno
- */
-router.post('/', validateUser, userController.createUser);
-
-/**
- * @swagger
- * /api/users/{id}:
+ *       400:
+ *         description: Dados inválidos
+ *
  *   get:
- *     summary: Retorna um usuário pelo ID
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID do usuário
- *     responses:
- *       200:
- *         description: Usuário encontrado
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       404:
- *         description: Usuário não encontrado
- */
-router.get('/:id', userController.getUserById);
-
-/**
- * @swagger
- * /api/users:
- *   get:
- *     summary: Retorna um usuário pelo e-mail
+ *     summary: Busca usuário pelo e-mail (query param)
  *     tags: [Users]
  *     parameters:
  *       - in: query
  *         name: email
- *         required: true
  *         schema:
  *           type: string
+ *         required: true
  *         description: E-mail do usuário
  *     responses:
  *       200:
@@ -93,20 +66,38 @@ router.get('/:id', userController.getUserById);
  *       404:
  *         description: Usuário não encontrado
  */
-router.get('/', userController.getUserByEmail);
 
 /**
  * @swagger
  * /api/users/{id}:
- *   put:
- *     summary: Atualiza nome e email de um usuário
+ *   get:
+ *     summary: Busca usuário pelo ID
  *     tags: [Users]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
- *           type: string
+ *           type: integer
+ *         description: ID do usuário
+ *     responses:
+ *       200:
+ *         description: Usuário encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Usuário não encontrado
+ *   put:
+ *     summary: Atualiza um usuário
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
  *         description: ID do usuário
  *     requestBody:
  *       required: true
@@ -114,26 +105,26 @@ router.get('/', userController.getUserByEmail);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - name
+ *               - email
  *             properties:
  *               name:
  *                 type: string
+ *                 example: João Silva
  *               email:
  *                 type: string
+ *                 example: joao@email.com
  *     responses:
  *       200:
- *         description: Usuário atualizado com sucesso
+ *         description: Usuário atualizado
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
- *       500:
- *         description: Erro interno
- */
-router.put('/:id', validateUser, userController.updateUser);
-
-/**
- * @swagger
- * /api/users/{id}:
+ *       404:
+ *         description: Usuário não encontrado
+ *
  *   delete:
  *     summary: Deleta um usuário
  *     tags: [Users]
@@ -142,14 +133,19 @@ router.put('/:id', validateUser, userController.updateUser);
  *         name: id
  *         required: true
  *         schema:
- *           type: string
+ *           type: integer
  *         description: ID do usuário
  *     responses:
  *       200:
  *         description: Usuário deletado com sucesso
- *       500:
- *         description: Erro interno
+ *       404:
+ *         description: Usuário não encontrado
  */
+
+router.post('/', validateUser, userController.createUser);
+router.get('/', userController.getUserByEmail);
+router.get('/:id', userController.getUserById);
+router.put('/:id', validateUser, userController.updateUser);
 router.delete('/:id', userController.deleteUser);
 
 module.exports = router;
