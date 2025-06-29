@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  api:
+    build: ./api
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./api/.env
+    depends_on:
+      - db
+
+  nsql:
+    build: ./nsql
+    ports:
+      - "3005:3005"
+    env_file:
+      - ./nsql/.env
+    depends_on:
+      - mongo
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: windly
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  pgdata:
+  mongodata:
