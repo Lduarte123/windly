@@ -23,8 +23,7 @@ const getUserByEmail = async (email) => {
   `;
   const result = await db.query(query, [email]);
   if (!result.rows[0]) return null;
-  const user = new User(result.rows[0]);
-  return user.toJSON();
+  return result.rows[0]; // Retorna o objeto do banco, incluindo password
 };
 
 // Buscar por ID

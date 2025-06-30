@@ -47,7 +47,7 @@ const validateUser = require('../middleware/validateUser');
  *         description: Dados inválidos
  *
  *   get:
- *     summary: Busca usuário pelo e-mail (query param)
+ *     summary: Busca usuário pelo e-mail
  *     tags: [Users]
  *     parameters:
  *       - in: query
@@ -138,6 +138,14 @@ const validateUser = require('../middleware/validateUser');
  *     responses:
  *       200:
  *         description: Usuário deletado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Usuário deletado com sucesso
  *       404:
  *         description: Usuário não encontrado
  */
