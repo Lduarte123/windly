@@ -21,7 +21,6 @@ class Server {
     this.port = process.env.PORT || 3000;
     this.configureMiddlewares();
     this.routes();
-    this.initDb();
   }
 
   configureMiddlewares() {
@@ -62,7 +61,7 @@ class Server {
   }
 
   start() {
-    figlet('Windly API', (err, data) => {
+    figlet('Windly API', async (err, data) => {
       if (err) {
         console.log('\x1b[31m\x1b[37mErro ao gerar ASCII art\x1b[0m');
         return;
@@ -82,38 +81,41 @@ class Server {
       );
 
       // Aguarda o dbInit terminar para mostrar os destaques juntos
-      this.initDb().then(() => {
+      try {
+        await this.initDb();
         console.log('\x1b[34m\x1b[37m\x1b[1m[DB] Inicialização concluída (veja mensagens acima)\x1b[0m');
         console.log('\x1b[34m\x1b[37m\x1b[1m[DB] Tabelas criadas com sucesso!\x1b[0m');
+      } catch (err) {
+        console.error('\x1b[31m\x1b[37m\x1b[1m[DB] Erro ao criar a tabela:\x1b[0m', err);
+      }
 
-        // IPs locais
-        const nets = os.networkInterfaces();
-        let localIps = [];
-        for (const name of Object.keys(nets)) {
-          for (const net of nets[name]) {
-            if (net.family === 'IPv4' && !net.internal) {
-              localIps.push(net.address);
-            }
+      // IPs locais
+      const nets = os.networkInterfaces();
+      let localIps = [];
+      for (const name of Object.keys(nets)) {
+        for (const net of nets[name]) {
+          if (net.family === 'IPv4' && !net.internal) {
+            localIps.push(net.address);
           }
         }
-        const ipsMsg = localIps.length
-          ? localIps.map(ip => `http://${ip}:${this.port}`).join('   ')
-          : `http://localhost:${this.port}`;
+      }
+      const ipsMsg = localIps.length
+        ? localIps.map(ip => `http://${ip}:${this.port}`).join('   ')
+        : `http://localhost:${this.port}`;
 
-        console.log(
-          '\n\x1b[32m[API INICIADA]\x1b[0m',
-          '\n',
-          '\x1b[32mServidor rodando em:\x1b[0m',
-          '\n',
-          '\x1b[33m' + ipsMsg + '\x1b[0m',
-          '\n',
-          '\x1b[32mDocumentação Swagger:\x1b[0m',
-          '\x1b[33m http://localhost:' + this.port + '/api-docs\x1b[0m',
-          '\n'
-        );
+      console.log(
+        '\n\x1b[32m[API INICIADA]\x1b[0m',
+        '\n',
+        '\x1b[32mServidor rodando em:\x1b[0m',
+        '\n',
+        '\x1b[33m' + ipsMsg + '\x1b[0m',
+        '\n',
+        '\x1b[32mDocumentação Swagger:\x1b[0m',
+        '\x1b[33m http://localhost:' + this.port + '/api-docs\x1b[0m',
+        '\n'
+      );
 
-        this.app.listen(this.port, () => {});
-      });
+      this.app.listen(this.port, () => {});
     });
   }
 }
