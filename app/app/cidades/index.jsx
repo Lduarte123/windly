@@ -38,7 +38,10 @@ export default function Cidades() {
   useFocusEffect(
     useCallback(() => {
       if (!user) {
-        navigation.replace('login');
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'login' }],
+        });
       }
     }, [user])
   );
