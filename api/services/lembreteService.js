@@ -1,4 +1,4 @@
-const repository = require('../repositories/lembreteRepository');
+const repository = require('../../repositories/lembreteRepository');
 
 class LembreteService {
   static async getAllByUser(usuario_id) {
