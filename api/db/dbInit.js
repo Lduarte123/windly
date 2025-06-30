@@ -25,9 +25,6 @@ const createTable = async () => {
         );
       `;
       await db.query(createUsersQuery);
-      console.log('Tabela "users" criada com sucesso!');
-    } else {
-      console.log('Tabela "users" já existe.');
     }
 
     // Cidade Favorita
@@ -41,9 +38,6 @@ const createTable = async () => {
         );
       `;
       await db.query(createCidadeFavoritaQuery);
-      console.log('Tabela "cidade_favorita" criada com sucesso!');
-    } else {
-      console.log('Tabela "cidade_favorita" já existe.');
     }
 
     // Lembrete
@@ -59,9 +53,6 @@ const createTable = async () => {
         );
       `;
       await db.query(createLembreteQuery);
-      console.log('Tabela "lembrete" criada com sucesso!');
-    } else {
-      console.log('Tabela "lembrete" já existe.');
     }
 
     // Configuração do usuário
@@ -78,9 +69,6 @@ const createTable = async () => {
         );
       `;
       await db.query(createUserConfigQuery);
-      console.log('Tabela "user_config" criada com sucesso!');
-    } else {
-      console.log('Tabela "user_config" já existe.');
     }
 
   } catch (err) {

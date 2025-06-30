@@ -1,14 +1,9 @@
-// services/emailService.js
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
-console.log("EMAIL_SERVICE:", process.env.EMAIL_SERVICE);
-console.log("EMAIL_USER:", process.env.EMAIL_USER);
-console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? '***' : 'NÃO DEFINIDO');
-
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587,
+  port: 587, 
   secure: false,
   auth: {
     user: process.env.EMAIL_USER,

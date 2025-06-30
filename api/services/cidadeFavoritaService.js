@@ -1,15 +1,19 @@
 const repository = require('../repositories/cidadeFavoritaRepository');
+const db = require('../db/db'); // para consultar usuários
 
 class CidadeFavoritaService {
-  static async getAll() {
-    return await repository.findAll();
-  }
-
-  static async getById(id) {
-    return await repository.findById(id);
+  static async getByUserId(id, usuario_id) {
+    return await repository.findByUserId(id, usuario_id);
   }
 
   static async create(dados) {
+    const userResult = await db.query('SELECT id FROM users WHERE id = $1', [dados.usuario_id]);
+    // Verificação de exisitência de usuário
+    if (userResult.rows.length === 0) {
+      const err = new Error('Usuário não existe.');
+      err.status = 400;
+      throw err;
+    }
     return await repository.create(dados);
   }
 

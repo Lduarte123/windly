@@ -2,13 +2,9 @@ const db = require('../db/db');
 const CidadeFavorita = require('../models/cidadeFavoritaModel');
 
 class CidadeFavoritaRepository {
-  async findAll() {
-    const result = await db.query('SELECT * FROM cidade_favorita');
-    return result.rows.map(row => new CidadeFavorita(row));
-  }
 
-  async findById(id) {
-    const result = await db.query('SELECT * FROM cidade_favorita WHERE id = $1', [id]);
+  async findByUserId(id, usuario_id) {
+    const result = await db.query('SELECT * FROM cidade_favorita WHERE id = $1 AND usuario_id = $2 ', [id, usuario_id]);
     return result.rows[0] ? new CidadeFavorita(result.rows[0]) : null;
   }
 
