@@ -1,5 +1,13 @@
 
-const Server = require('./server');  // Importa a classe Server
+const Server = require('./server');
 
-const server = new Server();  // Cria uma instância do servidor
-server.start();  // Inicia o servidor
+let serverApp;
+
+module.exports = async (req, res) => {
+  if (!serverApp) {
+    const server = new Server();
+    await server.initDb();
+    serverApp = server.app;
+  }
+  return serverApp(req, res);
+};
