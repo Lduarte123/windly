@@ -3,7 +3,7 @@ class User {
     this.id = id;
     this.name = name;
     this.email = email;
-    this.password = password; // se quiser esconder ao usar toJSON, pode omitir aqui
+    this.password = password;
     this.created_at = created_at;
   }
 

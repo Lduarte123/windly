@@ -1,5 +1,10 @@
 const express = require('express');
 const controller = require('../controllers/cidadeFavoritaController');
+const {
+  validateUsuarioIdInQuery,
+  validateUsuarioIdInBody,
+  validateNomeAndUsuarioIdInBody,
+} = require('../middleware/cidadeMiddleware');
 
 const router = express.Router();
 
@@ -13,18 +18,6 @@ const router = express.Router();
 /**
  * @swagger
  * /api/cidades-favoritas:
- *   get:
- *     summary: Lista todas as cidades favoritas
- *     tags: [CidadeFavorita]
- *     responses:
- *       200:
- *         description: Lista de cidades favoritas
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/CidadeFavorita'
  *   post:
  *     summary: Adiciona uma nova cidade favorita
  *     tags: [CidadeFavorita]
@@ -54,7 +47,7 @@ const router = express.Router();
  *
  * /api/cidades-favoritas/{id}:
  *   get:
- *     summary: Busca uma cidade favorita por ID
+ *     summary: Busca uma cidade favorita por ID e usuário
  *     tags: [CidadeFavorita]
  *     parameters:
  *       - in: path
@@ -63,6 +56,12 @@ const router = express.Router();
  *         schema:
  *           type: integer
  *         description: ID da cidade favorita
+ *       - in: query
+ *         name: usuario_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do usuário
  *     responses:
  *       200:
  *         description: Cidade favorita encontrada
@@ -157,12 +156,10 @@ const router = express.Router();
  *                 $ref: '#/components/schemas/CidadeFavorita'
  */
 
-// Ordem das rotas importa! Rotas mais específicas antes das genéricas
 router.get('/usuario/:usuario_id', controller.getAllByUser);
-router.get('/:id', controller.getById);
-router.put('/:id', controller.update);
-router.delete('/:id', controller.remove);
-router.get('/', controller.getAll);
-router.post('/', controller.create);
+router.get('/:id', validateUsuarioIdInQuery, controller.getById);
+router.put('/:id', validateNomeAndUsuarioIdInBody, controller.update);
+router.delete('/:id', validateUsuarioIdInBody, controller.remove);
+router.post('/', validateNomeAndUsuarioIdInBody, controller.create);
 
 module.exports = router;
