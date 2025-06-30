@@ -1,5 +1,4 @@
-
-const Server = require('./server');
+const Server = require('./api_src/server');
 
 let serverApp;
 
