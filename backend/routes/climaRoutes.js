@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const PrevisaoController = require('../api_src/controllers/climaController');
+const PrevisaoController = require('../api/controllers/climaController');
 
 const router = Router();
 
