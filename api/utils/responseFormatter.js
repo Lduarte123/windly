@@ -3,7 +3,7 @@ function formatTime(unix) {
   return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 }
 
-export function formatResponse(weatherData) {
+function formatResponse(weatherData) {
   return {
     city: weatherData.name,
     temperature: weatherData.main.temp,
@@ -20,7 +20,7 @@ export function formatResponse(weatherData) {
   };
 }
 
-export function formatForecastResponse(forecastData) {
+function formatForecastResponse(forecastData) {
   return forecastData.map(item => ({
     date: item.date,
     temperature: item.main.temp,
@@ -32,3 +32,8 @@ export function formatForecastResponse(forecastData) {
     humidity: item.main.humidity,
   }));
 }
+
+module.exports = {
+  formatResponse,
+  formatForecastResponse
+};
