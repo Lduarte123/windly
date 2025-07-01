@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { sendLoginNotification } = require('../services/emailService');
-const userRepository = require('../../repositories/userRepository');
+const userRepository = require('../repositories/userRepository');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'super_secreto';
 

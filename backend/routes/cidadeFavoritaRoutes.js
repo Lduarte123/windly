@@ -1,10 +1,10 @@
 const express = require('express');
-const controller = require('../api/controllers/cidadeFavoritaController');
+const controller = require('../controllers/cidadeFavoritaController');
 const {
   validateUsuarioIdInQuery,
   validateUsuarioIdInBody,
   validateNomeAndUsuarioIdInBody,
-} = require('../api/middleware/cidadeMiddleware');
+} = require('../middleware/cidadeMiddleware');
 
 const router = express.Router();
 

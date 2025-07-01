@@ -1,6 +1,6 @@
 const express = require('express');
-const controller = require('../api/controllers/lembreteController');
-const authenticateToken = require('../api/middleware/authMiddleware');
+const controller = require('../controllers/lembreteController');
+const authenticateToken = require('../middleware/authMiddleware');
 
 /**
  * @swagger

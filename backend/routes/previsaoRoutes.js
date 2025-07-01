@@ -1,5 +1,5 @@
 const express = require('express');
-const PrevisaoController = require('../api/controllers/previsaoController');
+const PrevisaoController = require('../controllers/previsaoController');
 
 const router = express.Router();
 
