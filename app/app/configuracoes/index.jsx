@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useLogout from "../logout";
-import { ScrollView, Text, View, Switch, TouchableOpacity, Alert, Platform, Modal, TextInput } from "react-native";
+import { ScrollView, Text, View, Switch, TouchableOpacity, Alert, Platform } from "react-native";
 import { useTheme } from "../../components/ThemeContext";
 import getStyles from "../../components/styles";
 import Feather from "react-native-vector-icons/Feather";
@@ -9,6 +9,7 @@ import { useRouter } from "expo-router"; // Adicione esta linha
 import RNPickerSelect from "react-native-picker-select";
 import { useConfig } from "../../components/configContext";
 import api from "../../api/api"; // ajuste o caminho conforme seu projeto
+import UsuarioInfo from "../../components/UsuarioInfo/UsuarioInfo"; // Adicione este import
 
 export default function Configuracoes() {
   const { dark, toggleTheme } = useTheme();
@@ -18,9 +19,9 @@ export default function Configuracoes() {
   const router = useRouter(); // Para navegação
   const { config, setConfig } = useConfig();
 
-  const [editModalVisible, setEditModalVisible] = useState(false);
-  const [novoNome, setNovoNome] = useState(user?.name || "");
-  const [loading, setLoading] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [showAbout, setShowAbout] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   useEffect(() => {
     async function fetchConfig() {
@@ -39,10 +40,6 @@ export default function Configuracoes() {
   const backgroundColor = dark ? "#151718" : "#fff";
   const textColor = dark ? "#ECEDEE" : "#11181C";
   const cardBackground = dark ? "#1F2223" : "#F1F1F1";
-
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [showAbout, setShowAbout] = useState(false);
-  const [showPrivacy, setShowPrivacy] = useState(false);
 
   const handleAbout = () => {
     Alert.alert("Sobre o App", "Windly App\nVersão 1.0.0\nDesenvolvido por Você");
@@ -75,41 +72,6 @@ export default function Configuracoes() {
       return updated;
     });
   }
-
-  const handleSalvarNome = async () => {
-    setLoading(true);
-    try {
-      const res = await api.put(`/users/${user.id}`, { name: novoNome, email: user.email });
-      setUser(res.data); // <-- Atualiza com o retorno do backend!
-      setEditModalVisible(false);
-      Alert.alert("Sucesso", "Nome atualizado!");
-    } catch (e) {
-      Alert.alert("Erro", "Não foi possível atualizar o nome.");
-    }
-    setLoading(false);
-  };
-
-  const handleExcluirConta = () => {
-    Alert.alert(
-      "Excluir conta",
-      "Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.",
-      [
-        { text: "Cancelar", style: "cancel" },
-        {
-          text: "Excluir",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              await api.delete(`/users/${user.id}`);
-              logout();
-            } catch (e) {
-              Alert.alert("Erro", "Não foi possível excluir a conta.");
-            }
-          }
-        }
-      ]
-    );
-  };
 
   return (
     <ScrollView
@@ -241,78 +203,11 @@ export default function Configuracoes() {
             <Text style={{ color: "#2D6BFD", fontWeight: "600" }}>Login</Text>
           </TouchableOpacity>
         ) : (
-          <View style={[styles.section, { flexDirection: "row", alignItems: "center", justifyContent: "space-between" }]}>
-            <View>
-              <Text style={[styles.label, { color: textColor, fontSize: 16 }]}>Usuário</Text>
-              <Text style={{ color: textColor, fontSize: 18, fontWeight: "bold" }}>{user?.name}</Text>
-              <Text style={{ color: "#888", fontSize: 14 }}>{user?.email}</Text>
-            </View>
-            <TouchableOpacity onPress={() => { setNovoNome(user.name); setEditModalVisible(true); }}>
-              <Feather name="edit-2" size={20} color="#2D6BFD" />
-            </TouchableOpacity>
-          </View>
+          <UsuarioInfo
+            user={user}
+            textColor={textColor}
+          />
         )}
-
-        {/* Modal para edição de nome */}
-        <Modal
-          visible={editModalVisible}
-          transparent
-          animationType="slide"
-          onRequestClose={() => setEditModalVisible(false)}
-        >
-          <View style={styles.editModalOverlay}>
-            <View style={styles.editModalContainer}>
-              <Text style={styles.editModalTitle}>Editar nome</Text>
-              <TextInput
-                style={styles.editModalInput}
-                value={novoNome}
-                onChangeText={setNovoNome}
-                placeholder="Novo nome"
-                placeholderTextColor={dark ? "#ECEDEE" : "#888"}
-              />
-
-              {/* Botões de Excluir e Logout, alinhados à direita e mais acima */}
-              <View style={styles.editModalTopActions}>
-                <TouchableOpacity style={styles.editModalIconButton} onPress={handleExcluirConta}>
-                  <Feather name="trash-2" size={22} color="#E53935" />
-                  <Text style={styles.editModalIconText}>Excluir conta</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.editModalIconButton} onPress={logout}>
-                  <Feather name="log-out" size={22} color="#E53935" />
-                  <Text style={styles.editModalIconText}>Logout</Text>
-                </TouchableOpacity>
-              </View>
-
-              {/* Botões de Salvar e Cancelar, em destaque na base */}
-              <View style={styles.editModalActions}>
-                <TouchableOpacity
-                  style={[styles.editModalActionButton, styles.editModalCancelButton]}
-                  onPress={() => setEditModalVisible(false)}
-                >
-                  <Text style={styles.editModalCancel}>Cancelar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.editModalActionButton, styles.editModalSaveButton]}
-                  onPress={async () => {
-                    setLoading(true);
-                    try {
-                      await api.put(`/users/${user.id}`, { name: novoNome, email: user.email });
-                      setUser({ ...user, name: novoNome });
-                      setEditModalVisible(false);
-                      Alert.alert("Sucesso", "Nome atualizado!");
-                    } catch (e) {
-                      Alert.alert("Erro", "Não foi possível atualizar o nome.");
-                    }
-                    setLoading(false);
-                  }}
-                  disabled={loading}
-                >
-                  <Text style={styles.editModalSave}>{loading ? "Salvando..." : "Salvar"}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
       </View>
     </ScrollView>
   );
