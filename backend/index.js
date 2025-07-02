@@ -12,7 +12,6 @@ const climaRoutes = require('./routes/climaRoutes');
 const authRoutes = require('./routes/authRoutes');
 const cidadeFavoritaRoutes = require('./routes/cidadeFavoritaRoutes');
 const userConfigRoutes = require('./routes/userConfigRoutes');
-const cors = require('cors');
 
 class Server {
   constructor() {
