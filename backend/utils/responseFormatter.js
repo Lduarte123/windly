@@ -4,6 +4,8 @@ function formatTime(unix) {
 }
 
 function formatResponse(weatherData) {
+  const offset = weatherData.timezone;
+
   return {
     city: weatherData.name,
     temperature: weatherData.main.temp,
@@ -15,8 +17,8 @@ function formatResponse(weatherData) {
     pressure: weatherData.main.pressure,
     visibility: weatherData.visibility,
     cloudiness: weatherData.clouds.all,
-    sunrise: formatTime(weatherData.sys.sunrise),
-    sunset: formatTime(weatherData.sys.sunset)
+    sunrise: formatTime(weatherData.sys.sunrise, offset),
+    sunset: formatTime(weatherData.sys.sunset, offset)
   };
 }
 
