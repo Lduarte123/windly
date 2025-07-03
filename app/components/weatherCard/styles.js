@@ -3,14 +3,16 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   card: {
     backgroundColor: 'rgba(10, 10, 10, 0.2)',
-    margin: 12,
+    marginHorizontal: 0,
+    marginVertical: 12,
     padding: 16,
     borderRadius: 16,
+    width: '100%',
+    alignSelf: 'stretch',
   },
   title: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: 'bold',
     marginBottom: 12,
   },
   row: {
@@ -82,6 +84,5 @@ export default StyleSheet.create({
   buttonToggleText: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: 'bold',
   },
 });

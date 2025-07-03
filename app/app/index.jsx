@@ -15,6 +15,8 @@ import ErrorModal from "../components/errorModal/ErrorModal";
 import { useConfig } from "../components/configContext";
 import formatWind from "../utils/convertWind";
 import WeatherBackgroundWrapper from "../components/background/Background";
+import ThermalGauge from "../components/gauge/Gauge";
+import HumidityGauge from "../components/humidty/Humidity";
 
 export default function App() {
   const { dark } = useTheme();
@@ -101,7 +103,7 @@ export default function App() {
         >
           <WeatherCard city={city}/>
 
-          <View style={styles.statsContainer}>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
             <StatsCard
               titulo="Sensação"
               desc="Sensação térmica"
@@ -110,7 +112,7 @@ export default function App() {
                   ? `${weatherData.feelsLike}°`
                   : "--"
               }
-              icon={<Thermometer color="#fff" size={26} />}
+              icon={<ThermalGauge value={weatherData.feelsLike} />}
             />
             <StatsCard
               titulo="Umidade"
@@ -120,17 +122,7 @@ export default function App() {
                   ? `${weatherData.humidity}%`
                   : "--"
               }
-              icon={<Droplets color="#fff" size={26} />}
-            />
-            <StatsCard
-              titulo="Pressão"
-              desc="Pressão atmosférica"
-              stats={
-                weatherData.pressure !== undefined && weatherData.pressure !== null
-                  ? `${weatherData.pressure} hPa`
-                  : "--"
-              }
-              icon={<Gauge color="#fff" size={26} />}
+              icon={<HumidityGauge value={weatherData.humidity} />}
             />
             <StatsCard
               titulo="Vento"
@@ -140,17 +132,7 @@ export default function App() {
                   ? formatWind(weatherData.windSpeed, config.wind_unit)
                   : "--"
               }
-              icon={<Wind color="#fff" size={26} />}
-            />
-            <StatsCard
-              titulo="Visibilidade"
-              desc="Visibilidade"
-              stats={
-                weatherData.visibility !== undefined && weatherData.visibility !== null
-                  ? `${(weatherData.visibility / 1000).toFixed(1)} km`
-                  : "--"
-              }
-              icon={<Eye color="#fff" size={26} />}
+              icon={<Wind color="#fff" size={40} />}
             />
             <StatsCard
               titulo="Nuvens"
@@ -160,7 +142,27 @@ export default function App() {
                   ? `${weatherData.cloudiness}%`
                   : "--"
               }
-              icon={<Cloud color="#fff" size={26} />}
+              icon={<Cloud color="#fff" size={40} />}
+            />
+            <StatsCard
+              titulo="Nascer do Sol"
+              desc="Horário do nascer do sol"
+              stats={
+                weatherData.sunrise
+                  ? weatherData.sunrise
+                  : "--"
+              }
+              icon={<Cloud color="#fff" size={40} />}
+            />
+            <StatsCard
+              titulo="Pôr do Sol"
+              desc="Horário do pôr do sol"
+              stats={
+                weatherData.sunset
+                  ? weatherData.sunset
+                  : "--"
+              }
+              icon={<Cloud color="#fff" size={40} />}
             />
           </View>
 

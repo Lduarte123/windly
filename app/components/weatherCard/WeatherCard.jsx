@@ -111,10 +111,14 @@ export default function WeatherCard({ city }) {
         <View style={{ height: 8 }} />
         {[0, 1, 2].map((_, idx) => (
           <View key={idx} style={[styles.row, { opacity: 0.5 }]}>
-            <View style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: "#ffffff33", marginRight: 8 }} />
-            <View style={{ width: 60, height: 16, borderRadius: 8, backgroundColor: "#ffffff33", marginRight: 8 }} />
-            <View style={{ flex: 1, height: 16, borderRadius: 8, backgroundColor: "#ffffff33", marginRight: 8 }} />
-            <View style={{ width: 60, height: 16, borderRadius: 8, backgroundColor: "#ffffff33" }} />
+            {/* Ícone + Dia */}
+            <View style={{ width: 50, height: 25, borderRadius: 10, backgroundColor: "#ffffff33", marginRight: 8 }} />
+
+            {/* Descrição */}
+            <View style={{ flex: 1.5, height: 20, borderRadius: 10, backgroundColor: "#ffffff33", marginRight: 8 }} />
+
+            {/* Barra de temperatura */}
+            <View style={{ flex: 0.85, height: 15, borderRadius: 4, backgroundColor: "#ffffff33" }} />
           </View>
         ))}
       </View>

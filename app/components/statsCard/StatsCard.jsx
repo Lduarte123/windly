@@ -4,7 +4,7 @@ import { useConfig } from "../configContext";
 import { convertTemp } from "../../utils/convertTemp";
 import styles from "./styles";
 
-export default function StatsCard({ titulo, desc, stats, icon }) {
+export default function StatsCard({ titulo, stats, icon }) {
   const { config } = useConfig();
 
   let value = stats;

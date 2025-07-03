@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   scrollContent: {
-    paddingTop: SCREEN_HEIGHT * 0.58,
+    paddingTop: SCREEN_HEIGHT * 0.6,
     paddingHorizontal: 16,
     paddingBottom: 100,
   },
