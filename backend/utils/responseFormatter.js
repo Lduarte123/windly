@@ -33,7 +33,33 @@ function formatForecastResponse(forecastData) {
   }));
 }
 
+function formatVisualCrossingHourly(weatherData) {
+  const hourlyData = [];
+
+  weatherData.days.forEach(day => {
+    day.hours.forEach(hour => {
+      hourlyData.push({
+        datetime: `${day.datetime} ${hour.datetime.slice(0,5)}`, // ex: "2025-07-03 00:00"
+        temp: hour.temp,
+        conditions: hour.conditions
+      });
+    });
+  });
+
+  return hourlyData;
+}
+
+function formatVisualCrossingDailyPrecipitation(weatherData) {
+  return weatherData.days.map(day => ({
+    date: day.datetime,
+    precip: day.precip
+  }));
+}
+
+
 module.exports = {
   formatResponse,
-  formatForecastResponse
+  formatForecastResponse,
+  formatVisualCrossingHourly,
+  formatVisualCrossingDailyPrecipitation
 };
