@@ -99,7 +99,21 @@ function ThemedTabs() {
             tabBarItemStyle: { display: 'none' },
           }}
         />
-
+        <Tabs.Screen
+          name="configuracoes/perfil"
+          options={{
+            tabBarButton: () => null,
+            tabBarItemStyle: { display: 'none' },
+          }}
+        />
+        <Tabs.Screen
+          name="perfil/index"
+          options={{
+            tabBarButton: () => null,
+            tabBarItemStyle: { display: 'none' },
+          }}
+        />
+        
       </Tabs>
     </View>
   );
