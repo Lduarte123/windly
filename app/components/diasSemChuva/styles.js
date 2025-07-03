@@ -5,7 +5,7 @@ export default StyleSheet.create({
     marginTop: 24,
     marginBottom: 16,
     alignItems: "center",
-    backgroundColor: "#fff",      // Fundo branco do card
+    backgroundColor: "rgba(10, 10, 10, 0.2)",      // Fundo branco do card
     borderRadius: 12,             // Bordas arredondadas
     padding: 18,                  // Espaçamento interno
     shadowColor: "#000",          // Sombra para Android/iOS

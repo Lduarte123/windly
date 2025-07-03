@@ -2,7 +2,7 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const apiKey = process.env.OPENWEATHER_API_KEY;
+const apiKey = process.env.CROSSING_API_KEY;
 
 class PrevisaoService {
   static async getWeather(city) {
@@ -17,7 +17,7 @@ class PrevisaoService {
       pastDate.setDate(pastDate.getDate() - 7);
       const startDate = pastDate.toISOString().split('T')[0];
 
-      const baseUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(cityQuery)}/${startDate}/${endDate}?unitGroup=us&key=${apiKey}&contentType=json`;
+      const baseUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(cityQuery)}/${startDate}/${endDate}?unitGroup=metric&key=${apiKey}&contentType=json`;
 
       const response = await axios.get(baseUrl);
 
