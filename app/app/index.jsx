@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, View, Text, Animated, Easing } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import MainSection from "../components/mainSection/MainSection";
 import MainStats from "../components/mainStats/MainStats";
 import WeatherCard from "../components/weatherCard/WeatherCard";
 import StatsCard from "../components/statsCard/StatsCard";
-import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from 'lucide-react-native';
+import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from "lucide-react-native";
 import { useTheme } from "../components/ThemeContext";
 import getStyles from "../components/styles";
 import api from "../api/api";
 import { getUserCity } from "../api/getUserCity";
 import DiasSemChuvaCheckbox from "../components/diasSemChuva/DiasSemChuvaCheckbox";
-import { Video } from 'expo-av';
+import { Video } from "expo-av";
 import ErrorModal from "../components/errorModal/ErrorModal";
 import { useConfig } from "../components/configContext";
 import formatWind from "../utils/convertWind";
+import WeatherBackgroundWrapper from "../components/background/Background";
 
 export default function App() {
   const { dark } = useTheme();
@@ -35,7 +36,6 @@ export default function App() {
 
         const response = await api.get(`/clima_atual/${userCity}`);
         const data = response.data;
-
         if (!data || !data.temperature || !data.weatherMain) {
           throw new Error("Dados de clima não encontrados para esta cidade.");
         }
@@ -45,15 +45,15 @@ export default function App() {
         setTemp(Math.round(data.temperature));
       } catch (error) {
         setErrorMsg(error.message || "Erro desconhecido");
-        setShowErrorModal(true); // Mostra o modal
+        setShowErrorModal(true);
         setCity("Erro ao obter cidade");
         setDesc("Erro ao obter clima");
         setTemp("--");
       }
     }
+
     fetchWeather();
   }, [config.wind_unit]);
-
 
   if (!weatherData && !errorMsg) {
     return (
@@ -66,9 +66,7 @@ export default function App() {
           shouldPlay
           isMuted
         />
-        <Text style={styles.loadingText}>
-          Carregando clima...
-        </Text>
+        <Text style={styles.loadingText}>Carregando clima...</Text>
       </View>
     );
   }
@@ -76,19 +74,10 @@ export default function App() {
   if (errorMsg) {
     return (
       <View style={styles.errorContainer}>
-        <ErrorModal
-          visible={true}
-          message={errorMsg}
-          dark={dark}
-        />
+        <ErrorModal visible={true} message={errorMsg} dark={dark} />
       </View>
     );
   }
-
-  const whiteSectionStyle = [
-    styles.whiteSection,
-    dark && { backgroundColor: "#23272a" }
-  ];
 
   return (
     <>
@@ -97,12 +86,20 @@ export default function App() {
         message={errorMsg}
         onClose={() => setShowErrorModal(false)}
       />
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <MainSection>
-          <MainStats city={city} desc={desc} temp={temp}/>
-        </MainSection>
-        <ScrollView style={whiteSectionStyle}>
-          <WeatherCard city={city} />
+
+      <WeatherBackgroundWrapper
+        weatherData={weatherData}
+        headerContent={
+          <MainSection>
+            <MainStats city={city} desc={desc} temp={temp} />
+          </MainSection>
+        }
+      >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 40 }}
+        >
+          <WeatherCard city={city}/>
 
           <View style={styles.statsContainer}>
             <StatsCard
@@ -166,9 +163,10 @@ export default function App() {
               icon={<Cloud color="#fff" size={26} />}
             />
           </View>
+
           <DiasSemChuvaCheckbox />
         </ScrollView>
-      </ScrollView>
+      </WeatherBackgroundWrapper>
     </>
   );
 }

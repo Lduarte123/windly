@@ -2,15 +2,10 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   card: {
-    backgroundColor: '#2784DF',
+    backgroundColor: 'rgba(10, 10, 10, 0.2)',
     margin: 12,
     padding: 16,
     borderRadius: 16,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
   },
   title: {
     color: '#fff',
@@ -64,13 +59,29 @@ export default StyleSheet.create({
   },
   tempBarMarker: {
     position: 'absolute',
-    top: -4,
-    width: 12,
-    height: 16,
-    borderRadius: 6,
+    alignSelf: 'center',
+    width: 10,
+    height: 10,
+    borderRadius: 8,
     backgroundColor: '#fff',
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#2784DF',
     elevation: 2,
+  },
+  buttonToggle: {
+    marginTop: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderRadius: 12,
+    alignSelf: 'center',
+    width: '100%',
+    alignItems: 'center',
+  },
+
+  buttonToggleText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
