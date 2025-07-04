@@ -4,6 +4,7 @@ import { TouchableOpacity, View } from 'react-native';
 import { ThemeProvider, useTheme } from '../components/ThemeContext';
 import { AuthProvider } from '../components/authContext/AuthContext';
 import { ConfigProvider } from '../components/configContext';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function ThemedTabs() {
   const { dark } = useTheme();
@@ -113,7 +114,17 @@ function ThemedTabs() {
             tabBarItemStyle: { display: 'none' },
           }}
         />
-        
+        <Tabs.Screen
+        name="mapa/mapa"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="weather-cloudy" size={24} color={color} />
+          ),
+          tabBarButton: (props) => (
+            <TouchableOpacity activeOpacity={0.7} {...props} />
+          ),
+        }}
+      />
       </Tabs>
     </View>
   );
