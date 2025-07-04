@@ -39,7 +39,70 @@ function formatForecastResponse(forecastData) {
   }));
 }
 
+// 1. Histórico climático diário
+function formatDailyClimateHistory(weatherData) {
+  return weatherData.days.map(day => ({
+    date: day.datetime,
+    tempMin: day.tempmin,
+    tempMax: day.tempmax,
+    conditions: day.conditions
+  }));
+}
+
+// 2. Clima hora a hora (renomeada)
+function formatHourlyWeather(weatherData) {
+  const hourlyData = [];
+
+  weatherData.days.forEach(day => {
+    day.hours.forEach(hour => {
+      hourlyData.push({
+        datetime: `${day.datetime} ${hour.datetime.slice(0, 5)}`, // "2025-07-03 00:00"
+        temp: hour.temp,
+        conditions: hour.conditions
+      });
+    });
+  });
+
+  return hourlyData;
+}
+
+// 3. Quantidade de chuva por mês
+function formatMonthlyPrecipitation(weatherData) {
+  const monthly = {};
+
+  weatherData.days.forEach(day => {
+    const [year, month] = day.datetime.split("-");
+    const key = `${year}-${month}`;
+
+    if (!monthly[key]) {
+      monthly[key] = 0;
+    }
+
+    monthly[key] += day.precip || 0;
+  });
+
+  return Object.entries(monthly).map(([month, precip]) => ({
+    month,
+    precip: parseFloat(precip.toFixed(2))
+  }));
+}
+
+// 4. Probabilidade de chuva por dia
+function formatDailyPrecipitationProbability(weatherData) {
+  return weatherData.days.map(day => ({
+    date: day.datetime,
+    precipProbability: day.precipprob // em porcentagem (%)
+  }));
+}
+
+
+
 module.exports = {
   formatResponse,
   formatForecastResponse,
+  formatDailyClimateHistory,
+  formatHourlyWeather,
+  formatMonthlyPrecipitation,
+  formatDailyPrecipitationProbability
 };
+
