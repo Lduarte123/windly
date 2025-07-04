@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LineChart, XAxis } from 'react-native-svg-charts';
+import { LineChart } from 'react-native-svg-charts';
 import * as shape from 'd3-shape';
 import { G, Text as SvgText } from 'react-native-svg';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { scaleBand } from 'd3-scale';
 import api from '../../api/api';
 import { useConfig } from "../configContext";
 import styles from './styles';
 
 const CACHE_EXPIRATION_MS = 5 * 60 * 60 * 1000; // 5 horas
 
-export default function HourlySlider({ city, onLoaded = () => {} }) {
+export default function HourlySlider({ city }) {
   const { config } = useConfig();
   const [hourlyData, setHourlyData] = useState([]);
   const [error, setError] = useState(null);
@@ -20,10 +19,11 @@ export default function HourlySlider({ city, onLoaded = () => {} }) {
 
   useEffect(() => {
     if (!city || city === "Carregando...") {
-      onLoaded();
       setLoading(false);
       return;
     }
+
+    let fallbackData = null;
 
     async function loadFromCache() {
       try {
@@ -35,11 +35,12 @@ export default function HourlySlider({ city, onLoaded = () => {} }) {
           if (now - cache.timestamp < CACHE_EXPIRATION_MS) {
             setHourlyData(cache.data);
             setLoading(false);
-            onLoaded();
-            return true; // cache válido
+            return true;
+          } else {
+            fallbackData = cache.data;
           }
         }
-        return false; // cache inválido ou inexistente
+        return false;
       } catch {
         return false;
       }
@@ -55,26 +56,30 @@ export default function HourlySlider({ city, onLoaded = () => {} }) {
           if (hasValidData) {
             setHourlyData(dadosFiltrados);
             setError(null);
-            // salva no cache
             await AsyncStorage.setItem(
               `hourlyData_${city}`,
               JSON.stringify({ data: dadosFiltrados, timestamp: Date.now() })
             );
           } else {
             setHourlyData([]);
-            setError(null);
+            setError("Sem dados válidos");
           }
         } else {
           setHourlyData([]);
-          setError(null);
+          setError("Resposta inválida");
         }
       } catch (err) {
         console.log("Erro ao carregar dados horários", err);
-        setError(null);
-        setHourlyData([]);
+        if (fallbackData) {
+          console.warn("Usando cache expirado como fallback.");
+          setHourlyData(fallbackData);
+          setError(null);
+        } else {
+          setHourlyData([]);
+          setError("Erro ao carregar dados");
+        }
       } finally {
         setLoading(false);
-        onLoaded();
       }
     }
 
@@ -90,18 +95,14 @@ export default function HourlySlider({ city, onLoaded = () => {} }) {
   if (loading) {
     return (
       <View style={{ padding: 20, alignItems: 'center' }}>
-        <Text style={{ color: '#fff' }}>Carregando temperaturas...</Text>
+        <Text style={{ color: '#fff' }}>Buscando informações do clima...</Text>
       </View>
     );
   }
 
   if (error) return <Text style={styles.error}>{error}</Text>;
   if (hourlyData.length === 0) return null;
-
-  const temps = hourlyData.map(item => {
-    const temp = Math.round(item?.temp || 0);
-    return isNaN(temp) ? 0 : temp;
-  });
+  const temps = hourlyData.map(item => item?.temp ?? 0);
 
   const labels = hourlyData.map(item => {
     try {
@@ -118,19 +119,27 @@ export default function HourlySlider({ city, onLoaded = () => {} }) {
 
   const Decorator = ({ x, y, data }) => (
     <G>
-      {data.map((value, index) => (
-        <SvgText
-          key={index}
-          x={x(index)}
-          y={y(value) - 10}
-          fontSize={10}
-          fill="#fff"
-          alignmentBaseline="middle"
-          textAnchor="middle"
-        >
-          {value}°
-        </SvgText>
-      ))}
+      {data.map((value, index) => {
+        let displayTemp = value;
+        if (config.temp_unit === 'F') {
+          displayTemp = (value * 9) / 5 + 32;
+        }
+        displayTemp = Math.round(displayTemp);
+
+        return (
+          <SvgText
+            key={index}
+            x={x(index)}
+            y={y(value) - 10}
+            fontSize={10}
+            fill="#fff"
+            alignmentBaseline="middle"
+            textAnchor="middle"
+          >
+            {displayTemp}°{config.temp_unit}
+          </SvgText>
+        );
+      })}
     </G>
   );
 
@@ -138,7 +147,9 @@ export default function HourlySlider({ city, onLoaded = () => {} }) {
 
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>Temperatura por hora</Text>
+      <Text style={styles.title}>
+        Temperatura por hora ({config.temp_unit === 'F' ? '°F' : '°C'})
+      </Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
