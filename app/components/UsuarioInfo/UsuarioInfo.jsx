@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Modal, TextInput, Alert } from "react-native";
+import { View, Text, TouchableOpacity, Modal, TextInput, Alert, ActivityIndicator } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 import { useTheme } from "../ThemeContext";
 import getStyles from "../styles";
@@ -15,11 +15,12 @@ export default function UsuarioInfo({ user, textColor }) {
   const [loading, setLoading] = useState(false);
 
   const handleSalvar = async () => {
+    if (!novoNome.trim()) {
+      Alert.alert("Erro", "O nome não pode ficar vazio.");
+      return;
+    }
     setLoading(true);
     try {
-      // Chame sua API para atualizar o nome do usuário aqui
-      // Exemplo fictício:
-      // await api.put('/user', { name: novoNome });
       setUser({ ...user, name: novoNome });
       setEditModalVisible(false);
       Alert.alert("Sucesso", "Nome atualizado!");
@@ -29,7 +30,7 @@ export default function UsuarioInfo({ user, textColor }) {
     setLoading(false);
   };
 
-  const handleExcluirConta = async () => {
+  const handleExcluirConta = () => {
     Alert.alert(
       "Excluir conta",
       "Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.",
@@ -40,8 +41,6 @@ export default function UsuarioInfo({ user, textColor }) {
           style: "destructive",
           onPress: async () => {
             try {
-              // Chame sua API para excluir a conta aqui
-              // await api.delete('/user');
               logout();
               Alert.alert("Conta excluída", "Sua conta foi removida.");
             } catch (err) {
@@ -57,14 +56,21 @@ export default function UsuarioInfo({ user, textColor }) {
 
   return (
     <>
-      <View style={[styles.section, { flexDirection: "row", alignItems: "center", justifyContent: "space-between" }]}>
+      <View style={styles.section}>
         <View>
-          <Text style={[styles.label, { color: textColor, fontSize: 16 }]}>Usuário</Text>
-          <Text style={{ color: textColor, fontSize: 18, fontWeight: "bold" }}>{user?.name}</Text>
-          <Text style={{ color: "#888", fontSize: 14 }}>{user?.email}</Text>
+          <Text style={styles.label}>Usuário</Text>
+          <Text style={styles.userName}>{user?.name}</Text>
+          <Text style={styles.userEmail}>{user?.email}</Text>
         </View>
-        <TouchableOpacity onPress={() => setEditModalVisible(true)}>
-          <Feather name="edit-2" size={20} color="#2D6BFD" />
+
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => setEditModalVisible(true)}
+          activeOpacity={0.8}
+          accessibilityLabel="Editar nome"
+          accessibilityHint="Abre modal para editar o nome do usuário"
+        >
+          <Feather name="edit-2" size={20} color="#fff" />
         </TouchableOpacity>
       </View>
 
@@ -77,20 +83,36 @@ export default function UsuarioInfo({ user, textColor }) {
         <View style={styles.editModalOverlay}>
           <View style={styles.editModalContainer}>
             <Text style={styles.editModalTitle}>Editar nome</Text>
+
             <TextInput
               style={styles.editModalInput}
               value={novoNome}
               onChangeText={setNovoNome}
               placeholder="Novo nome"
-              placeholderTextColor={dark ? "#ECEDEE" : "#888"}
+              placeholderTextColor={dark ? "#B0B8C1" : "#888"}
+              autoFocus
+              returnKeyType="done"
+              onSubmitEditing={handleSalvar}
+              editable={!loading}
             />
 
             <View style={styles.editModalTopActions}>
-              <TouchableOpacity style={styles.editModalIconButton} onPress={handleExcluirConta}>
+              <TouchableOpacity
+                style={styles.editModalIconButton}
+                onPress={handleExcluirConta}
+                disabled={loading}
+                accessibilityLabel="Excluir conta"
+              >
                 <Feather name="trash-2" size={22} color="#E53935" />
                 <Text style={styles.editModalIconText}>Excluir conta</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.editModalIconButton} onPress={logout}>
+
+              <TouchableOpacity
+                style={styles.editModalIconButton}
+                onPress={logout}
+                disabled={loading}
+                accessibilityLabel="Logout"
+              >
                 <Feather name="log-out" size={22} color="#E53935" />
                 <Text style={styles.editModalIconText}>Logout</Text>
               </TouchableOpacity>
@@ -100,15 +122,23 @@ export default function UsuarioInfo({ user, textColor }) {
               <TouchableOpacity
                 style={[styles.editModalActionButton, styles.editModalCancelButton]}
                 onPress={() => setEditModalVisible(false)}
+                disabled={loading}
+                accessibilityLabel="Cancelar edição"
               >
                 <Text style={styles.editModalCancel}>Cancelar</Text>
               </TouchableOpacity>
+
               <TouchableOpacity
                 style={[styles.editModalActionButton, styles.editModalSaveButton]}
                 onPress={handleSalvar}
                 disabled={loading}
+                accessibilityLabel="Salvar novo nome"
               >
-                <Text style={styles.editModalSave}>{loading ? "Salvando..." : "Salvar"}</Text>
+                {loading ? (
+                  <ActivityIndicator color="#fff" size="small" />
+                ) : (
+                  <Text style={styles.editModalSave}>Salvar</Text>
+                )}
               </TouchableOpacity>
             </View>
           </View>

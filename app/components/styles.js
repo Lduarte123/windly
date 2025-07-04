@@ -1,13 +1,19 @@
 import { StyleSheet } from "react-native";
 
 const light = {
-  background: "#fff",
+  background: "#EAF6FF",    // Céu claro
   text: "#11181C",
+  card: "#FFFFFF",          // Cartão branco
+  accent: "#2784DF",        // Azul principal
+  border: "#D6EAF8",
 };
 
 const dark = {
-  background: "#151718",
+  background: "#0E1B2C",    // Céu noite
   text: "#ECEDEE",
+  card: "#152B40",          // Cartão noite
+  accent: "#6EB5FF",        // Azul neon
+  border: "#223B56",
 };
 
 export default function getStyles(isDark) {
@@ -19,7 +25,7 @@ export default function getStyles(isDark) {
       height: 100,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "#2784DF",
+      backgroundColor: theme.accent,
       borderRadius: 5,
     },
 
@@ -95,7 +101,7 @@ export default function getStyles(isDark) {
       top: 50,
       left: 16,
       zIndex: 10,
-      backgroundColor: isDark ? "#23272a" : "#fff", // muda conforme o tema
+      backgroundColor: isDark ? "#23272a" : "#fff",
       borderRadius: 20,
       padding: 6,
       elevation: 2,
@@ -113,280 +119,190 @@ export default function getStyles(isDark) {
     },
 
     configContainer: {
-      borderRadius: 12,
+      borderRadius: 16,
       padding: 20,
       gap: 24,
       marginTop: 40,
     },
 
     configTitle: {
-      fontSize: 24,
+      fontSize: 28,
       fontWeight: "bold",
+      color: theme.accent,
+      letterSpacing: 0.5,
     },
 
     section: {
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      paddingVertical: 16,
-      paddingHorizontal: 18,
-      borderRadius: 12,
-      backgroundColor: isDark ? "#23272a" : "#fff",
-      marginBottom: 12,
-      elevation: 2,
+      paddingVertical: 20,
+      paddingHorizontal: 24,
+      borderRadius: 16,
+      backgroundColor: theme.card,
+      marginBottom: 18,
+      borderWidth: 1,
+      borderColor: theme.border,
+      elevation: 6,
       shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.08,
-      shadowRadius: 4,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.12,
+      shadowRadius: 8,
     },
 
     label: {
-      fontSize: 18,
-    },
-    mainContainer: {
-      flex: 1,
-      justifyContent: "center",
-      padding: 24,
-      backgroundColor: "#ffffff",
-    },
-    mainTitle: {
-      fontSize: 26,
-      marginBottom: 24,
-      textAlign: "center",
-      color: "#003366",
+      fontSize: 20,
       fontWeight: "600",
-      marginTop: "50%"
-    },
-
-    input: {
-      borderWidth: 1,
-      borderColor: "#007bff",
-      backgroundColor: "#f0f8ff",
-      borderRadius: 10,
-      padding: 12,
-      marginBottom: 8,
-      color: "#003366",
-      width: 350,
-      alignSelf: 'center',
-    },
-    link: {
-      color: "#007bff",
-      marginTop: 16,
-      textAlign: "center",
-      fontWeight: "500",
-      borderRadius: 10,
-    },
-    botao: {
-      backgroundColor: "#2784DF",
-      paddingVertical: 14,
-      borderRadius: 8,
-      alignItems: "center",
-      marginTop: 12,
-      width: 350,
-      alignSelf: 'center',
-    },
-
-    botaoTexto: {
-      color: "#fff",
-      fontWeight: "600",
-      fontSize: 16,
-    },
-
-    errorModal: {
-      position: "absolute",
-      top: '30%',
-      alignSelf: "center",
-      borderRadius: 16,
-      paddingVertical: 18,
-      paddingHorizontal: 28,
-      alignItems: "center",
-      width: 320,
-      elevation: 8,
-      shadowColor: "#000",
-      shadowOpacity: 0.15,
-      shadowRadius: 8,
-      shadowOffset: { width: 0, height: 2 },
-      zIndex: 999,
-    },
-    errorModalTitle: {
-      fontSize: 18,
-      fontWeight: "bold",
+      color: theme.text,
       marginBottom: 6,
+      letterSpacing: 0.3,
     },
-    errorModalMessage: {
-      fontSize: 15,
-      textAlign: "center",
-    },
-    cidadesHeader: {
-      padding: 20,
-      flexDirection: "row",
-      alignItems: "center",
-      alignSelf: "left",
-      marginTop: 24,
-    },
-    cidadesHeaderIcon: {
-      marginRight: 8,
-    },
-    cidadesHeaderTitle: {
-      fontSize: 26,
+
+    userName: {
+      color: theme.text,
+      fontSize: 22,
       fontWeight: "bold",
+      marginBottom: 2,
+      letterSpacing: 0.5,
     },
-    cidadesScroll: {
-      flex: 1,
-      marginTop: 4,
-      paddingBottom: 90,
-      paddingHorizontal: 0,
+
+    userEmail: {
+      color: isDark ? "#A0A8B7" : "#666",
+      fontSize: 15,
+      fontWeight: "400",
     },
-    cidadesVazio: {
-      color: isDark ? "#ECEDEE" : "#888",
-      fontSize: 18,
-      marginTop: 48,
-      alignSelf: "center",
-    },
-    loadingContainer: {
-      flex: 1,
-      backgroundColor: isDark ? "#151718" : "#fff",
+
+    editButton: {
+      padding: 8,
+      borderRadius: 24,
+      backgroundColor: theme.accent,
       justifyContent: "center",
       alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 4,
     },
-    loadingText: {
-      marginTop: 32,
-      fontSize: 22,
-      color: isDark ? "#ECEDEE" : "#11181C",
-      fontWeight: "bold",
-    },
-    loadingGif: {
-      width: 140,
-      height: 140,
-      borderRadius: 70,
-      backgroundColor: "#e0f7fa",
-    },
-    errorContainer: {
-      flex: 1,
-      backgroundColor: isDark ? "#151718" : "#fff",
-      justifyContent: "flex-start",
-      alignItems: "center",
-    },
-    registerFormWrapper: {
-      marginTop: "40%",
-      paddingHorizontal: 24,
-    },
-    registerMainTitle: {
-      fontSize: 26,
-      marginBottom: 24,
-      textAlign: "center",
-      color: "#003366",
-      fontWeight: "600",
-    },
-    registerInput: {
-      borderWidth: 1,
-      borderColor: "#007bff",
-      backgroundColor: "#f0f8ff",
-      borderRadius: 10,
-      padding: 12,
-      marginBottom: 8,
-      color: "#003366",
-      width: "100%",
-      alignSelf: 'center',
-    },
-    registerLink: {
-      color: "#007bff",
-      marginTop: 16,
-      textAlign: "center",
-      fontWeight: "500",
-      borderRadius: 10,
-    },
-    registerBotao: {
-      backgroundColor: "#2784DF",
-      paddingVertical: 14,
-      borderRadius: 8,
-      alignItems: "center",
-      marginTop: 12,
-      width: "100%",
-      alignSelf: 'center',
-    },
-    registerBotaoTexto: {
-      color: "#fff",
-      fontWeight: "600",
-      fontSize: 16,
-    },
+
+    // Modal overlay para escurecer fundo e centralizar modal
     editModalOverlay: {
       flex: 1,
-      backgroundColor: "#0008",
+      backgroundColor: "#0009",
       justifyContent: "center",
       alignItems: "center",
+      paddingHorizontal: 20,
     },
+
+    // Container do modal
     editModalContainer: {
-      backgroundColor: isDark ? "#23272a" : "#fff",
-      padding: 24,
-      borderRadius: 12,
-      width: "80%",
+      backgroundColor: isDark ? "#1E2A40" : "#fff",
+      borderRadius: 16,
+      width: "100%",
+      maxWidth: 360,
+      paddingVertical: 28,
+      paddingHorizontal: 24,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.15,
+      shadowRadius: 12,
+      elevation: 10,
     },
+
     editModalTitle: {
-      fontSize: 18,
-      fontWeight: "bold",
-      color: isDark ? "#ECEDEE" : "#003366",
-      marginBottom: 12,
-    },
-    editModalInput: {
-      borderWidth: 1,
-      borderColor: "#2D6BFD",
-      borderRadius: 8,
-      padding: 10,
+      fontSize: 22,
+      fontWeight: "700",
+      color: isDark ? "#E1E6F0" : "#003366",
       marginBottom: 16,
-      color: isDark ? "#ECEDEE" : "#003366",
-      backgroundColor: isDark ? "#151718" : "#f0f8ff",
+      textAlign: "center",
+      letterSpacing: 0.4,
     },
+
+    editModalInput: {
+      borderWidth: 1.5,
+      borderColor: theme.accent,
+      borderRadius: 10,
+      paddingVertical: 14,
+      paddingHorizontal: 16,
+      marginBottom: 24,
+      fontSize: 18,
+      color: isDark ? "#ECEDEE" : "#003366",
+      backgroundColor: isDark ? "#15202B" : "#F0F8FF",
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.05,
+      shadowRadius: 2,
+    },
+
     editModalTopActions: {
       flexDirection: "row",
-      justifyContent: "flex-end",
-      gap: 24,
-      marginBottom: 24,
-      marginTop: 4,
+      justifyContent: "space-between",
+      marginBottom: 30,
+      paddingHorizontal: 8,
     },
+
     editModalIconButton: {
       flexDirection: "row",
       alignItems: "center",
-      paddingVertical: 4,
-      paddingHorizontal: 8,
-      borderRadius: 6,
+      paddingVertical: 6,
+      paddingHorizontal: 14,
+      borderRadius: 12,
       backgroundColor: "transparent",
     },
+
     editModalIconText: {
       color: "#E53935",
-      fontWeight: "bold",
-      marginLeft: 6,
-      fontSize: 15,
+      fontWeight: "700",
+      marginLeft: 10,
+      fontSize: 16,
     },
+
     editModalActions: {
       flexDirection: "row",
       justifyContent: "space-between",
-      marginTop: 32,
-      gap: 16,
+      gap: 20,
     },
+
     editModalActionButton: {
       flex: 1,
       alignItems: "center",
-      paddingVertical: 12,
-      borderRadius: 8,
+      paddingVertical: 16,
+      borderRadius: 14,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.15,
+      shadowRadius: 6,
+      elevation: 6,
     },
+
     editModalCancelButton: {
-      backgroundColor: "#ECEDEE",
-      marginRight: 8,
+      backgroundColor: isDark ? "#394B67" : "#ECEDEE",
     },
+
     editModalSaveButton: {
-      backgroundColor: "#2D6BFD",
-      marginLeft: 8,
+      backgroundColor: theme.accent,
     },
+
     editModalCancel: {
-      color: "#888",
-      fontWeight: "bold",
-      fontSize: 16,
+      color: isDark ? "#B0B8C1" : "#888",
+      fontWeight: "700",
+      fontSize: 17,
     },
+
     editModalSave: {
       color: "#fff",
-      fontWeight: "bold",
-      fontSize: 16,
+      fontWeight: "700",
+      fontSize: 17,
+    },
+
+    backgroundImage: {
+      flex: 1,
+      resizeMode: "cover",
+    },
+
+    backgroundOverlay: {
+      flex: 1,
+      backgroundColor: "rgba(0,0,0,0.4)",
     },
   });
 }

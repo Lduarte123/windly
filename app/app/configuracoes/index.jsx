@@ -9,7 +9,6 @@ import { useRouter } from "expo-router";
 import RNPickerSelect from "react-native-picker-select";
 import { useConfig } from "../../components/configContext";
 import api from "../../api/api";
-import UsuarioInfo from "../../components/UsuarioInfo/UsuarioInfo";
 
 export default function Configuracoes() {
   const { dark, toggleTheme } = useTheme();
@@ -21,7 +20,6 @@ export default function Configuracoes() {
 
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [showAbout, setShowAbout] = useState(false);
-  const [showPrivacy, setShowPrivacy] = useState(false);
 
   useEffect(() => {
     async function fetchConfig() {
@@ -29,9 +27,7 @@ export default function Configuracoes() {
         try {
           const res = await api.get(`/user-config/${user.id}`);
           setConfig(res.data);
-        } catch (e) {
-          // Se não existir, pode criar aqui se quiser
-        }
+        } catch (e) {}
       }
     }
     fetchConfig();
@@ -78,133 +74,167 @@ export default function Configuracoes() {
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={{ padding: 16, paddingBottom: 80 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={[styles.configContainer]}>
-          {/* Linha do título e botão do usuário */}
-          <View style={localStyles.headerRow}>
-            <Text style={[styles.configTitle, { color: textColor }]}>
-              Configurações
-            </Text>
-            <TouchableOpacity
-              style={localStyles.profileButton}
-              onPress={() => router.push("/configuracoes/perfil")}
-              activeOpacity={0.8}
-            >
-              <Feather name="user" size={26} color="#2D6BFD" />
+        showsVerticalScrollIndicator={false}>
+          <View style={[styles.configContainer]}>
+
+            {/* Título e botão de usuário com inicial */}
+            <View style={localStyles.headerRow}>
+              <Text style={[styles.configTitle, { color: textColor }]}>
+                Configurações
+              </Text>
+              <TouchableOpacity
+                style={[localStyles.profileButton, { backgroundColor: "#2D6BFD" }]}
+                onPress={() => router.push("/configuracoes/perfil")}
+                activeOpacity={0.8}
+              >
+                <Text style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}>
+                  {user?.name ? user.name.charAt(0).toUpperCase() : "?"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Tema escuro */}
+            <View style={styles.section}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                <Feather name="moon" size={18} color={textColor} />
+                <Text style={[styles.label, { color: textColor }]}>
+                  Tema escuro
+                </Text>
+              </View>
+              <Switch
+                value={dark}
+                onValueChange={toggleTheme}
+                thumbColor={dark ? "#2D6BFD" : "#f4f3f4"}
+                trackColor={{ false: "#767577", true: "#2D6BFD" }}
+              />
+            </View>
+
+            {/* Notificações */}
+            <View style={styles.section}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                <Feather name="bell" size={18} color={textColor} />
+                <Text style={[styles.label, { color: textColor }]}>
+                  Notificações
+                </Text>
+              </View>
+              <Switch
+                value={notificationsEnabled}
+                onValueChange={handleToggleNotifications}
+                thumbColor={notificationsEnabled ? "#2D6BFD" : "#f4f3f4"}
+                trackColor={{ false: "#767577", true: "#2D6BFD" }}
+              />
+            </View>
+
+            {/* Sobre */}
+            <View style={styles.section}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                <Feather name="info" size={18} color={textColor} />
+                <Text style={[styles.label, { color: textColor }]}>Sobre</Text>
+              </View>
+              <TouchableOpacity onPress={() => setShowAbout(!showAbout)}>
+                <Text style={{ color: "#2D6BFD", fontWeight: "600" }}>
+                  {showAbout ? "Ocultar" : "Ver"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            {showAbout && (
+              <View
+                style={{
+                  backgroundColor: cardBackground,
+                  padding: 12,
+                  borderRadius: 8,
+                  marginBottom: 16,
+                  borderWidth: 1,
+                  borderColor: dark ? "#333" : "#ccc",
+                }}
+              >
+                <Text style={{ color: textColor }}>Windly App</Text>
+                <Text style={{ color: textColor }}>Versão 1.0.0</Text>
+              </View>
+            )}
+
+            {/* Privacidade */}
+            <TouchableOpacity style={styles.section} onPress={handlePrivacy}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                <Feather name="lock" size={18} color={textColor} />
+                <Text style={[styles.label, { color: textColor }]}>Privacidade</Text>
+              </View>
+              <Text style={{ color: "#2D6BFD", fontWeight: "600" }}>Ver</Text>
             </TouchableOpacity>
-          </View>
 
-          {/* Tema escuro */}
-          <View style={styles.section}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-              <Feather name="moon" size={18} color={textColor} />
-              <Text style={[styles.label, { color: textColor }]}>
-                Tema escuro
-              </Text>
+            {/* Unidade de Temperatura */}
+            <View style={styles.section}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                <Feather name="thermometer" size={18} color={textColor} />
+                <Text style={[styles.label, { color: textColor }]}>
+                  Temperatura
+                </Text>
+              </View>
+              <RNPickerSelect
+                value={config.temp_unit}
+                onValueChange={(value) => updateConfig({ temp_unit: value })}
+                items={[
+                  { label: "Celsius (°C)", value: "C" },
+                  { label: "Fahrenheit (°F)", value: "F" },
+                ]}
+                useNativeAndroidPickerStyle={false}
+                style={{
+                  inputIOS: {
+                    color: textColor,
+                    height: 48,
+                    fontSize: 16,
+                    paddingLeft: 8,
+                  },
+                  inputAndroid: {
+                    color: textColor,
+                    height: 48,
+                    fontSize: 16,
+                    paddingLeft: 8,
+                  },
+                  placeholder: { color: "#888" },
+                }}
+                placeholder={{}}
+              />
             </View>
-            <Switch
-              value={dark}
-              onValueChange={toggleTheme}
-              thumbColor={dark ? "#2D6BFD" : "#f4f3f4"}
-              trackColor={{ false: "#767577", true: "#2D6BFD" }}
-            />
-          </View>
 
-          {/* Notificações */}
-          <View style={styles.section}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-              <Feather name="bell" size={18} color={textColor} />
-              <Text style={[styles.label, { color: textColor }]}>
-                Notificações
-              </Text>
+            {/* Unidade de Vento */}
+            <View style={styles.section}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                <Feather name="wind" size={18} color={textColor} />
+                <Text style={[styles.label, { color: textColor }]}>
+                  Unidade do Vento
+                </Text>
+              </View>
+              <RNPickerSelect
+                value={config.wind_unit}
+                onValueChange={(value) => updateConfig({ wind_unit: value })}
+                items={[
+                  { label: "m/s", value: "m/s" },
+                  { label: "km/h", value: "km/h" },
+                  { label: "mph", value: "mph" },
+                ]}
+                useNativeAndroidPickerStyle={false}
+                style={{
+                  inputIOS: {
+                    color: textColor,
+                    height: 48,
+                    fontSize: 16,
+                    paddingLeft: 8,
+                  },
+                  inputAndroid: {
+                    color: textColor,
+                    height: 48,
+                    fontSize: 16,
+                    paddingLeft: 8,
+                  },
+                  placeholder: { color: "#888" },
+                }}
+                placeholder={{}}
+              />
             </View>
-            <Switch
-              value={notificationsEnabled}
-              onValueChange={handleToggleNotifications}
-              thumbColor={notificationsEnabled ? "#2D6BFD" : "#f4f3f4"}
-              trackColor={{ false: "#767577", true: "#2D6BFD" }}
-            />
           </View>
-
-          {/* Sobre */}
-          <View style={styles.section}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-              <Feather name="info" size={18} color={textColor} />
-              <Text style={[styles.label, { color: textColor }]}>Sobre</Text>
-            </View>
-            <TouchableOpacity onPress={() => setShowAbout(!showAbout)}>
-              <Text style={{ color: "#2D6BFD", fontWeight: "600" }}>
-                {showAbout ? "Ocultar" : "Ver"}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          {showAbout && (
-            <View
-              style={{
-                backgroundColor: cardBackground,
-                padding: 12,
-                borderRadius: 8,
-                marginBottom: 16,
-                borderWidth: 1,
-                borderColor: dark ? "#333" : "#ccc",
-              }}
-            >
-              <Text style={{ color: textColor }}>Windly App</Text>
-              <Text style={{ color: textColor }}>Versão 1.0.0</Text>
-            </View>
-          )}
-
-          {/* Privacidade */}
-          <TouchableOpacity style={styles.section} onPress={handlePrivacy}>
-            <Text style={[styles.label, { color: textColor }]}>Privacidade</Text>
-            <Text style={{ color: "#2D6BFD", fontWeight: "600" }}>Ver</Text>
-          </TouchableOpacity>
-
-          {/* Unidade de Temperatura */}
-          <View style={styles.section}>
-            <Text style={[styles.label, { color: textColor }]}>Temperatura</Text>
-            <RNPickerSelect
-              value={config.temp_unit}
-              onValueChange={value => updateConfig({ temp_unit: value })}
-              items={[
-                { label: "Celsius (°C)", value: "C" },
-                { label: "Fahrenheit (°F)", value: "F" }
-              ]}
-              useNativeAndroidPickerStyle={false}
-              style={{
-                inputIOS: { color: textColor, height: 48, fontSize: 16, paddingLeft: 8 },
-                inputAndroid: { color: textColor, height: 48, fontSize: 16, paddingLeft: 8 },
-                placeholder: { color: "#888" }
-              }}
-              placeholder={{}}
-            />
-          </View>
-
-          {/* Unidade de Vento */}
-          <View style={styles.section}>
-            <Text style={[styles.label, { color: textColor }]}>Unidade do Vento</Text>
-            <RNPickerSelect
-              value={config.wind_unit}
-              onValueChange={value => updateConfig({ wind_unit: value })}
-              items={[
-                { label: "m/s", value: "m/s" },
-                { label: "km/h", value: "km/h" },
-                { label: "mph", value: "mph" }
-              ]}
-              useNativeAndroidPickerStyle={false}
-              style={{
-                inputIOS: { color: textColor, height: 48, fontSize: 16, paddingLeft: 8 },
-                inputAndroid: { color: textColor, height: 48, fontSize: 16, paddingLeft: 8 },
-                placeholder: { color: "#888" }
-              }}
-              placeholder={{}}
-            />
-          </View>
-
-        </View>
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
   );
 }
 
