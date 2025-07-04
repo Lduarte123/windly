@@ -56,7 +56,7 @@ function formatHourlyWeather(weatherData) {
   weatherData.days.forEach(day => {
     day.hours.forEach(hour => {
       hourlyData.push({
-        datetime: `${day.datetime} ${hour.datetime.slice(0, 5)}`, // "2025-07-03 00:00"
+        datetime: `${day.datetime} ${hour.datetime.slice(0, 5)}`, // "2025-07-04 00:00"
         temp: hour.temp,
         conditions: hour.conditions
       });
@@ -65,6 +65,7 @@ function formatHourlyWeather(weatherData) {
 
   return hourlyData;
 }
+
 
 // 3. Quantidade de chuva por mês
 function formatMonthlyPrecipitation(weatherData) {
