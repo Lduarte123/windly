@@ -5,57 +5,54 @@ const { width } = Dimensions.get("window");
 export default StyleSheet.create({
   background: {
     flex: 1,
-    resizeMode: "cover",
+    backgroundColor: '#1E90FF', // Blue background similar to the design
     justifyContent: "center",
     alignItems: "center",
   },
   card: {
     width: width * 0.85,
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    padding: 25,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.94)",
-    backdropFilter: "blur(10px)", // só web, mas dá um efeito no estilo
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.25,
-    shadowRadius: 20,
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 15,
+    marginBottom: 20,
+    alignItems: "center",
   },
   title: {
-    fontSize: 28,
-    color: "#000",
+    fontSize: 24,
+    color: "#1E90FF",
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
   },
   label: {
-    color: "#ccc",
+    color: "#666",
     marginBottom: 5,
-    marginTop: 15,
+    alignSelf: "flex-start",
   },
- input: {
-  backgroundColor: "rgba(255,255,255,0.2)",
-  color: "#000",
-  paddingHorizontal: 15,
-  paddingVertical: 12,
-  borderRadius: 10,
-  borderColor: "#ccc",
-  borderWidth: 1,
-  marginBottom: 10, // novo
-},
- button: {
-  backgroundColor: "#4fc3f7",
-  paddingVertical: 14,
-  borderRadius: 10,
-  marginTop: 30,
-  alignItems: "center",
-  elevation: 2, // para Android
-},
- buttonText: {
-  color: "#000",
-  fontWeight: "bold",
-  fontSize: 16,
-  textTransform: "uppercase", // opcional
-},
+  input: {
+    backgroundColor: "white",
+    color: "#000",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 8,
+    borderColor: "#ddd",
+    borderWidth: 1,
+    marginBottom: 10,
+    width: "100%",
+  },
+  button: {
+    backgroundColor: "#1E90FF",
+    paddingVertical: 12,
+    borderRadius: 8,
+    width: "100%",
+    alignItems: "center",
+    marginTop: 20,
+    elevation: 2,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+    textTransform: "uppercase",
+  },
 });
