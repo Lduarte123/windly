@@ -17,6 +17,7 @@ import formatWind from "../utils/convertWind";
 import WeatherBackgroundWrapper from "../components/background/Background";
 import ThermalGauge from "../components/gauge/Gauge";
 import HumidityGauge from "../components/humidty/Humidity";
+import HourlySlider from "../components/dayCard/dayCard";
 
 export default function App() {
   const { dark } = useTheme();
@@ -102,6 +103,7 @@ export default function App() {
           contentContainerStyle={{ paddingBottom: 40 }}
         >
           <WeatherCard city={city}/>
+          <HourlySlider city={city} />
 
           <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
             <StatsCard
