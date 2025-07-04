@@ -1,9 +1,15 @@
-function formatTime(unix) {
-  const date = new Date(unix * 1000);
-  return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+function formatTime(unix, offsetInSeconds = 0) {
+  const localUnix = unix + offsetInSeconds;
+  const date = new Date(localUnix * 1000);
+  return date.toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 function formatResponse(weatherData) {
+  const offset = weatherData.timezone;
+
   return {
     city: weatherData.name,
     temperature: weatherData.main.temp,
@@ -15,13 +21,13 @@ function formatResponse(weatherData) {
     pressure: weatherData.main.pressure,
     visibility: weatherData.visibility,
     cloudiness: weatherData.clouds.all,
-    sunrise: formatTime(weatherData.sys.sunrise),
-    sunset: formatTime(weatherData.sys.sunset)
+    sunrise: formatTime(weatherData.sys.sunrise, offset),
+    sunset: formatTime(weatherData.sys.sunset, offset),
   };
 }
 
 function formatForecastResponse(forecastData) {
-  return forecastData.map(item => ({
+  return forecastData.map((item) => ({
     date: item.date,
     temperature: item.main.temp,
     temp_max: item.main.temp_max,
@@ -99,3 +105,4 @@ module.exports = {
   formatMonthlyPrecipitation,
   formatDailyPrecipitationProbability
 };
+
