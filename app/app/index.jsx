@@ -4,7 +4,11 @@ import MainSection from "../components/mainSection/MainSection";
 import MainStats from "../components/mainStats/MainStats";
 import WeatherCard from "../components/weatherCard/WeatherCard";
 import StatsCard from "../components/statsCard/StatsCard";
-import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from "lucide-react-native";
+import {
+  Thermometer,
+  Wind,
+  Cloud,
+} from "lucide-react-native";
 import { useTheme } from "../components/ThemeContext";
 import getStyles from "../components/styles";
 import api from "../api/api";
@@ -45,7 +49,7 @@ export default function App() {
 
         setWeatherData(data);
         setDesc(data.description || "");
-        setTemp(Math.round(data.temperature));
+        setTemp(Math.round(data.temperature))
       } catch (error) {
         setErrorMsg(error.message || "Erro desconhecido");
         setShowErrorModal(true);
@@ -58,7 +62,8 @@ export default function App() {
     fetchWeather();
   }, [config.wind_unit]);
 
-  if (!weatherData && !errorMsg) {
+  // Loading até clima + gráfico carregarem
+  if ((!weatherData) && !errorMsg) {
     return (
       <View style={styles.loadingContainer}>
         <Video
@@ -102,15 +107,22 @@ export default function App() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
         >
-          <WeatherCard city={city}/>
-          <HourlySlider city={city} />
+          <WeatherCard city={city} />
+          <HourlySlider city={city}/>
 
-          <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+            }}
+          >
             <StatsCard
               titulo="Sensação"
               desc="Sensação térmica"
               stats={
-                weatherData.feelsLike !== undefined && weatherData.feelsLike !== null
+                weatherData.feelsLike !== undefined &&
+                weatherData.feelsLike !== null
                   ? `${weatherData.feelsLike}°`
                   : "--"
               }
@@ -120,7 +132,8 @@ export default function App() {
               titulo="Umidade"
               desc="Umidade relativa"
               stats={
-                weatherData.humidity !== undefined && weatherData.humidity !== null
+                weatherData.humidity !== undefined &&
+                weatherData.humidity !== null
                   ? `${weatherData.humidity}%`
                   : "--"
               }
@@ -130,7 +143,8 @@ export default function App() {
               titulo="Vento"
               desc="Velocidade do vento"
               stats={
-                weatherData.windSpeed !== undefined && weatherData.windSpeed !== null
+                weatherData.windSpeed !== undefined &&
+                weatherData.windSpeed !== null
                   ? formatWind(weatherData.windSpeed, config.wind_unit)
                   : "--"
               }
@@ -140,7 +154,8 @@ export default function App() {
               titulo="Nuvens"
               desc="Cobertura de nuvens"
               stats={
-                weatherData.cloudiness !== undefined && weatherData.cloudiness !== null
+                weatherData.cloudiness !== undefined &&
+                weatherData.cloudiness !== null
                   ? `${weatherData.cloudiness}%`
                   : "--"
               }
@@ -149,21 +164,13 @@ export default function App() {
             <StatsCard
               titulo="Nascer do Sol"
               desc="Horário do nascer do sol"
-              stats={
-                weatherData.sunrise
-                  ? weatherData.sunrise
-                  : "--"
-              }
+              stats={weatherData.sunrise ? weatherData.sunrise : "--"}
               icon={<Cloud color="#fff" size={40} />}
             />
             <StatsCard
               titulo="Pôr do Sol"
               desc="Horário do pôr do sol"
-              stats={
-                weatherData.sunset
-                  ? weatherData.sunset
-                  : "--"
-              }
+              stats={weatherData.sunset ? weatherData.sunset : "--"}
               icon={<Cloud color="#fff" size={40} />}
             />
           </View>

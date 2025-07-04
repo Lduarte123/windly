@@ -1,42 +1,34 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  card: {
-    backgroundColor: 'rgba(10, 10, 10, 0.2)',
-    marginHorizontal: 0,
-    marginVertical: 12,
-    padding: 16,
-    borderRadius: 16,
-    width: '100%',
-    alignSelf: 'stretch',
-  },
-  title: {
-    color: '#fff',
-    fontSize: 16,
-    marginBottom: 12,
-  },
-  scrollContainer: {
-    flexDirection: 'row',
-  },
-  hourBlock: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 10,
-    paddingHorizontal: 8,
-    marginRight: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 12,
-    width: 70,
-    height: 100,
-  },
-  wind: {
-    fontSize: 12,
-    color: '#fff',
-    marginBottom: 4,
-  },
-  time: {
-    fontSize: 13,
-    color: '#fff',
-    marginTop: 6,
-  },
+    card: {
+        backgroundColor: '#1E1E1E',
+        borderRadius: 12,
+        padding: 16,
+        marginVertical: 8,
+    },
+    title: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        marginBottom: 16,
+    },
+    loading: {
+        color: '#ccc',
+        textAlign: 'center',
+        padding: 20,
+    },
+    error: {
+        color: '#ff5555',
+        textAlign: 'center',
+        padding: 20,
+    },
+    iconContainer: {
+        alignItems: 'center',
+        width: 48,
+    },
+    timeText: {
+        fontSize: 10,
+        color: "#ccc",
+        marginTop: 4,
+    },
 });
