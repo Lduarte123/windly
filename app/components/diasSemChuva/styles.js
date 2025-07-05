@@ -5,20 +5,15 @@ export default StyleSheet.create({
     marginTop: 24,
     marginBottom: 16,
     alignItems: "center",
-    backgroundColor: "#fff",      // Fundo branco do card
+    backgroundColor: "rgba(10, 10, 10, 0.2)",
     borderRadius: 12,             // Bordas arredondadas
-    padding: 18,                  // Espaçamento interno
-    shadowColor: "#000",          // Sombra para Android/iOS
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 3,                 // Sombra para Android
+    padding: 18,                  // Espaçamento interno              // Sombra para Android
   },
   titulo: {
     fontWeight: "bold",
     fontSize: 16,
     marginBottom: 8,
-    color: "#2784DF",
+    color: "#ffffff",
   },
   container: {
     flexDirection: "row",
@@ -29,8 +24,6 @@ export default StyleSheet.create({
     width: 38,
     height: 38,
     borderRadius: 8,
-    borderWidth: 2,
-    borderColor: "#2784DF",
     alignItems: "center",
     justifyContent: "center",
     marginHorizontal: 3,
@@ -48,7 +41,8 @@ export default StyleSheet.create({
   },
   button: {
     marginTop: 8,
-    backgroundColor: "#2784DF",
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderColor: "#fff",
     paddingVertical: 10,
     paddingHorizontal: 32,
     borderRadius: 8,
