@@ -1,5 +1,13 @@
+// app/configuracoes/perfil.jsx
 import React from "react";
-import { View, ScrollView, Text, TouchableOpacity, Platform, StatusBar } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  Platform,
+  StatusBar,
+} from "react-native";
 import { useAuth } from "../../components/authContext/AuthContext";
 import { useTheme } from "../../components/ThemeContext";
 import getStyles from "../../components/styles";
@@ -19,11 +27,21 @@ export default function Perfil() {
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor }}
-      contentContainerStyle={{ padding: 16, paddingTop: statusBarHeight + 16, paddingBottom: 80 }}
+      contentContainerStyle={{
+        padding: 16,
+        paddingTop: statusBarHeight + 16,
+        paddingBottom: 80,
+      }}
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.configContainer}>
-        <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 20 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 20,
+          }}
+        >
           <TouchableOpacity
             onPress={() => router.back()}
             style={{
@@ -37,10 +55,9 @@ export default function Perfil() {
           >
             <Feather name="arrow-left" size={24} color={textColor} />
           </TouchableOpacity>
-          <Text style={[styles.configTitle, { color: textColor }]}>
-            Perfil
-          </Text>
+          <Text style={[styles.configTitle, { color: textColor }]}>Perfil</Text>
         </View>
+
         <UsuarioInfo user={user} textColor={textColor} />
       </View>
     </ScrollView>

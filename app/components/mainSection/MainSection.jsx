@@ -1,14 +1,13 @@
 import React from "react";
-import { LinearGradient } from 'expo-linear-gradient';
 import styles from './styles';
+import { View } from "react-native";
 
 export default function MainSection({ children }) {
   return (
-    <LinearGradient
-      colors={['#2D6BFD', '#229BC3']}
-      style={styles.container}
+    <View
+      style={styles.mainsection}
     >
       {children}
-    </LinearGradient>
+    </View>
   );
 }

@@ -5,12 +5,14 @@ import { ThemeProvider, useTheme } from '../components/ThemeContext';
 import { AuthProvider } from '../components/authContext/AuthContext';
 import { ConfigProvider } from '../components/configContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 function ThemedTabs() {
   const { dark } = useTheme();
 
   const backgroundColor = dark ? '#151718' : '#fff';
   const textColor = dark ? '#ECEDEE' : '#11181C';
+  const insets = useSafeAreaInsets();
 
   return (
     <View style={{ flex: 1, backgroundColor }}>
@@ -29,7 +31,7 @@ function ThemedTabs() {
             borderTopEndRadius: 20,
             borderTopStartRadius: 20,
             height: 80,
-            paddingBottom: 10,
+            paddingBottom: 25 + insets,
             paddingTop: 10,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 5 },
@@ -62,7 +64,7 @@ function ThemedTabs() {
           }}
         />
         <Tabs.Screen
-          name="configuracoes/index"
+          name="configuracoes"
           options={{
             tabBarIcon: ({ color }) => (
               <Ionicons name="settings-outline" size={24} color={color} />

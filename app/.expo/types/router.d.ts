@@ -6,9 +6,63 @@ export * from 'expo-router';
 declare module 'expo-router' {
   export namespace ExpoRouter {
     export interface __routes<T extends string | object = string> {
-      hrefInputParams: { pathname: Router.RelativePathString, params?: Router.UnknownInputParams } | { pathname: Router.ExternalPathString, params?: Router.UnknownInputParams } | { pathname: `/`; params?: Router.UnknownInputParams; } | { pathname: `/login`; params?: Router.UnknownInputParams; } | { pathname: `/logout`; params?: Router.UnknownInputParams; } | { pathname: `/register`; params?: Router.UnknownInputParams; } | { pathname: `/verificacao`; params?: Router.UnknownInputParams; } | { pathname: `/_sitemap`; params?: Router.UnknownInputParams; } | { pathname: `/cidades`; params?: Router.UnknownInputParams; } | { pathname: `/configuracoes`; params?: Router.UnknownInputParams; } | { pathname: `/configuracoes/perfil`; params?: Router.UnknownInputParams; } | { pathname: `/mapa/mapa`; params?: Router.UnknownInputParams; } | { pathname: `/cidades/[cidade]`, params: Router.UnknownInputParams & { cidade: string | number; } };
-      hrefOutputParams: { pathname: Router.RelativePathString, params?: Router.UnknownOutputParams } | { pathname: Router.ExternalPathString, params?: Router.UnknownOutputParams } | { pathname: `/`; params?: Router.UnknownOutputParams; } | { pathname: `/login`; params?: Router.UnknownOutputParams; } | { pathname: `/logout`; params?: Router.UnknownOutputParams; } | { pathname: `/register`; params?: Router.UnknownOutputParams; } | { pathname: `/verificacao`; params?: Router.UnknownOutputParams; } | { pathname: `/_sitemap`; params?: Router.UnknownOutputParams; } | { pathname: `/cidades`; params?: Router.UnknownOutputParams; } | { pathname: `/configuracoes`; params?: Router.UnknownOutputParams; } | { pathname: `/configuracoes/perfil`; params?: Router.UnknownOutputParams; } | { pathname: `/mapa/mapa`; params?: Router.UnknownOutputParams; } | { pathname: `/cidades/[cidade]`, params: Router.UnknownOutputParams & { cidade: string; } };
-      href: Router.RelativePathString | Router.ExternalPathString | `/${`?${string}` | `#${string}` | ''}` | `/login${`?${string}` | `#${string}` | ''}` | `/logout${`?${string}` | `#${string}` | ''}` | `/register${`?${string}` | `#${string}` | ''}` | `/verificacao${`?${string}` | `#${string}` | ''}` | `/_sitemap${`?${string}` | `#${string}` | ''}` | `/cidades${`?${string}` | `#${string}` | ''}` | `/configuracoes${`?${string}` | `#${string}` | ''}` | `/configuracoes/perfil${`?${string}` | `#${string}` | ''}` | `/mapa/mapa${`?${string}` | `#${string}` | ''}` | { pathname: Router.RelativePathString, params?: Router.UnknownInputParams } | { pathname: Router.ExternalPathString, params?: Router.UnknownInputParams } | { pathname: `/`; params?: Router.UnknownInputParams; } | { pathname: `/login`; params?: Router.UnknownInputParams; } | { pathname: `/logout`; params?: Router.UnknownInputParams; } | { pathname: `/register`; params?: Router.UnknownInputParams; } | { pathname: `/verificacao`; params?: Router.UnknownInputParams; } | { pathname: `/_sitemap`; params?: Router.UnknownInputParams; } | { pathname: `/cidades`; params?: Router.UnknownInputParams; } | { pathname: `/configuracoes`; params?: Router.UnknownInputParams; } | { pathname: `/configuracoes/perfil`; params?: Router.UnknownInputParams; } | { pathname: `/mapa/mapa`; params?: Router.UnknownInputParams; } | `/cidades/${Router.SingleRoutePart<T>}` | { pathname: `/cidades/[cidade]`, params: Router.UnknownInputParams & { cidade: string | number; } };
+      hrefInputParams:
+        | { pathname: Router.RelativePathString; params?: Router.UnknownInputParams }
+        | { pathname: Router.ExternalPathString; params?: Router.UnknownInputParams }
+        | { pathname: `/`; params?: Router.UnknownInputParams }
+        | { pathname: `/login`; params?: Router.UnknownInputParams }
+        | { pathname: `/logout`; params?: Router.UnknownInputParams }
+        | { pathname: `/register`; params?: Router.UnknownInputParams }
+        | { pathname: `/verificacao`; params?: Router.UnknownInputParams }
+        | { pathname: `/_sitemap`; params?: Router.UnknownInputParams }
+        | { pathname: `/cidades`; params?: Router.UnknownInputParams }
+        | { pathname: `/configuracoes`; params?: Router.UnknownInputParams }
+        | { pathname: `/configuracoes/perfil`; params?: Router.UnknownInputParams }
+        | { pathname: `/mapa/mapa`; params?: Router.UnknownInputParams }
+        | { pathname: `/cidades/[cidade]`; params: Router.UnknownInputParams & { cidade: string | number } };
+
+      hrefOutputParams:
+        | { pathname: Router.RelativePathString; params?: Router.UnknownOutputParams }
+        | { pathname: Router.ExternalPathString; params?: Router.UnknownOutputParams }
+        | { pathname: `/`; params?: Router.UnknownOutputParams }
+        | { pathname: `/login`; params?: Router.UnknownOutputParams }
+        | { pathname: `/logout`; params?: Router.UnknownOutputParams }
+        | { pathname: `/register`; params?: Router.UnknownOutputParams }
+        | { pathname: `/verificacao`; params?: Router.UnknownOutputParams }
+        | { pathname: `/_sitemap`; params?: Router.UnknownOutputParams }
+        | { pathname: `/cidades`; params?: Router.UnknownOutputParams }
+        | { pathname: `/configuracoes`; params?: Router.UnknownOutputParams }
+        | { pathname: `/configuracoes/perfil`; params?: Router.UnknownOutputParams }
+        | { pathname: `/mapa/mapa`; params?: Router.UnknownOutputParams }
+        | { pathname: `/cidades/[cidade]`; params: Router.UnknownOutputParams & { cidade: string } };
+
+      href:
+        | Router.RelativePathString
+        | Router.ExternalPathString
+        | `/${`?${string}` | `#${string}` | ''}`
+        | `/login${`?${string}` | `#${string}` | ''}`
+        | `/logout${`?${string}` | `#${string}` | ''}`
+        | `/register${`?${string}` | `#${string}` | ''}`
+        | `/verificacao${`?${string}` | `#${string}` | ''}`
+        | `/_sitemap${`?${string}` | `#${string}` | ''}`
+        | `/cidades${`?${string}` | `#${string}` | ''}`
+        | `/configuracoes${`?${string}` | `#${string}` | ''}`
+        | `/configuracoes/perfil${`?${string}` | `#${string}` | ''}`
+        | `/mapa/mapa${`?${string}` | `#${string}` | ''}`
+        | { pathname: Router.RelativePathString; params?: Router.UnknownInputParams }
+        | { pathname: Router.ExternalPathString; params?: Router.UnknownInputParams }
+        | { pathname: `/`; params?: Router.UnknownInputParams }
+        | { pathname: `/login`; params?: Router.UnknownInputParams }
+        | { pathname: `/logout`; params?: Router.UnknownInputParams }
+        | { pathname: `/register`; params?: Router.UnknownInputParams }
+        | { pathname: `/verificacao`; params?: Router.UnknownInputParams }
+        | { pathname: `/_sitemap`; params?: Router.UnknownInputParams }
+        | { pathname: `/cidades`; params?: Router.UnknownInputParams }
+        | { pathname: `/configuracoes`; params?: Router.UnknownInputParams }
+        | { pathname: `/configuracoes/perfil`; params?: Router.UnknownInputParams }
+        | { pathname: `/mapa/mapa`; params?: Router.UnknownInputParams }
+        | `/cidades/${Router.SingleRoutePart<T>}`
+        | { pathname: `/cidades/[cidade]`; params: Router.UnknownInputParams & { cidade: string | number } };
     }
   }
 }

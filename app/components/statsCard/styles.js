@@ -1,30 +1,24 @@
 import { StyleSheet, Dimensions } from "react-native";
 
 const { width } = Dimensions.get("window");
-const CARD_MARGIN = 12;
-const CARD_PADDING = 16;
+const CARD_MARGIN = 5;
 const CARDS_PER_ROW = 2;
 
-const cardWidth = (width - CARD_PADDING * 2 - CARD_MARGIN * 2 * CARDS_PER_ROW) / CARDS_PER_ROW;
+const cardWidth = (width - CARD_MARGIN * 2 * CARDS_PER_ROW - 20) / CARDS_PER_ROW;
 
 export default StyleSheet.create({
   container: {
     width: cardWidth,
-    height: 120,
-    backgroundColor: "#2784DF",
+    height: cardWidth - 20,
+    backgroundColor: "rgba(10, 10, 10, 0.2)",
     borderRadius: 18,
-    margin: CARD_MARGIN,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    overflow: "hidden",
+    marginBottom: 12,
+    padding: 14,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    padding: 14,
     position: "relative",
+    overflow: "hidden",
   },
   topLeft: {
     flex: 1,
@@ -33,7 +27,6 @@ export default StyleSheet.create({
   },
   titulo: {
     fontSize: 14,
-    fontWeight: "bold",
     color: "#fff",
     marginBottom: 2,
     textAlign: "left",
@@ -46,7 +39,6 @@ export default StyleSheet.create({
   },
   stats: {
     fontSize: 20,
-    fontWeight: "bold",
     color: "#fff",
     marginTop: 8,
     textAlign: "left",

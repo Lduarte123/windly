@@ -151,23 +151,25 @@ export default function getStyles(isDark) {
     },
     mainTitle: {
       fontSize: 26,
-      marginBottom: 24,
+      marginBottom: 100,
       textAlign: "center",
       color: "#003366",
       fontWeight: "600",
-      marginTop: "50%"
+      marginTop: "50%",
+      
     },
-
     input: {
-      borderWidth: 1,
+      borderWidth: 0,
       borderColor: "#007bff",
-      backgroundColor: "#f0f8ff",
-      borderRadius: 10,
+      backgroundColor: isDark ? "#404040" : "#f0f0f0",
+      borderRadius: 5,
       padding: 12,
-      marginBottom: 8,
+      marginBottom: 12,
       color: "#003366",
       width: 350,
       alignSelf: 'center',
+      margin:5,
+      
     },
     link: {
       color: "#007bff",
@@ -388,5 +390,27 @@ export default function getStyles(isDark) {
       fontWeight: "bold",
       fontSize: 16,
     },
+    logo: {
+  width: 80,
+  height: 100,
+  resizeMode: 'contain',
+    },
+
+logoTitleContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'start',
+  marginTop: '50%',
+  left: "25%",
+  marginBottom: 40,
+},
+
+mainTitle: {
+  fontSize: 26,
+  fontWeight: "600",
+},
+
+
+    
   });
 }
