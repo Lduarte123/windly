@@ -64,6 +64,17 @@ function ThemedTabs() {
           }}
         />
         <Tabs.Screen
+        name="mapa/mapa"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="map" size={24} color={color} />
+          ),
+          tabBarButton: (props) => (
+            <TouchableOpacity activeOpacity={0.7} {...props} />
+          ),
+        }}
+      />
+        <Tabs.Screen
           name="configuracoes"
           options={{
             tabBarIcon: ({ color }) => (
@@ -116,17 +127,6 @@ function ThemedTabs() {
             tabBarItemStyle: { display: 'none' },
           }}
         />
-        <Tabs.Screen
-        name="mapa/mapa"
-        options={{
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="weather-cloudy" size={24} color={color} />
-          ),
-          tabBarButton: (props) => (
-            <TouchableOpacity activeOpacity={0.7} {...props} />
-          ),
-        }}
-      />
       </Tabs>
     </View>
   );
