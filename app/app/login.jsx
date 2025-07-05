@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Alert,
+  TouchableOpacity,
+  Image
+} from 'react-native';
 import api from '../api/api';
 import { useAuth } from '../components/authContext/AuthContext';
 import { useRouter } from "expo-router";
@@ -21,65 +28,68 @@ export default function LoginScreen() {
     }
   }, [user, authLoading]);
 
- async function handleLogin() {
-  setLoading(true);
-  try {
-    const response = await api.post('/auth/login', { email, password });
-    
-    // O backend só vai retornar uma mensagem tipo:
-    // { message: "Código 2FA enviado por e-mail" }
-    if (response.data.message.includes("Código")) {
-      Alert.alert('Código enviado', response.data.message);
+  async function handleLogin() {
+    setLoading(true);
+    try {
+      const response = await api.post('/auth/login', { email, password });
 
-      // Envia o usuário para a tela de verificação passando o e-mail
-      router.replace({
-        pathname: '/verificacao',
-        params: { email }
-      });
-    } else {
-      Alert.alert('Erro', 'Resposta inesperada do servidor.');
+      if (response.data.message.includes("Código")) {
+        Alert.alert('Código enviado', response.data.message);
+        router.replace({
+          pathname: '/verificacao',
+          params: { email }
+        });
+      } else {
+        Alert.alert('Erro', 'Resposta inesperada do servidor.');
+      }
+    } catch (e) {
+      Alert.alert('Erro', e.response?.data?.error || 'Não foi possível fazer login.');
     }
-  } catch (e) {
-    Alert.alert('Erro', e.response?.data?.error || 'Não foi possível fazer login.');
+    setLoading(false);
   }
-  setLoading(false);
-}
 
   return (
     <View style={styles.container}>
-  <Text style={[styles.mainTitle, { color: dark ? "#ECEDEE" : "#003366" }]}>Entrar</Text>
 
-  <TextInput
-    style={styles.input}
-    placeholder="E-mail"
-    placeholderTextColor={dark ? "#000" : "#888"}
-    value={email}
-    onChangeText={setEmail}
-    keyboardType="email-address"
-    autoCapitalize="none"
-  />
-  <TextInput
-    style={styles.input}
-    placeholder="Senha"
-    placeholderTextColor={dark ? "#000" : "#888"}
-    value={password}
-    onChangeText={setPassword}
-    secureTextEntry
-  />
+      {/* LOGO + TÍTULO LADO A LADO */}
+      <View style={styles.logoTitleContainer}>
+        <Image source={require('../../app/assets/logo.png')} style={styles.logo} />
+        <Text style={[styles.mainTitle, { color: dark ? "#ECEDEE" : "#003366", marginLeft: 12 }]}>
+          Windly
+        </Text>
+      </View>
 
-  <TouchableOpacity
-    style={[styles.botao, loading && { opacity: 0.6 }]}
-    onPress={handleLogin}
-    disabled={loading}
-  >
-    <Text style={styles.botaoTexto}>
-      {loading ? "Entrando..." : "Entrar"}
-    </Text>
-  </TouchableOpacity>
+      <TextInput
+        style={styles.input}
+        placeholder="E-mail"
+        placeholderTextColor={dark ? "#fff" : "#888"}
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Senha"
+        placeholderTextColor={dark ? "#fff" : "#888"}
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
 
-  <TouchableOpacity onPress={() => router.replace('register')}>
-    <Text style={styles.link}>Não tem conta? Cadastre-se</Text>
-  </TouchableOpacity>
-</View>
-  )
+      <TouchableOpacity
+        style={[styles.botao, loading && { opacity: 0.6 }]}
+        onPress={handleLogin}
+        disabled={loading}
+      >
+        <Text style={styles.botaoTexto}>
+          {loading ? "Entrando..." : "Entrar"}
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => router.replace('register')}>
+        <Text style={styles.link}>Não tem conta? Cadastre-se</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }

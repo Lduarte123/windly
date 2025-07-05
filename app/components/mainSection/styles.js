@@ -9,4 +9,7 @@ export default StyleSheet.create({
     minHeight: height * 0.35,
     paddingTop: Constants.statusBarHeight,
   },
+  mainsaction: {
+    color: 'transparent',
+  }
 });

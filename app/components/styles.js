@@ -164,6 +164,51 @@ export default function getStyles(isDark) {
       fontWeight: "bold",
       marginBottom: 2,
       letterSpacing: 0.5,
+      fontSize: 18,
+    },
+    mainContainer: {
+      flex: 1,
+      justifyContent: "center",
+      padding: 24,
+      backgroundColor: "#ffffff",
+    },
+    mainTitle: {
+      fontSize: 26,
+      marginBottom: 100,
+      textAlign: "center",
+      color: "#003366",
+      fontWeight: "600",
+      marginTop: "50%",
+      
+    },
+    input: {
+      borderWidth: 0,
+      borderColor: "#007bff",
+      backgroundColor: isDark ? "#404040" : "#f0f0f0",
+      borderRadius: 5,
+      padding: 12,
+      marginBottom: 12,
+      color: "#003366",
+      width: 350,
+      alignSelf: 'center',
+      margin:5,
+      
+    },
+    link: {
+      color: "#007bff",
+      marginTop: 16,
+      textAlign: "center",
+      fontWeight: "500",
+      borderRadius: 10,
+    },
+    botao: {
+      backgroundColor: "#2784DF",
+      paddingVertical: 14,
+      borderRadius: 8,
+      alignItems: "center",
+      marginTop: 12,
+      width: 350,
+      alignSelf: 'center',
     },
 
     userEmail: {
@@ -304,5 +349,27 @@ export default function getStyles(isDark) {
       flex: 1,
       backgroundColor: "rgba(0,0,0,0.4)",
     },
+    logo: {
+  width: 80,
+  height: 100,
+  resizeMode: 'contain',
+    },
+
+logoTitleContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'start',
+  marginTop: '50%',
+  left: "25%",
+  marginBottom: 40,
+},
+
+mainTitle: {
+  fontSize: 26,
+  fontWeight: "600",
+},
+
+
+    
   });
 }
