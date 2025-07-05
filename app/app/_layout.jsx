@@ -4,8 +4,8 @@ import { TouchableOpacity, View } from 'react-native';
 import { ThemeProvider, useTheme } from '../components/ThemeContext';
 import { AuthProvider } from '../components/authContext/AuthContext';
 import { ConfigProvider } from '../components/configContext';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
 
 function ThemedTabs() {
   const { dark } = useTheme();
@@ -102,7 +102,31 @@ function ThemedTabs() {
             tabBarItemStyle: { display: 'none' },
           }}
         />
-
+        <Tabs.Screen
+          name="configuracoes/perfil"
+          options={{
+            tabBarButton: () => null,
+            tabBarItemStyle: { display: 'none' },
+          }}
+        />
+        <Tabs.Screen
+          name="perfil/index"
+          options={{
+            tabBarButton: () => null,
+            tabBarItemStyle: { display: 'none' },
+          }}
+        />
+        <Tabs.Screen
+        name="mapa/mapa"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="weather-cloudy" size={24} color={color} />
+          ),
+          tabBarButton: (props) => (
+            <TouchableOpacity activeOpacity={0.7} {...props} />
+          ),
+        }}
+      />
       </Tabs>
     </View>
   );
