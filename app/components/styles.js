@@ -159,18 +159,18 @@ export default function getStyles(isDark) {
       
     },
     input: {
-      borderWidth: 0,
-      borderColor: "#007bff",
-      backgroundColor: isDark ? "#404040" : "#f0f0f0",
-      borderRadius: 5,
-      padding: 12,
-      marginBottom: 12,
-      color: "#003366",
-      width: 350,
-      alignSelf: 'center',
-      margin:5,
-      
-    },
+    borderWidth: 0,
+    borderColor: "#007bff",
+    backgroundColor: isDark ? "#404040" : "#f0f0f0",
+    borderRadius: 5,
+    padding: 12,
+    marginBottom: 12,
+    color: isDark ? "#fff" : "#003366",
+    width: 350,
+    alignSelf: 'center',
+    margin: 5,
+    // qwerfafsdd ← ❌ Remova isso
+  },
     link: {
       color: "#007bff",
       marginTop: 16,
@@ -270,7 +270,6 @@ export default function getStyles(isDark) {
       alignItems: "center",
     },
     registerFormWrapper: {
-      marginTop: "40%",
       paddingHorizontal: 24,
     },
     registerMainTitle: {
