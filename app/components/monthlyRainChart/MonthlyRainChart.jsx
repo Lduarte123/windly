@@ -104,7 +104,7 @@ export default function MonthlyRainChart({ city }) {
     );
   }
 
-  if (error) return <Text style={styles.error}>{error}</Text>;
+  if (error) return null;
   if (data.length === 0) return null;
 
   return (
