@@ -410,7 +410,5 @@ mainTitle: {
   fontWeight: "600",
 },
 
-
-    
   });
 }

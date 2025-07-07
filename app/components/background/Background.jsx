@@ -10,6 +10,9 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
+import tzLookup from "tz-lookup";
+import { utcToZonedTime } from "date-fns-tz";
+
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function WeatherBackgroundWrapper({
@@ -19,12 +22,59 @@ export default function WeatherBackgroundWrapper({
 }) {
   const scrollY = useRef(new Animated.Value(0)).current;
 
+  // Converte string "HH:MM" para minutos do dia (0-1439)
+  const timeStringToMinutes = (timeStr) => {
+    if (!timeStr) return null;
+    const [h, m] = timeStr.split(":").map(Number);
+    if (isNaN(h) || isNaN(m)) return null;
+    return h * 60 + m;
+  };
+
+  // Calcula minutos do dia da hora local da cidade com tz-lookup e date-fns-tz
+  const getCityLocalMinutes = () => {
+    if (
+      !weatherData.lat ||
+      !weatherData.lon
+    ) {
+      // fallback para hora local do dispositivo
+      const now = new Date();
+      return now.getHours() * 60 + now.getMinutes();
+    }
+
+    try {
+      const timezone = tzLookup(weatherData.lat, weatherData.lon);
+
+      const now = new Date();
+
+      const cityDate = utcToZonedTime(now, timezone);
+
+      return cityDate.getHours() * 60 + cityDate.getMinutes();
+    } catch (error) {
+      console.warn("Erro ao calcular timezone:", error);
+      const now = new Date();
+      return now.getHours() * 60 + now.getMinutes();
+    }
+  };
+
+  // Decide se é dia com base no horário local da cidade e sunrise/sunset
   const isDayTime = () => {
-    if (!weatherData || !weatherData.dt || !weatherData.sys) return true;
-    const now = weatherData.dt;
-    const sunrise = weatherData.sys.sunrise;
-    const sunset = weatherData.sys.sunset;
-    return now >= sunrise && now < sunset;
+    if (
+      !weatherData ||
+      !weatherData.sunrise ||
+      !weatherData.sunset ||
+      !weatherData.lat ||
+      !weatherData.lon
+    )
+      return true; // padrão dia
+
+    const sunriseMinutes = timeStringToMinutes(weatherData.sunrise);
+    const sunsetMinutes = timeStringToMinutes(weatherData.sunset);
+    if (sunriseMinutes === null || sunsetMinutes === null) return true;
+
+    const nowMinutes = getCityLocalMinutes();
+
+    // Se horário estiver entre nascer e pôr do sol → dia
+    return nowMinutes >= sunriseMinutes && nowMinutes < sunsetMinutes;
   };
 
   const getBackgroundImage = () => {
@@ -75,42 +125,40 @@ export default function WeatherBackgroundWrapper({
     }
   };
 
-  // Função que retorna a cor base do fundo para cada clima
   const getBackgroundColor = () => {
-    if (!weatherData || !weatherData.weatherMain) 
+    if (!weatherData || !weatherData.weatherMain)
       return "#4A90E2";
 
     const main = weatherData.weatherMain.toLowerCase();
     const day = isDayTime();
 
-
     switch (main) {
-    case "clear":
-      return day ? "#167aab" : "#0D1B2A"; // azul claro dia, azul escuro noite
-    case "clouds":
-      return day ? "#8E9AAF" : "#2C3E50";
-    case "rain":
-    case "drizzle":
-      return day ? "#5F7C8A" : "#1B263B";
-    case "thunderstorm":
-      return "#3B3B3B";
-    case "snow":
-      return "#D7E6F0";
-    case "mist":
-    case "smoke":
-    case "haze":
-    case "dust":
-    case "fog":
-    case "sand":
-    case "ash":
-    case "squall":
-    case "tornado":
-      return day ? "#778899" : "#36454F";
-    default:
-      console.warn("⚠️ CAIU NO DEFAULT DO BACKGROUND COLOR:", main);
-      return "#4A90E2";
-  }
-};
+      case "clear":
+        return day ? "#167aab" : "#0D1B2A"; // azul claro dia, azul escuro noite
+      case "clouds":
+        return day ? "#8E9AAF" : "#2C3E50";
+      case "rain":
+      case "drizzle":
+        return day ? "#5F7C8A" : "#1B263B";
+      case "thunderstorm":
+        return "#3B3B3B";
+      case "snow":
+        return "#D7E6F0";
+      case "mist":
+      case "smoke":
+      case "haze":
+      case "dust":
+      case "fog":
+      case "sand":
+      case "ash":
+      case "squall":
+      case "tornado":
+        return day ? "#778899" : "#36454F";
+      default:
+        console.warn("⚠️ CAIU NO DEFAULT DO BACKGROUND COLOR:", main);
+        return "#4A90E2";
+    }
+  };
 
   const backgroundColor = getBackgroundColor();
 
@@ -126,7 +174,6 @@ export default function WeatherBackgroundWrapper({
     extrapolate: "clamp",
   });
 
-  // Gradiente opacity animado com scroll (para transição suave)
   const gradientOpacity = scrollY.interpolate({
     inputRange: [0, 200],
     outputRange: [1, 0],
@@ -151,20 +198,19 @@ export default function WeatherBackgroundWrapper({
         </ImageBackground>
       </Animated.View>
 
-      {/* Gradiente com cor dinâmica */}
       <Animated.View
         pointerEvents="none"
         style={[styles.fadeOut, { opacity: 1 }]}
       >
         <LinearGradient
-  colors={[
-    backgroundColor + "00",  // cor transparente
-    backgroundColor + "CC",  // cor semi-opaca (~80%)
-    backgroundColor + "FF",  // cor opaca total (sem transparência)
-  ]}
-  locations={[0, 0.7, 1]}
-  style={StyleSheet.absoluteFill}
-/>
+          colors={[
+            backgroundColor + "00",
+            backgroundColor + "CC",
+            backgroundColor + "FF",
+          ]}
+          locations={[0, 0.7, 1]}
+          style={StyleSheet.absoluteFill}
+        />
       </Animated.View>
 
       <Animated.ScrollView

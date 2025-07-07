@@ -8,6 +8,8 @@ import {
   Thermometer,
   Wind,
   Cloud,
+  Sunrise,
+  Sunset,
 } from "lucide-react-native";
 import { useTheme } from "../components/ThemeContext";
 import getStyles from "../components/styles";
@@ -22,6 +24,7 @@ import WeatherBackgroundWrapper from "../components/background/Background";
 import ThermalGauge from "../components/gauge/Gauge";
 import HumidityGauge from "../components/humidty/Humidity";
 import HourlySlider from "../components/dayCard/dayCard";
+import MonthlyRainChart from "../components/monthlyRainChart/MonthlyRainChart";
 
 export default function App() {
   const { dark } = useTheme();
@@ -47,9 +50,29 @@ export default function App() {
           throw new Error("Dados de clima não encontrados para esta cidade.");
         }
 
+        // Verificação de horário (dia/noite)
+        const now = new Date();
+        const nowInSeconds =
+          now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+
+        const [sunriseHour, sunriseMin] = data.sunrise
+          .split(":")
+          .map(Number);
+        const [sunsetHour, sunsetMin] = data.sunset
+          .split(":")
+          .map(Number);
+
+        const sunriseInSeconds = sunriseHour * 3600 + sunriseMin * 60;
+        const sunsetInSeconds = sunsetHour * 3600 + sunsetMin * 60;
+
+        const isNight =
+          nowInSeconds < sunriseInSeconds || nowInSeconds > sunsetInSeconds;
+
+        data.isNight = isNight; // adiciona a flag diretamente ao objeto
+
         setWeatherData(data);
         setDesc(data.description || "");
-        setTemp(Math.round(data.temperature))
+        setTemp(Math.round(data.temperature));
       } catch (error) {
         setErrorMsg(error.message || "Erro desconhecido");
         setShowErrorModal(true);
@@ -62,7 +85,6 @@ export default function App() {
     fetchWeather();
   }, [config.wind_unit]);
 
-  // Loading até clima + gráfico carregarem
   if ((!weatherData) && !errorMsg) {
     return (
       <View style={styles.loadingContainer}>
@@ -108,8 +130,7 @@ export default function App() {
           contentContainerStyle={{ paddingBottom: 40 }}
         >
           <WeatherCard city={city} />
-          <HourlySlider city={city}/>
-
+          <HourlySlider city={city} />
           <View
             style={{
               flexDirection: "row",
@@ -165,13 +186,13 @@ export default function App() {
               titulo="Nascer do Sol"
               desc="Horário do nascer do sol"
               stats={weatherData.sunrise ? weatherData.sunrise : "--"}
-              icon={<Cloud color="#fff" size={40} />}
+              icon={<Sunrise color="#fff" size={40} />}
             />
             <StatsCard
               titulo="Pôr do Sol"
               desc="Horário do pôr do sol"
               stats={weatherData.sunset ? weatherData.sunset : "--"}
-              icon={<Cloud color="#fff" size={40} />}
+              icon={<Sunset color="#fff" size={40} />}
             />
           </View>
 

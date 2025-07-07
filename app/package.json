@@ -19,6 +19,8 @@
     "@react-navigation/native": "^7.1.6",
     "axios": "^1.10.0",
     "d3-shape": "^3.2.0",
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
     "expo": "~53.0.9",
     "expo-audio": "~0.4.6",
     "expo-av": "~15.1.6",
@@ -57,6 +59,7 @@
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
+    "tz-lookup": "^6.1.25",
     "victory": "^37.3.6",
     "victory-native": "^41.17.3"
   },

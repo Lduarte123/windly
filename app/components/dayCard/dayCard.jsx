@@ -1,3 +1,4 @@
+// components/dayCard/dayCard.js
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -6,13 +7,22 @@ import * as shape from 'd3-shape';
 import { G, Text as SvgText } from 'react-native-svg';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import api from '../../api/api';
-import { useConfig } from "../configContext";
-import styles from './styles';
+import { useConfig } from '../configContext';
+import { useTheme } from '../ThemeContext';
+import useHourlyStyles from './useHourlyStyles';
 
 const CACHE_EXPIRATION_MS = 5 * 60 * 60 * 1000; // 5 horas
 
-export default function HourlySlider({ city }) {
+export default function HourlySlider({ city, overrideColors = {}, lineColor = "#FFB300" }) {
   const { config } = useConfig();
+  const { dark } = useTheme();
+
+  const styles = useHourlyStyles({
+    isDark: dark,
+    backgroundColor: overrideColors.background,
+    textColor: overrideColors.text,
+  });
+
   const [hourlyData, setHourlyData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -89,19 +99,19 @@ export default function HourlySlider({ city }) {
         await fetchHourly();
       }
     })();
-
   }, [city]);
 
   if (loading) {
     return (
       <View style={{ padding: 20, alignItems: 'center' }}>
-        <Text style={{ color: '#fff' }}>Buscando informações do clima...</Text>
+        <Text style={styles.loading}>Buscando informações do clima...</Text>
       </View>
     );
   }
 
   if (error) return <Text style={styles.error}>{error}</Text>;
   if (hourlyData.length === 0) return null;
+
   const temps = hourlyData.map(item => item?.temp ?? 0);
 
   const labels = hourlyData.map(item => {
@@ -132,7 +142,7 @@ export default function HourlySlider({ city }) {
             x={x(index)}
             y={y(value) - 10}
             fontSize={10}
-            fill="#fff"
+            fill={overrideColors.text || '#fff'}
             alignmentBaseline="middle"
             textAnchor="middle"
           >
@@ -159,7 +169,7 @@ export default function HourlySlider({ city }) {
           <LineChart
             style={{ height: 150, width: chartWidth }}
             data={temps}
-            svg={{ stroke: '#FFB300', strokeWidth: 3 }}
+            svg={{ stroke: lineColor, strokeWidth: 3 }}
             contentInset={{ top: 30, bottom: 40, left: 20, right: 20 }}
             curve={shape.curveNatural}
           >
@@ -186,8 +196,8 @@ export default function HourlySlider({ city }) {
               const hour = labels[index];
 
               return (
-                <View key={index} style={{ alignItems: 'center', width: 48 }}>
-                  <MaterialCommunityIcons name={iconName} size={20} color="#fff" />
+                <View key={index} style={styles.iconContainer}>
+                  <MaterialCommunityIcons name={iconName} size={20} color={overrideColors.text || "#fff"} />
                   <Text style={styles.timeText}>{hour}</Text>
                 </View>
               );
