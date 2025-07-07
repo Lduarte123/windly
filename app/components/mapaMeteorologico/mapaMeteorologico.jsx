@@ -11,15 +11,21 @@ const leafletHTML = `
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-      html, body, #map {
+      html, body {
         height: 100%;
         margin: 0;
         padding: 0;
-        overflow: hidden;
+        overflow: hidden; /* Esconde tudo fora do mapa */
+        background: #000; /* Fundo preto para a área fora do mapa */
       }
-      body {
-        background: #000;
+      #map {
+        height: 100%;
+        width: 100%;
+        position: absolute; /* Garante que o mapa ocupe toda a tela */
+        top: 0;
+        left: 0;
       }
+      /* Estilo do controle de zoom conforme solicitado */
       .leaflet-control-zoom {
         left: 50% !important;
         top: 85% !important;
@@ -46,7 +52,10 @@ const leafletHTML = `
           [-90, -180],
           [90, 180]
         ],
-        maxBoundsViscosity: 1.0
+        maxBoundsViscosity: 1.0,
+        minZoom: 3, // Limita o zoom mínimo
+        maxZoom: 10, // Limita o zoom máximo
+        worldCopyJump: true, // Impede o mapa de se deslocar fora dos limites
       }).setView([-23.55, -46.63], 4);
 
       // Mapa base escuro
