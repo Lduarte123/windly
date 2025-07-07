@@ -6,7 +6,7 @@ const apiKey = process.env.CROSSING_API_KEY;
 
 class CrossingService {
   // Requisição base (últimos 30 dias até hoje)
-  static async fetchWeatherData(city, daysBack = 14) {
+  static async fetchWeatherData(city, daysBack = 30) {
     try {
       const cityQuery = city.trim();
       const today = new Date();
