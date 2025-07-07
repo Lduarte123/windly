@@ -88,7 +88,24 @@ export default function Configuracoes() {
             </Text>
             <TouchableOpacity
               style={localStyles.profileButton}
-              onPress={() => router.push("/configuracoes/perfil")}
+              onPress={() => {
+                if (!user) {
+                  Alert.alert(
+                    "Alerta",
+                    "Você não está logado",
+                    [
+                      {
+                        text: "Logar",
+                        onPress: () => router.push("/login"),
+                        style: "default"
+                      },
+                      { text: "Cancelar", style: "cancel" }
+                    ]
+                  );
+                } else {
+                  router.push("/configuracoes/perfil");
+                }
+              }}
               activeOpacity={0.8}
             >
               <Feather name="user" size={26} color="#2D6BFD" />

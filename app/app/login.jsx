@@ -60,7 +60,10 @@ export default function LoginScreen() {
       </View>
 
       <TextInput
-        style={styles.input}
+        style={[
+          styles.input,
+          { color: dark ? "#fff" : "#11181C" } // cor do texto digitado
+        ]}
         placeholder="E-mail"
         placeholderTextColor={dark ? "#fff" : "#888"}
         value={email}
@@ -69,7 +72,10 @@ export default function LoginScreen() {
         autoCapitalize="none"
       />
       <TextInput
-        style={styles.input}
+        style={[
+          styles.input,
+          { color: dark ? "#fff" : "#11181C" } // cor do texto digitado
+        ]}
         placeholder="Senha"
         placeholderTextColor={dark ? "#fff" : "#888"}
         value={password}
@@ -82,7 +88,7 @@ export default function LoginScreen() {
         onPress={handleLogin}
         disabled={loading}
       >
-        <Text style={styles.botaoTexto}>
+        <Text style={[styles.botaoTexto, { color: dark ? "#ffff" : "#003366" }]}>
           {loading ? "Entrando..." : "Entrar"}
         </Text>
       </TouchableOpacity>
