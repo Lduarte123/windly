@@ -173,7 +173,7 @@ export default function CidadeDetalhe() {
           }}
           lineColor="#fff"
         />
-        <MonthlyRainChart city={weatherData.city || cidade} />
+        {/* <MonthlyRainChart city={weatherData.city || cidade} /> */}
 
         <View style={styles.statsContainer}>
           <StatsCard
