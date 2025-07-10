@@ -106,4 +106,3 @@ module.exports = {
   formatMonthlyPrecipitation,
   formatDailyPrecipitationProbability
 };
-
