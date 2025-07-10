@@ -1,11 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import styles from './styles';
 import api from '../../api/api';
 import { useConfig } from "../configContext";
 import { convertTemp } from "../../utils/convertTemp";
+
+// Ativa animações no Android
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 function getWeekDayName(dateString) {
   const dias = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -19,11 +33,18 @@ function capitalize(str) {
 }
 
 function getWeatherIcon(main, size = 22, color = "#fff") {
-  if (main === "Rain") return <MaterialCommunityIcons name="weather-rainy" size={size} color={color} />;
-  if (main === "Thunderstorm") return <MaterialCommunityIcons name="weather-lightning" size={size} color={color} />;
-  if (main === "Clouds") return <MaterialCommunityIcons name="weather-cloudy" size={size} color={color} />;
-  if (main === "Clear") return <MaterialCommunityIcons name="weather-sunny" size={size} color={color} />;
-  return <MaterialCommunityIcons name="weather-partly-cloudy" size={size} color={color} />;
+  switch (main) {
+    case "Rain":
+      return <MaterialCommunityIcons name="weather-rainy" size={size} color={color} />;
+    case "Thunderstorm":
+      return <MaterialCommunityIcons name="weather-lightning" size={size} color={color} />;
+    case "Clouds":
+      return <MaterialCommunityIcons name="weather-cloudy" size={size} color={color} />;
+    case "Clear":
+      return <MaterialCommunityIcons name="weather-sunny" size={size} color={color} />;
+    default:
+      return <MaterialCommunityIcons name="weather-partly-cloudy" size={size} color={color} />;
+  }
 }
 
 function TempBar({ min, max, temp }) {
@@ -51,7 +72,7 @@ function TempBar({ min, max, temp }) {
           <View
             style={[
               styles.tempBarMarker,
-              { left: barWidth * percent - 6 }
+              { left: barWidth * percent - 5 }
             ]}
           />
         )}
@@ -66,6 +87,7 @@ export default function WeatherCard({ city }) {
   const [forecast, setForecast] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState("");
+  const [showAll, setShowAll] = useState(false); // NOVO
 
   useEffect(() => {
     async function fetchForecast() {
@@ -89,10 +111,14 @@ export default function WeatherCard({ city }) {
         <View style={{ height: 8 }} />
         {[0, 1, 2].map((_, idx) => (
           <View key={idx} style={[styles.row, { opacity: 0.5 }]}>
-            <View style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: "#ffffff33", marginRight: 8 }} />
-            <View style={{ width: 60, height: 16, borderRadius: 8, backgroundColor: "#ffffff33", marginRight: 8 }} />
-            <View style={{ flex: 1, height: 16, borderRadius: 8, backgroundColor: "#ffffff33", marginRight: 8 }} />
-            <View style={{ width: 60, height: 16, borderRadius: 8, backgroundColor: "#ffffff33" }} />
+            {/* Ícone + Dia */}
+            <View style={{ width: 50, height: 25, borderRadius: 10, backgroundColor: "#ffffff33", marginRight: 8 }} />
+
+            {/* Descrição */}
+            <View style={{ flex: 1.5, height: 20, borderRadius: 10, backgroundColor: "#ffffff33", marginRight: 8 }} />
+
+            {/* Barra de temperatura */}
+            <View style={{ flex: 0.85, height: 15, borderRadius: 4, backgroundColor: "#ffffff33" }} />
           </View>
         ))}
       </View>
@@ -108,10 +134,13 @@ export default function WeatherCard({ city }) {
     );
   }
 
+  const itemsToRender = showAll ? forecast : forecast.slice(0, 3);
+
   return (
     <View style={styles.card}>
       <Text style={styles.title}>Previsões</Text>
-      {forecast.slice(0, 3).map((item, index) => (
+
+      {itemsToRender.map((item, index) => (
         <View key={index} style={styles.row}>
           <View style={styles.iconDay}>
             {getWeatherIcon(item.weatherMain, 22)}
@@ -132,7 +161,20 @@ export default function WeatherCard({ city }) {
           />
         </View>
       ))}
+
+      {forecast.length > 3 && (
+        <TouchableOpacity
+          onPress={() => {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+            setShowAll(prev => !prev);
+          }}
+          style={styles.buttonToggle}
+        >
+          <Text style={styles.buttonToggleText}>
+            {showAll ? "Ver menos" : "Ver mais"}
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
-

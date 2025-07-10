@@ -4,13 +4,13 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Minha API Node com Swagger',
+      title: 'WindlyAPI',
       version: '1.0.0',
       description: 'Documentação da API com Swagger',
     },
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: 'https://windly-xa9w.onrender.com',
       },
     ],
     components: {
