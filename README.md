@@ -53,5 +53,30 @@ O app é composto por quatro telas principais, acessíveis por navegação em ab
 - Docker
 - Docker Compose
 
+Siga os passos abaixo para clonar e executar o projeto Windly localmente utilizando Docker. Também incluí instruções alternativas caso prefira executar sem contêineres.
+
+### 1. Clone o repositório
+
+https://github.com/Lduarte123/windly.git
+
+### 2. Comandos Para iniciar o projeto
+Frontend
+```bash
+cd app
+npm install
+npm start
+```
+Backend Principal
+```bash
+cd api
+npm i
+npm start
+```
+Backend Secundario
+```
+cd nsql
+npm i
+node server.js
+```
 
 
