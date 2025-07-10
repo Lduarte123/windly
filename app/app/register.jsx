@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Alert, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+  Image
+} from 'react-native';
 import api from '../api/api';
 import { useRouter } from "expo-router";
 import getStyles from '../components/styles';
@@ -25,18 +34,16 @@ export default function RegisterScreen() {
     try {
       const response = await api.post('/users', { name, email, password });
       if (response.data.token && response.data.user) {
-        // await login({ user: response.data.user, token }); // descomente se usar login automático
         Alert.alert('Sucesso', 'Cadastro realizado!');
         router.replace('index');
       } else {
-        setLoading(false);
         Alert.alert('Sucesso', 'Cadastro realizado!');
         router.replace('login');
       }
     } catch (e) {
-      setLoading(false);
       Alert.alert('Erro', `O ${email} já está em uso!`);
     }
+    setLoading(false);
   }
 
   return (
@@ -47,45 +54,52 @@ export default function RegisterScreen() {
         keyboardVerticalOffset={60}
       >
         <View style={styles.registerFormWrapper}>
-          <Text style={[styles.registerMainTitle, { color: dark ? "#ECEDEE" : "#003366" }]}>Cadastro</Text>
+          
+          {/* LOGO + TÍTULO IGUAL AO LOGIN */}
+          <View style={styles.logoTitleContainer}>
+            <Image source={require('../../app/assets/logo.png')} style={styles.logo} />
+            <Text style={[styles.mainTitle, { color: dark ? "#ECEDEE" : "#003366"}]}>
+              Windly
+            </Text>
+          </View>
 
           <TextInput
-            style={styles.registerInput}
+            style={styles.input}
             placeholder="Nome"
-            placeholderTextColor={dark ? "#000" : "#888"}
+            placeholderTextColor={dark ? "#fff" : "#888"}
             value={name}
             onChangeText={setName}
           />
           <TextInput
-            style={styles.registerInput}
+            style={styles.input}
             placeholder="E-mail"
-            placeholderTextColor={dark ? "#000" : "#888"}
+            placeholderTextColor={dark ? "#fff" : "#888"}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
           />
           <TextInput
-            style={styles.registerInput}
+            style={styles.input}
             placeholder="Senha"
-            placeholderTextColor={dark ? "#000" : "#888"}
+            placeholderTextColor={dark ? "#fff" : "#888"}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
           />
 
           <TouchableOpacity
-            style={[styles.registerBotao, loading && { opacity: 0.6 }]}
+            style={[styles.botao, loading && { opacity: 0.6 }]}
             onPress={handleRegister}
             disabled={loading}
           >
-            <Text style={styles.registerBotaoTexto}>
+            <Text style={styles.botaoTexto}>
               {loading ? "Cadastrando..." : "Cadastrar"}
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => router.replace('login')}>
-            <Text style={styles.registerLink}>Já tem conta? Entrar</Text>
+            <Text style={styles.link}>Já tem conta? Entrar</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

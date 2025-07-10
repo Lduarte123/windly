@@ -1,19 +1,38 @@
+import React, { useEffect, useState, useCallback } from "react";
 import { useLocalSearchParams, useNavigation } from "expo-router";
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
-import MainSection from "../../components/mainSection/MainSection";
-import MainStats from "../../components/mainStats/MainStats";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import {
+  Thermometer,
+  Droplets,
+  CloudFog,
+  Sunrise,
+  Sunset,
+  Wind,
+  Cloud,
+} from "lucide-react-native";
+
 import WeatherCard from "../../components/weatherCard/WeatherCard";
 import StatsCard from "../../components/statsCard/StatsCard";
-import { Ionicons } from '@expo/vector-icons';
-import { Thermometer, Droplets, Gauge, Wind, Eye, Cloud } from 'lucide-react-native';
 import { useTheme } from "../../components/ThemeContext";
-import getStyles from "../../components/styles";
-import api from "../../api/api";
-import React, { useEffect, useState, useCallback } from "react";
-import { useAuth } from '../../components/authContext/AuthContext';
-import { useFocusEffect } from "@react-navigation/native";
+import { useAuth } from "../../components/authContext/AuthContext";
 import { useConfig } from "../../components/configContext";
+import api from "../../api/api";
 import formatWind from "../../utils/convertWind";
+import { convertTemp } from "../../utils/convertTemp";
+import HourlySlider from "../../components/dayCard/dayCard";
+import ThermalGauge from "../../components/gauge/Gauge";
+import HumidityGauge from "../../components/humidty/Humidity";
+import MonthlyRainChart from "../../components/monthlyRainChart/MonthlyRainChart";
+import PrecipitationProbabilityCard from "../../components/precipitationProbabilityCard/PrecipitationProbabilityCard";
 
 export const options = {
   tabBarButton: () => null,
@@ -22,7 +41,6 @@ export const options = {
 export default function CidadeDetalhe() {
   const { cidade } = useLocalSearchParams();
   const { dark } = useTheme();
-  const styles = getStyles(dark);
   const navigation = useNavigation();
   const { user, loading: authLoading } = useAuth();
   const { config } = useConfig();
@@ -30,6 +48,9 @@ export default function CidadeDetalhe() {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState("");
+
+  const styles = createStyles(dark);
+  const textColor = dark ? "#ECEDEE" : "#11181C";
 
   useEffect(() => {
     async function fetchWeather() {
@@ -44,37 +65,29 @@ export default function CidadeDetalhe() {
       setLoading(false);
     }
     if (cidade) fetchWeather();
-  }, [cidade]);
+  }, [cidade, config.temp_unit]);
 
   useFocusEffect(
     useCallback(() => {
-      if (authLoading) return; 
+      if (authLoading) return;
       if (!user) {
-        navigation.replace('login');
+        navigation.replace("login");
       }
     }, [user, authLoading])
   );
 
-  const whiteSectionStyle = [
-    styles.whiteSection,
-    dark && { backgroundColor: "#23272a" }
-  ];
-  const textColor = dark ? "#ECEDEE" : "#11181C";
-
-  if (authLoading) {
-    return null;
-  }
+  if (authLoading) return null;
 
   if (loading) {
     return (
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <MainSection>
-          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <View style={styles.headerRow}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Ionicons name="arrow-back" size={24} color={textColor} />
           </TouchableOpacity>
-          <MainStats city={cidade} desc="Carregando..." temp="--"/>
-        </MainSection>
-        <ActivityIndicator style={{ margin: 32 }} color="#2D6BFD" />
+          <Text style={styles.headerTitle}>Resumo climático</Text>
+        </View>
+        <ActivityIndicator style={{ margin: 32 }} color="#FFF" />
       </ScrollView>
     );
   }
@@ -82,14 +95,16 @@ export default function CidadeDetalhe() {
   if (erro || !weatherData) {
     return (
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <MainSection>
-          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <View style={styles.headerRow}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Ionicons name="arrow-back" size={24} color={textColor} />
           </TouchableOpacity>
-          <MainStats city={cidade} desc="Erro" temp="--"/>
-        </MainSection>
+          <Text style={styles.headerTitle}>Resumo climático</Text>
+        </View>
         <View style={{ padding: 20 }}>
-          <Text style={{ color: "red" }}>{erro || "Erro ao carregar dados"}</Text>
+          <Text style={{ color: "red" }}>
+            {erro || "Erro ao carregar dados"}
+          </Text>
         </View>
       </ScrollView>
     );
@@ -97,80 +112,215 @@ export default function CidadeDetalhe() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <MainSection>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+      <View style={styles.headerRow}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color={textColor} />
         </TouchableOpacity>
-        <MainStats city={weatherData.city || cidade} desc={weatherData.description} temp={Math.round(weatherData.temperature)}/>
-      </MainSection>
-      <ScrollView style={whiteSectionStyle}>
-        <Text style={{ fontWeight: "bold", fontSize: 20, margin: 16, color: textColor }}>
-          {weatherData.city || cidade}
-        </Text>
+        <Text style={styles.headerTitle}>Resumo climático</Text>
+      </View>
+
+      <View style={styles.headerCard}>
+        <View style={styles.headerTopRow}>
+          <Text style={styles.cityDesc}>{weatherData.city || cidade}</Text>
+          <Text style={styles.cityDescSub}>{weatherData.description}</Text>
+        </View>
+
+        <View style={styles.headerBottomRow}>
+          <View style={styles.leftColumn}>
+            <Text style={styles.temperature}>
+              {convertTemp(weatherData.temperature, config.temp_unit) + "°"}
+            </Text>
+          </View>
+
+          <View style={styles.rightColumn}>
+            {/* Visibilidade */}
+            <View style={styles.infoRow}>
+              <CloudFog color="#FFF" size={20} />
+              <Text style={styles.label}>Visibilidade:</Text>
+              <Text style={styles.value}>
+                {weatherData.visibility !== undefined
+                  ? ((weatherData.visibility / 10000) * 100).toFixed(0) + "%"
+                  : "--"}
+              </Text>
+            </View>
+
+            {/* Sensação térmica */}
+            <View style={styles.infoRow}>
+              <Thermometer color="#FFF" size={20} />
+              <Text style={styles.label}>Sensação:</Text>
+              <Text style={styles.value}>
+                {convertTemp(weatherData.feelsLike, config.temp_unit) + "°"}
+              </Text>
+            </View>
+
+            {/* Umidade */}
+            <View style={styles.infoRow}>
+              <Droplets color="#FFF" size={20} />
+              <Text style={styles.label}>Umidade:</Text>
+              <Text style={styles.value}>{weatherData.humidity + "%"}</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      <ScrollView style={styles.whiteSection}>
         <WeatherCard city={weatherData.city || cidade} />
+        <HourlySlider
+          city={weatherData.city || cidade}
+          overrideColors={{
+            background: 'rgba(30, 60, 255, 0.2)',
+            text: dark ? '#eee' : '#fff',
+          }}
+          lineColor="#fff"
+        />
+        {/* <MonthlyRainChart city={weatherData.city || cidade} /> */}
+
         <View style={styles.statsContainer}>
           <StatsCard
             titulo="Sensação"
             desc="Sensação térmica"
             stats={
-              weatherData.feelsLike !== undefined && weatherData.feelsLike !== null
-                ? `${weatherData.feelsLike}°`
+              weatherData.feelsLike !== undefined
+                ? weatherData.feelsLike + "°"
                 : "--"
             }
-            icon={<Thermometer color="#fff" size={26} />}
+            icon={<ThermalGauge value={weatherData.feelsLike} />}
           />
           <StatsCard
             titulo="Umidade"
             desc="Umidade relativa"
             stats={
-              weatherData.humidity !== undefined && weatherData.humidity !== null
-                ? `${weatherData.humidity}%`
+              weatherData.humidity !== undefined
+                ? weatherData.humidity + "%"
                 : "--"
             }
-            icon={<Droplets color="#fff" size={26} />}
-          />
-          <StatsCard
-            titulo="Pressão"
-            desc="Pressão atmosférica"
-            stats={
-              weatherData.pressure !== undefined && weatherData.pressure !== null
-                ? `${weatherData.pressure} hPa`
-                : "--"
-            }
-            icon={<Gauge color="#fff" size={26} />}
+            icon={<HumidityGauge value={weatherData.humidity} />}
           />
           <StatsCard
             titulo="Vento"
             desc="Velocidade do vento"
             stats={
-              weatherData.windSpeed !== undefined && weatherData.windSpeed !== null
+              weatherData.windSpeed !== undefined
                 ? formatWind(weatherData.windSpeed, config.wind_unit)
                 : "--"
             }
-            icon={<Wind color="#fff" size={26} />}
-          />
-          <StatsCard
-            titulo="Visibilidade"
-            desc="Visibilidade"
-            stats={
-              weatherData.visibility !== undefined && weatherData.visibility !== null
-                ? `${(weatherData.visibility / 1000).toFixed(1)} km`
-                : "--"
-            }
-            icon={<Eye color="#fff" size={26} />}
+            icon={<Wind color="#fff" size={40} />}
           />
           <StatsCard
             titulo="Nuvens"
             desc="Cobertura de nuvens"
             stats={
-              weatherData.cloudiness !== undefined && weatherData.cloudiness !== null
-                ? `${weatherData.cloudiness}%`
+              weatherData.cloudiness !== undefined
+                ? weatherData.cloudiness + "%"
                 : "--"
             }
-            icon={<Cloud color="#fff" size={26} />}
+            icon={<Cloud color="#fff" size={40} />}
           />
+          <StatsCard
+            titulo="Nascer do Sol"
+            desc="Horário do nascer do sol"
+            stats={weatherData.sunrise || "--"}
+            icon={<Sunrise color="#fff" size={40} />}
+          />
+          <StatsCard
+            titulo="Pôr do Sol"
+            desc="Horário do pôr do sol"
+            stats={weatherData.sunset || "--"}
+            icon={<Sunset color="#fff" size={40} />}
+          />
+          <PrecipitationProbabilityCard city={weatherData.city || cidade} />
         </View>
       </ScrollView>
     </ScrollView>
   );
+}
+
+function createStyles(isDark) {
+  const theme = {
+    background: isDark ? "#151718" : "#fff",
+  };
+
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.background,
+    },
+    headerRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingTop: 50,
+      paddingHorizontal: 16,
+      marginBottom: 24,
+      gap: 12,
+    },
+    headerTitle: {
+      fontSize: 18,
+      fontWeight: "600",
+      color: isDark ? "#ECEDEE" : "#11181C",
+    },
+    whiteSection: {
+      flex: 1,
+      borderTopLeftRadius: 24,
+      borderTopRightRadius: 24,
+      marginTop: -24,
+      padding: 16,
+      paddingBottom: 110,
+    },
+    statsContainer: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+    },
+    headerCard: {
+      backgroundColor: '#4287f5',
+      padding: 24,
+      borderRadius: 20,
+      marginHorizontal: 16,
+      marginBottom: 12,
+    },
+    headerTopRow: {
+      marginBottom: 12,
+    },
+    cityDesc: {
+      fontSize: 16,
+      fontWeight: "600",
+      color: "#ECEDEE",
+    },
+    cityDescSub: {
+      fontSize: 12,
+      fontWeight: "400",
+      color: "#ECEDEE",
+    },
+    headerBottomRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    leftColumn: {
+      flex: 1,
+    },
+    rightColumn: {
+      flex: 1,
+      alignItems: "flex-end",
+      justifyContent: "flex-start",
+    },
+    temperature: {
+      fontSize: 48,
+      color: "#fff",
+    },
+    infoRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 6,
+      marginBottom: 4,
+    },
+    label: {
+      color: "#ECEDEE",
+      fontSize: 12,
+    },
+    value: {
+      color: "#ECEDEE",
+      fontSize: 14,
+      fontWeight: "600",
+    },
+  });
 }

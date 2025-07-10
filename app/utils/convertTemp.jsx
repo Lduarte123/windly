@@ -7,7 +7,10 @@ export function convertTemp(temp, unit) {
   ) {
     return "--";
   }
-  return unit === "F"
+
+  const normalizedUnit = unit?.toLowerCase();
+
+  return normalizedUnit === "f"
     ? (parseFloat(temp) * 9/5 + 32).toFixed(1)
-    : parseFloat(temp);
+    : parseFloat(temp).toFixed(1);
 }
