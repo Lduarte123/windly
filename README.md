@@ -72,7 +72,7 @@ cd api
 npm i
 npm start
 ```
-Backend Secundario
+Backend Secundario (NoSQL)
 ```
 cd nsql
 npm i
