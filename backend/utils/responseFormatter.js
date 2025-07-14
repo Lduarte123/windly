@@ -28,14 +28,14 @@ function formatResponse(weatherData) {
 
 function formatForecastResponse(forecastData) {
   return forecastData.map((item) => ({
-    date: item.date,
-    temperature: item.main.temp,
-    temp_max: item.main.temp_max,
-    temp_min: item.main.temp_min,
-    weatherMain: item.weather[0].main,
-    description: item.weather[0].description,
-    windSpeed: item.wind.speed,
-    humidity: item.main.humidity,
+    date: item.date || "Data não disponível", // Para o caso de item.date ser undefined
+    temperature: item.main ? item.main.temp : "Temp não disponível", 
+    temp_max: item.main ? item.main.temp_max : "Max temp não disponível",
+    temp_min: item.main ? item.main.temp_min : "Min temp não disponível",
+    weatherMain: item.weather && item.weather[0] ? item.weather[0].main : "Condição não disponível",
+    description: item.weather && item.weather[0] ? item.weather[0].description : "Descrição não disponível",
+    windSpeed: item.wind ? item.wind.speed : "Velocidade do vento não disponível",
+    humidity: item.main ? item.main.humidity : "Umidade não disponível",
   }));
 }
 
