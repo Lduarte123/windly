@@ -47,9 +47,9 @@ class PrevisaoService {
 
         return {
           date,
-          temp_avg: data.tempSum / data.tempCount,
-          temp_min_avg: data.tempMinSum / data.tempCount,
-          temp_max_avg: data.tempMaxSum / data.tempCount,
+          temp: data.tempSum / data.tempCount,
+          temp_min: data.tempMinSum / data.tempCount,
+          temp_max: data.tempMaxSum / data.tempCount,
           weather: mostFrequentWeather,
         };
       });
