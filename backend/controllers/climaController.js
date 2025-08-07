@@ -1,8 +1,8 @@
 // controllers/weatherController.js
-const PrevisaoService = require('../services/climaService');
+const ClimaService = require('../services/ClimaService');
 const { formatResponse } = require('../utils/responseFormatter');
 
-class PrevisaoController {
+class ClimaController {
   static async getWeather(req, res, next) {
     const { city } = req.params;
 
@@ -11,7 +11,7 @@ class PrevisaoController {
     }
 
     try {
-      const weatherData = await PrevisaoService.getWeather(city);
+      const weatherData = await ClimaService.getWeather(city);
 
       // Verifica se o retorno contém um erro
       if (weatherData.error) {
@@ -26,4 +26,4 @@ class PrevisaoController {
   }
 }
 
-module.exports = PrevisaoController;
+module.exports = ClimaController;
