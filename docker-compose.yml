@@ -1,4 +1,15 @@
 services:
+  expo:
+    build: ./app
+    ports:
+      - "19000:19000"  # Metro bundler (HTTP)
+      - "19001:19001"  # Metro bundler (WebSocket)
+      - "19002:19002"  # Expo DevTools
+    volumes:
+      - ./app:/app
+    environment:
+      - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
+
   backend:
     build: ./backend
     ports:
@@ -30,6 +41,7 @@ services:
 
   mongo:
     image: mongo:7
+    container_name: mongodb
     ports:
       - "27017:27017"
     volumes:

@@ -1,5 +1,5 @@
 // controllers/weatherController.js
-const ClimaService = require('../services/ClimaService');
+const ClimaService = require('../services/climaService');
 const { formatResponse } = require('../utils/responseFormatter');
 
 class ClimaController {
