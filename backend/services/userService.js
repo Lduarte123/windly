@@ -3,25 +3,28 @@ const userConfigRepository = require('../repositories/userConfigRepository');
 
 class UserService {
   static async createUser(name, email, password) {
+    const existingUser = await userRepository.getUserByEmail(email);
+    if (existingUser) throw new Error('EMAIL_IN_USE');
+
     const user = await userRepository.createUser(name, email, password);
     await userConfigRepository.create(user.id);
     return user;
   }
 
-  static async getUserById(id) {
-    return await userRepository.getUserById(id);
+  static getUserById(id) {
+    return userRepository.getUserById(id);
   }
 
-  static async getUserByEmail(email) {
-    return await userRepository.getUserByEmail(email);
+  static getUserByEmail(email) {
+    return userRepository.getUserByEmail(email);
   }
 
-  static async updateUser(id, name, email) {
-    return await userRepository.updateUser(id, name, email);
+  static updateUser(id, name, email) {
+    return userRepository.updateUser(id, name, email);
   }
 
-  static async deleteUser(id) {
-    return await userRepository.deleteUser(id);
+  static deleteUser(id) {
+    return userRepository.deleteUser(id);
   }
 }
 

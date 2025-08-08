@@ -9,29 +9,14 @@ const createUser = async (name, email, password) => {
     VALUES ($1, $2, $3)
     RETURNING id, name, email, created_at;
   `;
-  const values = [name, email, hashedPassword];
-  const result = await db.query(query, values);
-  const user = new User(result.rows[0]);
-  return user.toJSON();
+  const { rows } = await db.query(query, [name, email, hashedPassword]);
+  return new User(rows[0]).toJSON();
 };
 
-const getUserByEmail = async (email) => {
-  const query = `
-    SELECT id, name, email, created_at FROM users WHERE email = $1;
-  `;
-  const result = await db.query(query, [email]);
-  if (!result.rows[0]) return null;
-  return result.rows[0];
-};
-
-const getUserById = async (id) => {
-  const query = `
-    SELECT id, name, email, created_at FROM users WHERE id = $1;
-  `;
-  const result = await db.query(query, [id]);
-  if (!result.rows[0]) return null;
-  const user = new User(result.rows[0]);
-  return user.toJSON();
+const findUser = async (field, value) => {
+  const query = `SELECT id, name, email, created_at FROM users WHERE ${field} = $1;`;
+  const { rows } = await db.query(query, [value]);
+  return rows[0] ? new User(rows[0]).toJSON() : null;
 };
 
 const updateUser = async (id, name, email) => {
@@ -41,23 +26,18 @@ const updateUser = async (id, name, email) => {
     WHERE id = $3
     RETURNING id, name, email, created_at;
   `;
-  const result = await db.query(query, [name, email, id]);
-  if (!result.rows[0]) return null;
-  const user = new User(result.rows[0]);
-  return user.toJSON();
+  const { rows } = await db.query(query, [name, email, id]);
+  return rows[0] ? new User(rows[0]).toJSON() : null;
 };
 
 const deleteUser = async (id) => {
-  const query = `
-    DELETE FROM users WHERE id = $1;
-  `;
-  await db.query(query, [id]);
+  await db.query(`DELETE FROM users WHERE id = $1;`, [id]);
 };
 
 module.exports = {
   createUser,
-  getUserByEmail,
-  getUserById,
+  getUserByEmail: (email) => findUser('email', email),
+  getUserById: (id) => findUser('id', id),
   updateUser,
-  deleteUser
+  deleteUser,
 };
