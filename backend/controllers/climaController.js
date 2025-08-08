@@ -1,8 +1,8 @@
 // controllers/weatherController.js
-const PrevisaoService = require('../services/climaService');
+const ClimaService = require('../services/ClimaService');
 const { formatResponse } = require('../utils/responseFormatter');
 
-class PrevisaoController {
+class ClimaController {
   static async getWeather(req, res, next) {
     const { city } = req.params;
 
@@ -11,9 +11,7 @@ class PrevisaoController {
     }
 
     try {
-      const weatherData = await PrevisaoService.getWeather(city);
-
-      // Verifica se o retorno contém um erro
+      const weatherData = await ClimaService.getWeather(city);
       if (weatherData.error) {
         return res.status(404).json({ error: weatherData.error });
       }
@@ -21,9 +19,9 @@ class PrevisaoController {
       const formattedData = formatResponse(weatherData);
       return res.json(formattedData);
     } catch (error) {
-      next(error); // Passa o erro para o middleware de erro
+      next(error);
     }
   }
 }
 
-module.exports = PrevisaoController;
+module.exports = ClimaController;

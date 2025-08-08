@@ -34,7 +34,7 @@ const sendAdminNotification = async (subject, message) => {
   try {
     await transporter.sendMail({
       from: `"Windly" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER, // envia para seu próprio email do .env
+      to: process.env.EMAIL_USER,
       subject,
       html: `<p>${message}</p>`
     });
