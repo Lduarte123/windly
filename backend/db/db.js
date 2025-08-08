@@ -9,7 +9,7 @@ try {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
-      rejectUnauthorized: false, // Necessário para serviços como NeonDB
+      rejectUnauthorized: true, // Necessário para serviços como NeonDB
     },
   });
   console.log('✅ Conexão com o banco de dados estabelecida com sucesso.');

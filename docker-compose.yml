@@ -1,12 +1,10 @@
-version: '3.8'
-
 services:
-  api:
-    build: ./api
+  backend:
+    build: ./backend
     ports:
       - "3000:3000"
     env_file:
-      - ./api/.env
+      - ./backend/.env
     depends_on:
       - db
 
