@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const db = require('../db/db');
 const User = require('../models/userModel');
 
-// Criar novo usuário
 const createUser = async (name, email, password) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   const query = `
@@ -16,17 +15,15 @@ const createUser = async (name, email, password) => {
   return user.toJSON();
 };
 
-// Buscar usuário por e-mail (ex: login)
 const getUserByEmail = async (email) => {
   const query = `
-    SELECT * FROM users WHERE email = $1;
+    SELECT id, name, email, created_at FROM users WHERE email = $1;
   `;
   const result = await db.query(query, [email]);
   if (!result.rows[0]) return null;
-  return result.rows[0]; // Retorna o objeto do banco, incluindo password
+  return result.rows[0];
 };
 
-// Buscar por ID
 const getUserById = async (id) => {
   const query = `
     SELECT id, name, email, created_at FROM users WHERE id = $1;
@@ -37,7 +34,6 @@ const getUserById = async (id) => {
   return user.toJSON();
 };
 
-// Atualizar nome ou e-mail (não senha)
 const updateUser = async (id, name, email) => {
   const query = `
     UPDATE users
@@ -51,7 +47,6 @@ const updateUser = async (id, name, email) => {
   return user.toJSON();
 };
 
-// Deletar usuário
 const deleteUser = async (id) => {
   const query = `
     DELETE FROM users WHERE id = $1;

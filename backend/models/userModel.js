@@ -13,7 +13,6 @@ class User {
       name: this.name,
       email: this.email,
       created_at: this.created_at,
-      // Não incluir password no toJSON para não vazar na resposta
     };
   }
 }
