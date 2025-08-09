@@ -2,7 +2,8 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const api = axios.create({
-  baseURL: "https://windly-xa9w.onrender.com/api",
+  baseURL: "http://192.168.1.6:3000/api",
+  // https://windly-xa9w.onrender.com/api
 });
 
 api.interceptors.request.use(

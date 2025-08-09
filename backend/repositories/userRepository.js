@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const db = require('../db/db');
 const User = require('../models/userModel');
 
-const createUser = async (name, email, password) => {
+async function createUser(name, email, password) {
   const hashedPassword = await bcrypt.hash(password, 10);
   const query = `
     INSERT INTO users (name, email, password)
@@ -11,15 +11,29 @@ const createUser = async (name, email, password) => {
   `;
   const { rows } = await db.query(query, [name, email, hashedPassword]);
   return new User(rows[0]).toJSON();
-};
+}
 
-const findUser = async (field, value) => {
-  const query = `SELECT id, name, email, created_at FROM users WHERE ${field} = $1;`;
-  const { rows } = await db.query(query, [value]);
+async function getUserByEmail(email) {
+  const query = `
+    SELECT id, name, email, password, created_at
+    FROM users
+    WHERE email = $1;
+  `;
+  const { rows } = await db.query(query, [email]);
+  return rows[0] || null;
+}
+
+async function getUserById(id) {
+  const query = `
+    SELECT id, name, email, created_at
+    FROM users
+    WHERE id = $1;
+  `;
+  const { rows } = await db.query(query, [id]);
   return rows[0] ? new User(rows[0]).toJSON() : null;
-};
+}
 
-const updateUser = async (id, name, email) => {
+async function updateUser(id, name, email) {
   const query = `
     UPDATE users
     SET name = $1, email = $2
@@ -28,16 +42,16 @@ const updateUser = async (id, name, email) => {
   `;
   const { rows } = await db.query(query, [name, email, id]);
   return rows[0] ? new User(rows[0]).toJSON() : null;
-};
+}
 
-const deleteUser = async (id) => {
+async function deleteUser(id) {
   await db.query(`DELETE FROM users WHERE id = $1;`, [id]);
-};
+}
 
 module.exports = {
   createUser,
-  getUserByEmail: (email) => findUser('email', email),
-  getUserById: (id) => findUser('id', id),
+  getUserByEmail,
+  getUserById,
   updateUser,
   deleteUser,
 };

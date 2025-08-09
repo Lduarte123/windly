@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { sendLoginNotification } = require('../services/emailService');
-const userRepository = require('../repositories/userRepository');
+const UserService = require('../services/userService');
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const CODE_EXPIRATION_MINUTES = 5;
@@ -11,7 +11,7 @@ const twoFACodes = {};
 const loginStepOne = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await userRepository.getUserByEmail(email);
+  const user = await UserService.getUserByEmail(email);
   if (!user) return res.status(401).json({ error: 'Credenciais inválidas' });
 
   const valid = await bcrypt.compare(password, user.password);
