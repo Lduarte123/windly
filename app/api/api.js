@@ -1,9 +1,12 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import dotenv from 'dotenv'
+
+dotenv.config()
+const API_URL = process.dotenv.API_URL
 
 const api = axios.create({
-  baseURL: "http://192.168.1.6:3000/api",
-  // https://windly-xa9w.onrender.com/api
+  baseURL: `${API_URL}/api`,
 });
 
 api.interceptors.request.use(
