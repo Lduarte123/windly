@@ -1,12 +1,9 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import dotenv from 'dotenv'
-
-dotenv.config()
-const API_URL = process.dotenv.API_URL
 
 const api = axios.create({
-  baseURL: `${API_URL}/api`,
+  baseURL: `http://10.0.30.233:3000/api`,
+  // IP DA MAQUINA: `http://10.0.30.233:3000/api`,
 });
 
 api.interceptors.request.use(
