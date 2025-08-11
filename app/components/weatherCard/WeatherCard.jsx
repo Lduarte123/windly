@@ -155,9 +155,9 @@ export default function WeatherCard({ city }) {
           </View>
           <Text style={styles.desc}>{capitalize(item.description)}</Text>
           <TempBar
-            min={convertTemp(item.temp_min, config.temp_unit)}
-            max={convertTemp(item.temp_max, config.temp_unit)}
-            temp={convertTemp(item.temp, config.temp_unit)}
+            min={convertTemp(item.temp_min_avg, config.temp_unit)}
+            max={convertTemp(item.temp_max_avg, config.temp_unit)}
+            temp={convertTemp(item.temp_avg, config.temp_unit)}
           />
         </View>
       ))}
