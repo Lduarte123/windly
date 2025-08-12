@@ -17,7 +17,7 @@ class PrevisaoController {
       }
 
       const formattedData = formatForecastResponse(forecastData);
-      return res.json(formattedData);
+      return res.json(forecastData);
     } catch (error) {
       next(error);
     }

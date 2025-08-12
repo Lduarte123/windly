@@ -13,6 +13,15 @@ async function createUser(name, email, password) {
   return new User(rows[0]).toJSON();
 }
 
+async function getAllUsers() {
+  const query = `
+    SELECT name, email FROM
+    users;
+  `;
+  const { rows } = await db.query(query);
+  return rows
+}
+
 async function getUserByEmail(email) {
   const query = `
     SELECT id, name, email, password, created_at
@@ -50,6 +59,7 @@ async function deleteUser(id) {
 
 module.exports = {
   createUser,
+  getAllUsers,
   getUserByEmail,
   getUserById,
   updateUser,

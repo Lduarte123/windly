@@ -74,7 +74,7 @@ export default function App() {
         setDesc(data.description || "");
         setTemp(Math.round(data.temperature));
       } catch (error) {
-        setErrorMsg(error.message || "Erro desconhecido");
+        setErrorMsg(error.message || "Erro ao buscar clima.");
         setShowErrorModal(true);
         setCity("Erro ao obter cidade");
         setDesc("Erro ao obter clima");
