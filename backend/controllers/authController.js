@@ -8,16 +8,41 @@ const CODE_EXPIRATION_MINUTES = 5;
 
 const twoFACodes = {};
 
-// 🔒 Controle de tentativas de login
-const loginAttempts = {}; 
-const MAX_ATTEMPTS = 5; // Máximo de tentativas
+// Controle de tentativas de login
+const loginAttempts = {};
+const MAX_ATTEMPTS = 5; // máximo de tentativas
 const BLOCK_TIME_MS = 15 * 60 * 1000; // 15 minutos
 
-function handleFailedAttempt(email, res) {
+async function sendAlertEmail(email, message) {
+  try {
+    await sendLoginNotification(email, message);
+  } catch (err) {
+    console.error('Erro ao enviar e-mail de alerta:', err);
+  }
+}
+
+async function handleFailedAttempt(email, res) {
   if (loginAttempts[email].count >= MAX_ATTEMPTS) {
     loginAttempts[email].blockedUntil = Date.now() + BLOCK_TIME_MS;
+
+    await sendAlertEmail(
+      email,
+      `⚠️ Detectamos várias tentativas malsucedidas de acesso à sua conta.
+      Por segurança, o login foi temporariamente bloqueado por ${BLOCK_TIME_MS / 60000} minutos.`
+    );
+
     return res.status(429).json({ error: `Muitas tentativas falhas. Tente novamente em 15 minutos.` });
   }
+
+  // Enviar alerta na primeira (ou outras) tentativas falhas
+  if (loginAttempts[email].count === 1) {
+    await sendAlertEmail(
+      email,
+      `⚠️ Detectamos uma tentativa de login malsucedida na sua conta.
+      Se não foi você, recomendamos alterar sua senha imediatamente.`
+    );
+  }
+
   return res.status(401).json({ error: 'Credenciais inválidas' });
 }
 
@@ -37,20 +62,19 @@ const loginStepOne = async (req, res) => {
   const user = await UserService.getUserByEmail(email);
   if (!user) {
     loginAttempts[email].count++;
-    return handleFailedAttempt(email, res);
+    return await handleFailedAttempt(email, res);
   }
-
 
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) {
     loginAttempts[email].count++;
-    return handleFailedAttempt(email, res);
+    return await handleFailedAttempt(email, res);
   }
 
   // Reset contador se login correto
   loginAttempts[email] = { count: 0, blockedUntil: 0 };
 
-  // envio de código 2FA
+  // Envio de código 2FA
   const code = String(Math.floor(100000 + Math.random() * 900000));
   const expires = Date.now() + CODE_EXPIRATION_MINUTES * 60 * 1000;
 
