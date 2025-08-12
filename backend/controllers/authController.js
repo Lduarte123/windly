@@ -46,7 +46,7 @@ const verify2FA = async (req, res) => {
 
   delete twoFACodes[email];
 
-  const user = await userRepository.getUserByEmail(email);
+  const user = await UserService.getUserByEmail(email);
 
   const token = jwt.sign(
     { id: user.id, name: user.name, email: user.email },
