@@ -19,7 +19,7 @@ const getUserById = async (req, res) => {
   try {
     const user = await UserService.getUserById(req.params.id);
     if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
-    res.json(user);
+    res.json({"name": user.name, "email": user.email});
   } catch (error) {
     res.status(500).json({ error: 'Erro ao buscar usuário' });
   }
@@ -30,11 +30,21 @@ const getUserByEmail = async (req, res) => {
     const user = await UserService.getUserByEmail(req.query.email);
     if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
     delete user.password;
-    res.json(user);
+    res.json({"name": user.name, "email": user.email});
   } catch (error) {
     res.status(500).json({ error: 'Erro ao buscar usuário' });
   }
 };
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await UserService.getAllUsers();
+    if (!users) return res.status(404).json({ error: 'Nenhum usuário encontrado'})
+    res.json(users);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao buscar usuários' });
+    }
+}
 
 const updateUser = async (req, res) => {
   const { id } = req.params;
@@ -63,4 +73,5 @@ module.exports = {
   getUserByEmail,
   updateUser,
   deleteUser,
+  getAllUsers,
 };
