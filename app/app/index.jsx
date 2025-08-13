@@ -70,11 +70,14 @@ export default function App() {
 
         setWeatherData(data);
         setDesc(data.description || "");
+
+        setTemp(data.temperature);
         setTemp(Math.round(data.temperature));
 
         // Salva no cache
         await AsyncStorage.setItem('@lastWeatherData', JSON.stringify(data));
         await AsyncStorage.setItem('@lastCity', userCity);
+
 
       } catch (error) {
         const cachedDataString = await AsyncStorage.getItem('@lastWeatherData');
@@ -97,7 +100,7 @@ export default function App() {
     }
 
     fetchWeather();
-  }, [config.wind_unit]);
+  }, [config.wind_unit, config.temp_unit]);
 
   // Se há erro ou os dados não foram carregados, exibe o modal de erro ou vídeo de carregamento
   return (
@@ -150,7 +153,7 @@ export default function App() {
               stats={
                 weatherData.feelsLike !== undefined &&
                 weatherData.feelsLike !== null
-                  ? `${weatherData.feelsLike}°`
+                  ? weatherData.feelsLike
                   : "--"
               }
               icon={<ThermalGauge value={weatherData.feelsLike} />}
