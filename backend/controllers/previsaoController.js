@@ -16,6 +16,7 @@ class PrevisaoController {
         return res.status(404).json({ error: forecastData.error });
       }
 
+      const formattedData = formatForecastResponse(forecastData);
       return res.json(forecastData);
     } catch (error) {
       next(error);

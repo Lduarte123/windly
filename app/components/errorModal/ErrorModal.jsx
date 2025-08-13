@@ -2,23 +2,20 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import getStyles from "../styles"; // Importa a função de estilos
 
-export default function ErrorModal({ visible, message, dark = false }) {
+export default function ErrorModal({ visible, dark = false }) {
   if (!visible) return null;
 
   const styles = getStyles(dark);
 
-  const iconSource = dark
-    ? require("../../assets/cloud.png")
-    : require("../../assets/cloud_443808.png");
+  const iconSource = require("../../assets/cloud.png")
 
   return (
     <View
       style={[
         styles.errorModal,
         {
-          backgroundColor: dark ? "#23272a" : "#fff",
-          borderColor: dark ? "#444" : "#eee",
-          borderWidth: 1,
+          backgroundColor: "#23272a62",
+          borderColor: "#23272a62",
         },
       ]}
     >
@@ -27,9 +24,9 @@ export default function ErrorModal({ visible, message, dark = false }) {
         style={{ width: 56, height: 56, marginBottom: 12 }}
         resizeMode="contain"
       />
-      <Text style={[styles.errorModalTitle, { color: "#E53935" }]}>Erro</Text>
-      <Text style={[styles.errorModalMessage, { color: dark ? "#ECEDEE" : "#333" }]}>
-        {message}
+      <Text style={[styles.errorModalTitle, { color: "white" }]}>Erro</Text>
+      <Text style={[styles.errorModalMessage, { color: "white" }]}>
+        Não foi possível obter informações do clima, por favor tente novamente mais tarde.
       </Text>
     </View>
   );

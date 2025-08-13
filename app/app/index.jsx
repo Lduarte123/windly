@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainSection from "../components/mainSection/MainSection";
 import MainStats from "../components/mainStats/MainStats";
 import WeatherCard from "../components/weatherCard/WeatherCard";
@@ -46,6 +47,7 @@ export default function App() {
 
         const response = await api.get(`/clima_atual/${userCity}`);
         const data = response.data;
+
         if (!data || !data.temperature || !data.weatherMain) {
           throw new Error("Dados de clima não encontrados para esta cidade.");
         }
@@ -55,12 +57,8 @@ export default function App() {
         const nowInSeconds =
           now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
 
-        const [sunriseHour, sunriseMin] = data.sunrise
-          .split(":")
-          .map(Number);
-        const [sunsetHour, sunsetMin] = data.sunset
-          .split(":")
-          .map(Number);
+        const [sunriseHour, sunriseMin] = data.sunrise.split(":").map(Number);
+        const [sunsetHour, sunsetMin] = data.sunset.split(":").map(Number);
 
         const sunriseInSeconds = sunriseHour * 3600 + sunriseMin * 60;
         const sunsetInSeconds = sunsetHour * 3600 + sunsetMin * 60;
@@ -68,63 +66,74 @@ export default function App() {
         const isNight =
           nowInSeconds < sunriseInSeconds || nowInSeconds > sunsetInSeconds;
 
-        data.isNight = isNight; // adiciona a flag diretamente ao objeto
+        data.isNight = isNight;
 
         setWeatherData(data);
         setDesc(data.description || "");
+
         setTemp(data.temperature);
+        setTemp(Math.round(data.temperature));
+
+        // Salva no cache
+        await AsyncStorage.setItem('@lastWeatherData', JSON.stringify(data));
+        await AsyncStorage.setItem('@lastCity', userCity);
+
+
       } catch (error) {
-        setErrorMsg(error.message || "Erro desconhecido");
-        setShowErrorModal(true);
-        setCity("Erro ao obter cidade");
-        setDesc("Erro ao obter clima");
-        setTemp("--");
+        const cachedDataString = await AsyncStorage.getItem('@lastWeatherData');
+        const cachedCity = await AsyncStorage.getItem('@lastCity');
+
+        if (cachedDataString && cachedCity) {
+          const cachedData = JSON.parse(cachedDataString);
+          setWeatherData(cachedData);
+          setCity(cachedCity);
+          setDesc(cachedData.description || "");
+          setTemp(Math.round(cachedData.temperature));
+        } else {
+          setErrorMsg(error.message || "Erro desconhecido");
+          setShowErrorModal(true);
+          setCity("Erro ao obter cidade");
+          setDesc("Erro ao obter clima");
+          setTemp("--");
+        }
       }
     }
 
     fetchWeather();
   }, [config.wind_unit, config.temp_unit]);
 
-  if ((!weatherData) && !errorMsg) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Video
-          source={require("../assets/wind.mp4")}
-          style={styles.loadingGif}
-          resizeMode="cover"
-          isLooping
-          shouldPlay
-          isMuted
-        />
-        <Text style={styles.loadingText}>Carregando clima...</Text>
-      </View>
-    );
-  }
-
-  if (errorMsg) {
-    return (
-      <View style={styles.errorContainer}>
-        <ErrorModal visible={true} message={errorMsg} dark={dark} />
-      </View>
-    );
-  }
-
+  // Se há erro ou os dados não foram carregados, exibe o modal de erro ou vídeo de carregamento
   return (
-    <>
-      <ErrorModal
-        visible={showErrorModal}
-        message={errorMsg}
-        onClose={() => setShowErrorModal(false)}
-      />
-
-      <WeatherBackgroundWrapper
-        weatherData={weatherData}
-        headerContent={
+    <WeatherBackgroundWrapper
+      weatherData={weatherData}
+      headerContent={
+        errorMsg || !weatherData ? null : (
           <MainSection>
             <MainStats city={city} desc={desc} temp={temp} />
           </MainSection>
-        }
-      >
+        )
+      }
+    >
+      {/* Exibe o vídeo enquanto carrega */}
+      {(!errorMsg && !weatherData) ? (
+        <View style={styles.loadingContainer}>
+          <Video
+            source={require("../assets/wind.mp4")}
+            style={styles.loadingGif}
+            resizeMode="cover"
+            isLooping
+            shouldPlay
+            isMuted
+          />
+          <Text style={styles.loadingText}>Carregando clima...</Text>
+        </View>
+      ) : (
+        // Exibe o modal de erro caso haja um erro
+        <ErrorModal visible={showErrorModal} dark={dark} />
+      )}
+
+      {/* Apenas renderiza o conteúdo de clima quando não há erro */}
+      {!errorMsg && weatherData && (
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
@@ -198,7 +207,7 @@ export default function App() {
 
           <DiasSemChuvaCheckbox />
         </ScrollView>
-      </WeatherBackgroundWrapper>
-    </>
+      )}
+    </WeatherBackgroundWrapper>
   );
 }
