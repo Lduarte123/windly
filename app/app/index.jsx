@@ -85,46 +85,38 @@ export default function App() {
     fetchWeather();
   }, [config.wind_unit]);
 
-  if ((!weatherData) && !errorMsg) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Video
-          source={require("../assets/wind.mp4")}
-          style={styles.loadingGif}
-          resizeMode="cover"
-          isLooping
-          shouldPlay
-          isMuted
-        />
-        <Text style={styles.loadingText}>Carregando clima...</Text>
-      </View>
-    );
-  }
-
-  if (errorMsg) {
-    return (
-      <View style={styles.errorContainer}>
-        <ErrorModal visible={true} message={errorMsg} dark={dark} />
-      </View>
-    );
-  }
-
+  // Se há erro ou os dados não foram carregados, exibe o modal de erro ou vídeo de carregamento
   return (
-    <>
-      <ErrorModal
-        visible={showErrorModal}
-        message={errorMsg}
-        onClose={() => setShowErrorModal(false)}
-      />
-
-      <WeatherBackgroundWrapper
-        weatherData={weatherData}
-        headerContent={
+    <WeatherBackgroundWrapper
+      weatherData={weatherData}
+      headerContent={
+        errorMsg || !weatherData ? null : (
           <MainSection>
             <MainStats city={city} desc={desc} temp={temp} />
           </MainSection>
-        }
-      >
+        )
+      }
+    >
+      {/* Exibe o vídeo enquanto carrega */}
+      {(!errorMsg && !weatherData) ? (
+        <View style={styles.loadingContainer}>
+          <Video
+            source={require("../assets/wind.mp4")}
+            style={styles.loadingGif}
+            resizeMode="cover"
+            isLooping
+            shouldPlay
+            isMuted
+          />
+          <Text style={styles.loadingText}>Carregando clima...</Text>
+        </View>
+      ) : (
+        // Exibe o modal de erro caso haja um erro
+        <ErrorModal visible={showErrorModal} dark={dark} />
+      )}
+
+      {/* Apenas renderiza o conteúdo de clima quando não há erro */}
+      {!errorMsg && weatherData && (
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
@@ -198,7 +190,7 @@ export default function App() {
 
           <DiasSemChuvaCheckbox />
         </ScrollView>
-      </WeatherBackgroundWrapper>
-    </>
+      )}
+    </WeatherBackgroundWrapper>
   );
 }
