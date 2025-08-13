@@ -9,9 +9,66 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
+
 import styles from "./styles";
 
 const OPENWEATHER_API_KEY = Constants.expoConfig?.extra?.OPENWEATHER_API_KEY;
+
+
+
+// Função para calcular a hora local correta
+function getLocalTime(weatherData) {
+  try {
+    if (!weatherData || !weatherData.timezone) {
+      return "Hora não disponível";
+    }
+
+    // O timestamp da API está em UTC
+    const utcTimestamp = weatherData.dt;
+    
+    // O timezone offset está em segundos
+    const timezoneOffset = weatherData.timezone;
+    
+    // Calcular a hora local: UTC + offset
+    const localTimestamp = utcTimestamp + timezoneOffset;
+    
+    // Converter para Date e formatar
+    const localDate = new Date(localTimestamp * 1000);
+    
+    // Formatar a hora no formato HH:mm
+    const hours = localDate.getUTCHours().toString().padStart(2, '0');
+    const minutes = localDate.getUTCMinutes().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}`;
+  } catch (error) {
+    console.error("Erro ao calcular hora local:", error);
+    return "Hora não disponível";
+  }
+}
+
+// Função para obter o período do dia baseado na hora local
+function getDayPeriod(weatherData) {
+  try {
+    if (!weatherData || !weatherData.timezone) {
+      return "noite"; // fallback
+    }
+
+    // Usar o mesmo cálculo da hora local
+    const utcTimestamp = weatherData.dt;
+    const timezoneOffset = weatherData.timezone;
+    const localTimestamp = utcTimestamp + timezoneOffset;
+    const localDate = new Date(localTimestamp * 1000);
+    
+    const hour = localDate.getUTCHours();
+    
+    if (hour >= 6 && hour < 12) return "manha";
+    if (hour >= 12 && hour < 18) return "tarde";
+    return "noite";
+  } catch (error) {
+    console.error("Erro ao calcular período do dia:", error);
+    return "noite"; // fallback
+  }
+}
 
 export default function CidadeWeatherCard({
   cidade,
@@ -24,15 +81,9 @@ export default function CidadeWeatherCard({
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(null);
 
-  function getDayPeriod(hour) {
-    if (hour >= 6 && hour < 12) return "manha"; // manhã
-    if (hour >= 12 && hour < 18) return "tarde"; // tarde
-    return "noite"; // noite
-  }
-
   // Função que retorna a imagem correta baseado no clima e horário
-  function getBackgroundImage(main, hour, description) {
-    const period = getDayPeriod(hour);
+  function getBackgroundImage(main, weatherData) {
+    const period = getDayPeriod(weatherData);
 
     const clima = main.toLowerCase();
 
@@ -102,24 +153,23 @@ export default function CidadeWeatherCard({
     );
   }
 
-  const timestampLocal = (weather.dt + weather.timezone) * 1000;
-  const localDate = new Date(timestampLocal);
-  const hora = localDate.getUTCHours(); // hora local da cidade
+  // Obter a hora local correta usando a nova função
+  const horarioLocal = getLocalTime(weather);
+  
+  // Obter o período do dia para a imagem de fundo
+  const periodoDia = getDayPeriod(weather);
 
   // Escolhe a imagem de fundo baseado no clima e horário
   const bgImage = getBackgroundImage(
     weather.weather[0].main,
-    hora,
-    weather.weather[0].description
+    weather
   );
 
   const temperatura = Math.round(weather.main.temp);
   const descricao = weather.weather[0].description;
   
-  const horarioLocal = localDate.toLocaleTimeString("pt-BR", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  // Informações de timezone para debug
+  const timezoneOffset = weather.timezone ? `UTC${weather.timezone >= 0 ? '+' : ''}${Math.round(weather.timezone / 3600)}` : "";
 
   return (
     <TouchableOpacity
@@ -137,7 +187,12 @@ export default function CidadeWeatherCard({
           <View>
             <Text style={styles.cardTitle}>{cidade}</Text>
             <Text style={styles.cardDesc}>{descricao}</Text>
-            <Text style={styles.cardTime}>Hora local: {horarioLocal}</Text>
+            <Text style={styles.cardTime}>
+              Hora local: {horarioLocal}
+            </Text>
+            <Text style={styles.cardTime}>
+              {timezoneOffset} • {periodoDia}
+            </Text>
           </View>
           <View style={styles.cardWeather}>
             <Text style={styles.cardTemp}>{temperatura}°C</Text>
