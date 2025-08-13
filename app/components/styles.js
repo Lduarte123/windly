@@ -195,19 +195,13 @@ export default function getStyles(isDark) {
     },
 
     errorModal: {
-      position: "absolute",
-      top: '30%',
       alignSelf: "center",
+      top: "-150%",
       borderRadius: 16,
       paddingVertical: 18,
       paddingHorizontal: 28,
       alignItems: "center",
       width: 320,
-      elevation: 8,
-      shadowColor: "#000",
-      shadowOpacity: 0.15,
-      shadowRadius: 8,
-      shadowOffset: { width: 0, height: 2 },
       zIndex: 999,
     },
     errorModalTitle: {
