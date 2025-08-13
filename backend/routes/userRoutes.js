@@ -150,6 +150,7 @@ const validateUser = require('../middleware/validateUser');
  *         description: Usuário não encontrado
  */
 
+
 router.post('/', validateUser, userController.createUser);
 router.get('/', userController.getUserByEmail);
 router.get('/:id', userController.getUserById);

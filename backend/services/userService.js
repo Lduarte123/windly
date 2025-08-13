@@ -15,6 +15,10 @@ class UserService {
     return userRepository.getUserById(id);
   }
 
+  static getAllUsers() {
+    return userRepository.getAllUsers();
+  }
+
   static getUserByEmail(email) {
     return userRepository.getUserByEmail(email);
   }

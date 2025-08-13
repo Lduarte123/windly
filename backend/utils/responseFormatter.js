@@ -29,9 +29,9 @@ function formatResponse(weatherData) {
 function formatForecastResponse(forecastData) {
   return forecastData.map((item) => ({
     date: item.date || "Data não disponível", // Para o caso de item.date ser undefined
-    temperature: item.main ? item.main.temp : "Temp não disponível", 
-    temp_max: item.main ? item.main.temp_max : "Max temp não disponível",
-    temp_min: item.main ? item.main.temp_min : "Min temp não disponível",
+    temperature: item.main ? item.main.temp_avg : "Temp não disponível", 
+    temp_max: item.main ? item.main.temp_max_avg : "Max temp não disponível",
+    temp_min: item.main ? item.main.temp_min_avg : "Min temp não disponível",
     weatherMain: item.weather && item.weather[0] ? item.weather[0].main : "Condição não disponível",
     description: item.weather && item.weather[0] ? item.weather[0].description : "Descrição não disponível",
     windSpeed: item.wind ? item.wind.speed : "Velocidade do vento não disponível",
