@@ -18,6 +18,10 @@ services:
       - ./backend/.env
     depends_on:
       - db
+    command: node testWeather.js  
+    
+    volumes:
+    - ./backend:/app
 
   # nsql:
   #   build: ./nsql
