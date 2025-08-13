@@ -72,7 +72,7 @@ export default function App() {
 
         setWeatherData(data);
         setDesc(data.description || "");
-        setTemp(Math.round(data.temperature));
+        setTemp(data.temperature);
       } catch (error) {
         setErrorMsg(error.message || "Erro desconhecido");
         setShowErrorModal(true);
@@ -83,7 +83,7 @@ export default function App() {
     }
 
     fetchWeather();
-  }, [config.wind_unit]);
+  }, [config.wind_unit, config.temp_unit]);
 
   if ((!weatherData) && !errorMsg) {
     return (
@@ -144,7 +144,7 @@ export default function App() {
               stats={
                 weatherData.feelsLike !== undefined &&
                 weatherData.feelsLike !== null
-                  ? `${weatherData.feelsLike}°`
+                  ? weatherData.feelsLike
                   : "--"
               }
               icon={<ThermalGauge value={weatherData.feelsLike} />}

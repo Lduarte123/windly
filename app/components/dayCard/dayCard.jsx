@@ -10,6 +10,7 @@ import api from '../../api/api';
 import { useConfig } from '../configContext';
 import { useTheme } from '../ThemeContext';
 import useHourlyStyles from './useHourlyStyles';
+import { convertTemp } from '../../utils/convertTemp';
 
 const CACHE_EXPIRATION_MS = 5 * 60 * 60 * 1000; // 5 horas
 
@@ -130,11 +131,7 @@ export default function HourlySlider({ city, overrideColors = {}, lineColor = "#
   const Decorator = ({ x, y, data }) => (
     <G>
       {data.map((value, index) => {
-        let displayTemp = value;
-        if (config.temp_unit === 'F') {
-          displayTemp = (value * 9) / 5 + 32;
-        }
-        displayTemp = Math.round(displayTemp);
+        const displayTemp = Math.round(convertTemp(value, config.temp_unit));
 
         return (
           <SvgText
@@ -146,7 +143,7 @@ export default function HourlySlider({ city, overrideColors = {}, lineColor = "#
             alignmentBaseline="middle"
             textAnchor="middle"
           >
-            {displayTemp}°{config.temp_unit}
+            {displayTemp}°{config.temp_unit === 'C' ? 'C' : 'F'}
           </SvgText>
         );
       })}
