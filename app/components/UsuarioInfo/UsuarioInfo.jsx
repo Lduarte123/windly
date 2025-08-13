@@ -1,14 +1,23 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Modal, TextInput, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  TextInput,
+  Alert,
+} from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 import { useTheme } from "../ThemeContext";
 import getStyles from "../styles";
-import { useAuth } from '../authContext/AuthContext';
+import { useAuth } from "../authContext/AuthContext";
+import { useRouter } from "expo-router";
 
 export default function UsuarioInfo({ user, textColor }) {
   const { dark } = useTheme();
   const styles = getStyles(dark);
   const { logout, setUser } = useAuth();
+  const router = useRouter();
 
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [novoNome, setNovoNome] = useState(user?.name || "");
@@ -47,8 +56,8 @@ export default function UsuarioInfo({ user, textColor }) {
             } catch (err) {
               Alert.alert("Erro", "Não foi possível excluir a conta.");
             }
-          }
-        }
+          },
+        },
       ]
     );
   };
@@ -57,10 +66,23 @@ export default function UsuarioInfo({ user, textColor }) {
 
   return (
     <>
-      <View style={[styles.section, { flexDirection: "row", alignItems: "center", justifyContent: "space-between" }]}>
+      <View
+        style={[
+          styles.section,
+          {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          },
+        ]}
+      >
         <View>
-          <Text style={[styles.label, { color: textColor, fontSize: 16 }]}>Usuário</Text>
-          <Text style={{ color: textColor, fontSize: 18, fontWeight: "bold" }}>{user?.name}</Text>
+          <Text style={[styles.label, { color: textColor, fontSize: 16 }]}>
+            Usuário
+          </Text>
+          <Text style={{ color: textColor, fontSize: 18, fontWeight: "bold" }}>
+            {user?.name}
+          </Text>
           <Text style={{ color: "#888", fontSize: 14 }}>{user?.email}</Text>
         </View>
         <TouchableOpacity onPress={() => setEditModalVisible(true)}>
@@ -86,11 +108,20 @@ export default function UsuarioInfo({ user, textColor }) {
             />
 
             <View style={styles.editModalTopActions}>
-              <TouchableOpacity style={styles.editModalIconButton} onPress={handleExcluirConta}>
+              <TouchableOpacity
+                style={styles.editModalIconButton}
+                onPress={handleExcluirConta}
+              >
                 <Feather name="trash-2" size={22} color="#E53935" />
                 <Text style={styles.editModalIconText}>Excluir conta</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.editModalIconButton} onPress={logout}>
+              <TouchableOpacity
+                style={styles.editModalIconButton}
+                onPress={async () => {
+                  await logout();
+                  router.replace("login");
+                }}
+              >
                 <Feather name="log-out" size={22} color="#E53935" />
                 <Text style={styles.editModalIconText}>Logout</Text>
               </TouchableOpacity>
@@ -98,17 +129,25 @@ export default function UsuarioInfo({ user, textColor }) {
 
             <View style={styles.editModalActions}>
               <TouchableOpacity
-                style={[styles.editModalActionButton, styles.editModalCancelButton]}
+                style={[
+                  styles.editModalActionButton,
+                  styles.editModalCancelButton,
+                ]}
                 onPress={() => setEditModalVisible(false)}
               >
                 <Text style={styles.editModalCancel}>Cancelar</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.editModalActionButton, styles.editModalSaveButton]}
+                style={[
+                  styles.editModalActionButton,
+                  styles.editModalSaveButton,
+                ]}
                 onPress={handleSalvar}
                 disabled={loading}
               >
-                <Text style={styles.editModalSave}>{loading ? "Salvando..." : "Salvar"}</Text>
+                <Text style={styles.editModalSave}>
+                  {loading ? "Salvando..." : "Salvar"}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
