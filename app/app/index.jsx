@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, RefreshControl } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainSection from "../components/mainSection/MainSection";
 import MainStats from "../components/mainStats/MainStats";
@@ -38,68 +38,77 @@ export default function App() {
   const [temp, setTemp] = useState("--");
   const [errorMsg, setErrorMsg] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [loading, setLoading] = useState(false);  // Estado de carregamento
+
+  const fetchWeather = async () => {
+
+    try {
+      const userCity = await getUserCity();
+      setCity(userCity);
+
+      const response = await api.get(`/clima_atual/${userCity}`);
+      const data = response.data;
+
+      if (!data || !data.temperature || !data.weatherMain) {
+        throw new Error("Dados de clima não encontrados para esta cidade.");
+      }
+
+      // Verificação de horário (dia/noite)
+      const now = new Date();
+      const nowInSeconds =
+        now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+
+      const [sunriseHour, sunriseMin] = data.sunrise.split(":").map(Number);
+      const [sunsetHour, sunsetMin] = data.sunset.split(":").map(Number);
+
+      const sunriseInSeconds = sunriseHour * 3600 + sunriseMin * 60;
+      const sunsetInSeconds = sunsetHour * 3600 + sunsetMin * 60;
+
+      const isNight =
+        nowInSeconds < sunriseInSeconds || nowInSeconds > sunsetInSeconds;
+
+      data.isNight = isNight;
+
+      setWeatherData(data);
+      setDesc(data.description || "");
+      setTemp(Math.round(data.temperature));
+
+      // Salva no cache
+      await AsyncStorage.setItem('@lastWeatherData', JSON.stringify(data));
+      await AsyncStorage.setItem('@lastCity', userCity);
+
+    } catch (error) {
+      const cachedDataString = await AsyncStorage.getItem('@lastWeatherData');
+      const cachedCity = await AsyncStorage.getItem('@lastCity');
+
+      if (cachedDataString && cachedCity) {
+        const cachedData = JSON.parse(cachedDataString);
+        setWeatherData(cachedData);
+        setCity(cachedCity);
+        setDesc(cachedData.description || "");
+        setTemp(Math.round(cachedData.temperature));
+      } else {
+        setErrorMsg(error.message || "Erro desconhecido");
+        setShowErrorModal(true);
+        setCity("Erro ao obter cidade");
+        setDesc("Erro ao obter clima");
+        setTemp("--");
+      }
+    } finally {
+      setLoading(false);  // Desativa o carregamento após a atualização
+    }
+  };
 
   useEffect(() => {
-    async function fetchWeather() {
-      try {
-        const userCity = await getUserCity();
-        setCity(userCity);
-
-        const response = await api.get(`/clima_atual/${userCity}`);
-        const data = response.data;
-
-        if (!data || !data.temperature || !data.weatherMain) {
-          throw new Error("Dados de clima não encontrados para esta cidade.");
-        }
-
-        // Verificação de horário (dia/noite)
-        const now = new Date();
-        const nowInSeconds =
-          now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
-
-        const [sunriseHour, sunriseMin] = data.sunrise.split(":").map(Number);
-        const [sunsetHour, sunsetMin] = data.sunset.split(":").map(Number);
-
-        const sunriseInSeconds = sunriseHour * 3600 + sunriseMin * 60;
-        const sunsetInSeconds = sunsetHour * 3600 + sunsetMin * 60;
-
-        const isNight =
-          nowInSeconds < sunriseInSeconds || nowInSeconds > sunsetInSeconds;
-
-        data.isNight = isNight;
-
-        setWeatherData(data);
-        setDesc(data.description || "");
-        setTemp(Math.round(data.temperature));
-
-        // Salva no cache
-        await AsyncStorage.setItem('@lastWeatherData', JSON.stringify(data));
-        await AsyncStorage.setItem('@lastCity', userCity);
-
-      } catch (error) {
-        const cachedDataString = await AsyncStorage.getItem('@lastWeatherData');
-        const cachedCity = await AsyncStorage.getItem('@lastCity');
-
-        if (cachedDataString && cachedCity) {
-          const cachedData = JSON.parse(cachedDataString);
-          setWeatherData(cachedData);
-          setCity(cachedCity);
-          setDesc(cachedData.description || "");
-          setTemp(Math.round(cachedData.temperature));
-        } else {
-          setErrorMsg(error.message || "Erro desconhecido");
-          setShowErrorModal(true);
-          setCity("Erro ao obter cidade");
-          setDesc("Erro ao obter clima");
-          setTemp("--");
-        }
-      }
-    }
-
     fetchWeather();
   }, [config.wind_unit]);
 
-  // Se há erro ou os dados não foram carregados, exibe o modal de erro ou vídeo de carregamento
+  // Função chamada ao realizar o gesto de "puxar para atualizar"
+  const onRefresh = () => {
+    setLoading(true)
+    fetchWeather();
+  };
+
   return (
     <WeatherBackgroundWrapper
       weatherData={weatherData}
@@ -112,7 +121,7 @@ export default function App() {
       }
     >
       {/* Exibe o vídeo enquanto carrega */}
-      {(!errorMsg && !weatherData) ? (
+      {(!errorMsg && !weatherData && loading) ? (
         <View style={styles.loadingContainer}>
           <Video
             source={require("../assets/wind.mp4")}
@@ -134,6 +143,14 @@ export default function App() {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}  // Define o estado de carregamento
+              onRefresh={onRefresh}  // Função chamada ao atualizar
+              progressBackgroundColor={dark ? '#333' : '#f1f1f1'}  // Cor do fundo do progress
+              colors={['#ff6347', '#ff4500', '#dc143c']}  // Cor do indicador de carregamento
+            />
+          }
         >
           <WeatherCard city={city} />
           <HourlySlider city={city} />
