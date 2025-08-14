@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, RefreshControl } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, ScrollView, Dimensions } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import MainSection from "../components/mainSection/MainSection";
 import MainStats from "../components/mainStats/MainStats";
 import WeatherCard from "../components/weatherCard/WeatherCard";
 import StatsCard from "../components/statsCard/StatsCard";
-import {
-  Thermometer,
-  Wind,
-  Cloud,
-  Sunrise,
-  Sunset,
-} from "lucide-react-native";
+import { Thermometer, Wind, Cloud, Sunrise, Sunset } from "lucide-react-native";
 import { useTheme } from "../components/ThemeContext";
 import getStyles from "../components/styles";
 import api from "../api/api";
@@ -25,7 +19,8 @@ import WeatherBackgroundWrapper from "../components/background/Background";
 import ThermalGauge from "../components/gauge/Gauge";
 import HumidityGauge from "../components/humidty/Humidity";
 import HourlySlider from "../components/dayCard/dayCard";
-import MonthlyRainChart from "../components/monthlyRainChart/MonthlyRainChart";
+
+const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function App() {
   const { dark } = useTheme();
@@ -38,10 +33,11 @@ export default function App() {
   const [temp, setTemp] = useState("--");
   const [errorMsg, setErrorMsg] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [loading, setLoading] = useState(false);  // Estado de carregamento
+  const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const fetchWeather = async () => {
-
+    setLoading(true);
     try {
       const userCity = await getUserCity();
       setCity(userCity);
@@ -53,33 +49,27 @@ export default function App() {
         throw new Error("Dados de clima não encontrados para esta cidade.");
       }
 
-      // Verificação de horário (dia/noite)
+      // Verifica se é dia ou noite
       const now = new Date();
       const nowInSeconds =
         now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
-
       const [sunriseHour, sunriseMin] = data.sunrise.split(":").map(Number);
       const [sunsetHour, sunsetMin] = data.sunset.split(":").map(Number);
-
       const sunriseInSeconds = sunriseHour * 3600 + sunriseMin * 60;
       const sunsetInSeconds = sunsetHour * 3600 + sunsetMin * 60;
-
-      const isNight =
-        nowInSeconds < sunriseInSeconds || nowInSeconds > sunsetInSeconds;
-
-      data.isNight = isNight;
+      data.isNight = nowInSeconds < sunriseInSeconds || nowInSeconds > sunsetInSeconds;
 
       setWeatherData(data);
       setDesc(data.description || "");
       setTemp(Math.round(data.temperature));
 
       // Salva no cache
-      await AsyncStorage.setItem('@lastWeatherData', JSON.stringify(data));
-      await AsyncStorage.setItem('@lastCity', userCity);
-
+      await AsyncStorage.setItem("@lastWeatherData", JSON.stringify(data));
+      await AsyncStorage.setItem("@lastCity", userCity);
+      setErrorMsg("");
     } catch (error) {
-      const cachedDataString = await AsyncStorage.getItem('@lastWeatherData');
-      const cachedCity = await AsyncStorage.getItem('@lastCity');
+      const cachedDataString = await AsyncStorage.getItem("@lastWeatherData");
+      const cachedCity = await AsyncStorage.getItem("@lastCity");
 
       if (cachedDataString && cachedCity) {
         const cachedData = JSON.parse(cachedDataString);
@@ -87,7 +77,9 @@ export default function App() {
         setCity(cachedCity);
         setDesc(cachedData.description || "");
         setTemp(Math.round(cachedData.temperature));
+        setErrorMsg("");
       } else {
+        setWeatherData(null);
         setErrorMsg(error.message || "Erro desconhecido");
         setShowErrorModal(true);
         setCity("Erro ao obter cidade");
@@ -95,7 +87,8 @@ export default function App() {
         setTemp("--");
       }
     } finally {
-      setLoading(false);  // Desativa o carregamento após a atualização
+      setLoading(false);
+      setInitialLoading(false);
     }
   };
 
@@ -103,125 +96,119 @@ export default function App() {
     fetchWeather();
   }, [config.wind_unit]);
 
-  // Função chamada ao realizar o gesto de "puxar para atualizar"
   const onRefresh = () => {
-    setLoading(true)
     fetchWeather();
   };
 
   return (
-    <WeatherBackgroundWrapper
-      weatherData={weatherData}
-      headerContent={
-        errorMsg || !weatherData ? null : (
-          <MainSection>
-            <MainStats city={city} desc={desc} temp={temp} />
-          </MainSection>
-        )
-      }
-    >
-      {/* Exibe o vídeo enquanto carrega */}
-      {(!errorMsg && !weatherData && loading) ? (
-        <View style={styles.loadingContainer}>
+    <View style={{ flex: 1 }}>
+      <WeatherBackgroundWrapper
+        weatherData={weatherData}
+        loading={loading && !initialLoading} // refresh loading apenas
+        onRefresh={onRefresh}
+        headerContent={
+          !errorMsg && weatherData ? (
+            <MainSection>
+              <MainStats city={city} desc={desc} temp={temp} />
+            </MainSection>
+          ) : null
+        }
+      >
+        {/* Conteúdo principal */}
+        {!errorMsg && weatherData && (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ flexGrow: 1 }}
+          >
+            <WeatherCard city={city} />
+            <HourlySlider city={city} />
+            <View
+              style={{
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "space-between",
+              }}
+            >
+              <StatsCard
+                titulo="Sensação"
+                desc="Sensação térmica"
+                stats={
+                  weatherData.feelsLike != null ? `${weatherData.feelsLike}°` : "--"
+                }
+                icon={<ThermalGauge value={weatherData.feelsLike} />}
+              />
+              <StatsCard
+                titulo="Umidade"
+                desc="Umidade relativa"
+                stats={
+                  weatherData.humidity != null ? `${weatherData.humidity}%` : "--"
+                }
+                icon={<HumidityGauge value={weatherData.humidity} />}
+              />
+              <StatsCard
+                titulo="Vento"
+                desc="Velocidade do vento"
+                stats={
+                  weatherData.windSpeed != null
+                    ? formatWind(weatherData.windSpeed, config.wind_unit)
+                    : "--"
+                }
+                icon={<Wind color="#fff" size={40} />}
+              />
+              <StatsCard
+                titulo="Nuvens"
+                desc="Cobertura de nuvens"
+                stats={
+                  weatherData.cloudiness != null
+                    ? `${weatherData.cloudiness}%`
+                    : "--"
+                }
+                icon={<Cloud color="#fff" size={40} />}
+              />
+              <StatsCard
+                titulo="Nascer do Sol"
+                desc="Horário do nascer do sol"
+                stats={weatherData.sunrise || "--"}
+                icon={<Sunrise color="#fff" size={40} />}
+              />
+              <StatsCard
+                titulo="Pôr do Sol"
+                desc="Horário do pôr do sol"
+                stats={weatherData.sunset || "--"}
+                icon={<Sunset color="#fff" size={40} />}
+              />
+            </View>
+            <DiasSemChuvaCheckbox />
+          </ScrollView>
+        )}
+
+        {/* Modal de erro */}
+        {errorMsg && !weatherData && <ErrorModal visible={showErrorModal} dark={dark} />}
+      </WeatherBackgroundWrapper>
+
+      {/* Loading inicial com vídeo absoluto, independente do layout */}
+      {initialLoading && (
+        <View
+          style={{
+            position: "absolute",
+            top: "40%", // ajuste para ficar mais pra cima
+            left: 0,
+            right: 0,
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 999,
+          }}
+        >
           <Video
             source={require("../assets/wind.mp4")}
-            style={styles.loadingGif}
+            style={{ width: 110, height: 110, borderRadius: 60 }}
             resizeMode="cover"
             isLooping
             shouldPlay
             isMuted
           />
-          <Text style={styles.loadingText}>Carregando clima...</Text>
         </View>
-      ) : (
-        // Exibe o modal de erro caso haja um erro
-        <ErrorModal visible={showErrorModal} dark={dark} />
       )}
-
-      {/* Apenas renderiza o conteúdo de clima quando não há erro */}
-      {!errorMsg && weatherData && (
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 40 }}
-          refreshControl={
-            <RefreshControl
-              refreshing={loading}  // Define o estado de carregamento
-              onRefresh={onRefresh}  // Função chamada ao atualizar
-              progressBackgroundColor={dark ? '#333' : '#f1f1f1'}  // Cor do fundo do progress
-              colors={['#ff6347', '#ff4500', '#dc143c']}  // Cor do indicador de carregamento
-            />
-          }
-        >
-          <WeatherCard city={city} />
-          <HourlySlider city={city} />
-          <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-            }}
-          >
-            <StatsCard
-              titulo="Sensação"
-              desc="Sensação térmica"
-              stats={
-                weatherData.feelsLike !== undefined &&
-                weatherData.feelsLike !== null
-                  ? `${weatherData.feelsLike}°`
-                  : "--"
-              }
-              icon={<ThermalGauge value={weatherData.feelsLike} />}
-            />
-            <StatsCard
-              titulo="Umidade"
-              desc="Umidade relativa"
-              stats={
-                weatherData.humidity !== undefined &&
-                weatherData.humidity !== null
-                  ? `${weatherData.humidity}%`
-                  : "--"
-              }
-              icon={<HumidityGauge value={weatherData.humidity} />}
-            />
-            <StatsCard
-              titulo="Vento"
-              desc="Velocidade do vento"
-              stats={
-                weatherData.windSpeed !== undefined &&
-                weatherData.windSpeed !== null
-                  ? formatWind(weatherData.windSpeed, config.wind_unit)
-                  : "--"
-              }
-              icon={<Wind color="#fff" size={40} />}
-            />
-            <StatsCard
-              titulo="Nuvens"
-              desc="Cobertura de nuvens"
-              stats={
-                weatherData.cloudiness !== undefined &&
-                weatherData.cloudiness !== null
-                  ? `${weatherData.cloudiness}%`
-                  : "--"
-              }
-              icon={<Cloud color="#fff" size={40} />}
-            />
-            <StatsCard
-              titulo="Nascer do Sol"
-              desc="Horário do nascer do sol"
-              stats={weatherData.sunrise ? weatherData.sunrise : "--"}
-              icon={<Sunrise color="#fff" size={40} />}
-            />
-            <StatsCard
-              titulo="Pôr do Sol"
-              desc="Horário do pôr do sol"
-              stats={weatherData.sunset ? weatherData.sunset : "--"}
-              icon={<Sunset color="#fff" size={40} />}
-            />
-          </View>
-
-          <DiasSemChuvaCheckbox />
-        </ScrollView>
-      )}
-    </WeatherBackgroundWrapper>
+    </View>
   );
 }

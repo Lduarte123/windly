@@ -253,7 +253,7 @@ export default function getStyles(isDark) {
     loadingText: {
       marginTop: 32,
       fontSize: 22,
-      color: isDark ? "#ECEDEE" : "#11181C",
+      color: "#ECEDEE",
     },
     loadingGif: {
       width: 140,
