@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
+import { useConfig } from "../configContext";
+import { convertTemp } from "../../utils/convertTemp";
 
 import styles from "./styles";
 
@@ -80,6 +82,7 @@ export default function CidadeWeatherCard({
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(null);
+  const { config } = useConfig();
 
   // Função que retorna a imagem correta baseado no clima e horário
   function getBackgroundImage(main, weatherData) {
@@ -136,7 +139,7 @@ export default function CidadeWeatherCard({
     };
 
     fetchWeather();
-  }, [cidade]);
+  }, [cidade, config.temp_unit]);
 
   if (loading) {
     return (
@@ -165,7 +168,7 @@ export default function CidadeWeatherCard({
     weather
   );
 
-  const temperatura = Math.round(weather.main.temp);
+  const temperatura = convertTemp(weather.main.temp, config.temp_unit);
   const descricao = weather.weather[0].description;
   
   // Informações de timezone para debug
@@ -195,7 +198,7 @@ export default function CidadeWeatherCard({
             </Text>
           </View>
           <View style={styles.cardWeather}>
-            <Text style={styles.cardTemp}>{temperatura}°C</Text>
+            <Text style={styles.cardTemp}>{temperatura}°{config.temp_unit === 'C' ? 'C' : 'F'}</Text>
           </View>
         </View>
 

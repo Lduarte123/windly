@@ -57,8 +57,9 @@ export default function App() {
       const [sunsetHour, sunsetMin] = data.sunset.split(":").map(Number);
       const sunriseInSeconds = sunriseHour * 3600 + sunriseMin * 60;
       const sunsetInSeconds = sunsetHour * 3600 + sunsetMin * 60;
-      data.isNight = nowInSeconds < sunriseInSeconds || nowInSeconds > sunsetInSeconds;
+      const isNight = nowInSeconds < sunriseInSeconds || nowInSeconds > sunsetInSeconds;
 
+      data.isNight = isNight;
       setWeatherData(data);
       setDesc(data.description || "");
       setTemp(Math.round(data.temperature));
@@ -94,7 +95,7 @@ export default function App() {
 
   useEffect(() => {
     fetchWeather();
-  }, [config.wind_unit]);
+  }, [config.wind_unit, config.temp_unit]);
 
   const onRefresh = () => {
     fetchWeather();
