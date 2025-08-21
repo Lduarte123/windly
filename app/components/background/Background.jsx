@@ -7,11 +7,14 @@ import {
   StatusBar,
   Animated,
   Platform,
+  RefreshControl,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import tzLookup from "tz-lookup";
 import { utcToZonedTime } from "date-fns-tz";
+import { useTheme } from "../ThemeContext"
+
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -19,10 +22,14 @@ export default function WeatherBackgroundWrapper({
   weatherData = {},
   children,
   headerContent,
+  loading = false,
+  onRefresh = () => {},
 }) {
   const scrollY = useRef(new Animated.Value(0)).current;
 
-  // Converte string "HH:MM" para minutos do dia (0-1439)
+  const { dark } = useTheme();
+
+  // Converte string "HH:MM" para minutos do dia
   const timeStringToMinutes = (timeStr) => {
     if (!timeStr) return null;
     const [h, m] = timeStr.split(":").map(Number);
@@ -30,24 +37,16 @@ export default function WeatherBackgroundWrapper({
     return h * 60 + m;
   };
 
-  // Calcula minutos do dia da hora local da cidade com tz-lookup e date-fns-tz
   const getCityLocalMinutes = () => {
-    if (
-      !weatherData.lat ||
-      !weatherData.lon
-    ) {
-      // fallback para hora local do dispositivo
+    if (!weatherData.lat || !weatherData.lon) {
       const now = new Date();
       return now.getHours() * 60 + now.getMinutes();
     }
 
     try {
       const timezone = tzLookup(weatherData.lat, weatherData.lon);
-
       const now = new Date();
-
       const cityDate = utcToZonedTime(now, timezone);
-
       return cityDate.getHours() * 60 + cityDate.getMinutes();
     } catch (error) {
       console.warn("Erro ao calcular timezone:", error);
@@ -56,7 +55,6 @@ export default function WeatherBackgroundWrapper({
     }
   };
 
-  // Decide se é dia com base no horário local da cidade e sunrise/sunset
   const isDayTime = () => {
     if (
       !weatherData ||
@@ -65,15 +63,13 @@ export default function WeatherBackgroundWrapper({
       !weatherData.lat ||
       !weatherData.lon
     )
-      return true; // padrão dia
+      return true;
 
     const sunriseMinutes = timeStringToMinutes(weatherData.sunrise);
     const sunsetMinutes = timeStringToMinutes(weatherData.sunset);
     if (sunriseMinutes === null || sunsetMinutes === null) return true;
 
     const nowMinutes = getCityLocalMinutes();
-
-    // Se horário estiver entre nascer e pôr do sol → dia
     return nowMinutes >= sunriseMinutes && nowMinutes < sunsetMinutes;
   };
 
@@ -107,34 +103,22 @@ export default function WeatherBackgroundWrapper({
       case "snow":
         return require("../../assets/status/nevando.jpg");
 
-      case "mist":
-      case "smoke":
-      case "haze":
-      case "dust":
-      case "fog":
-      case "sand":
-      case "ash":
-      case "squall":
-      case "tornado":
+      default:
         return day
           ? require("../../assets/status/nublado.jpg")
           : require("../../assets/status/nublado_noite.jpg");
-
-      default:
-        return require("../../assets/status/ceu_limpo.jpg");
     }
   };
 
   const getBackgroundColor = () => {
-    if (!weatherData || !weatherData.weatherMain)
-      return "#4A90E2";
+    if (!weatherData || !weatherData.weatherMain) return "#4A90E2";
 
     const main = weatherData.weatherMain.toLowerCase();
     const day = isDayTime();
 
     switch (main) {
       case "clear":
-        return day ? "#167aab" : "#0D1B2A"; // azul claro dia, azul escuro noite
+        return day ? "#167aab" : "#0D1B2A";
       case "clouds":
         return day ? "#8E9AAF" : "#2C3E50";
       case "rain":
@@ -144,19 +128,8 @@ export default function WeatherBackgroundWrapper({
         return "#3B3B3B";
       case "snow":
         return "#D7E6F0";
-      case "mist":
-      case "smoke":
-      case "haze":
-      case "dust":
-      case "fog":
-      case "sand":
-      case "ash":
-      case "squall":
-      case "tornado":
-        return day ? "#778899" : "#36454F";
       default:
-        console.warn("⚠️ CAIU NO DEFAULT DO BACKGROUND COLOR:", main);
-        return "#4A90E2";
+        return day ? "#778899" : "#36454F";
     }
   };
 
@@ -174,16 +147,11 @@ export default function WeatherBackgroundWrapper({
     extrapolate: "clamp",
   });
 
-  const gradientOpacity = scrollY.interpolate({
-    inputRange: [0, 200],
-    outputRange: [1, 0],
-    extrapolate: "clamp",
-  });
-
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <StatusBar translucent backgroundColor="transparent" />
 
+      {/* Fundo animado */}
       <Animated.View
         style={[styles.imageBackgroundWrapper, { opacity: imageOpacity }]}
       >
@@ -198,32 +166,42 @@ export default function WeatherBackgroundWrapper({
         </ImageBackground>
       </Animated.View>
 
+      {/* Gradiente */}
       <Animated.View
         pointerEvents="none"
-        style={[styles.fadeOut, { opacity: 1 }]}
+        style={[styles.fadeOut]}
       >
         <LinearGradient
-          colors={[
-            backgroundColor + "00",
-            backgroundColor + "CC",
-            backgroundColor + "FF",
-          ]}
+          colors={[backgroundColor + "00", backgroundColor + "CC", backgroundColor + "FF"]}
           locations={[0, 0.7, 1]}
           style={StyleSheet.absoluteFill}
         />
       </Animated.View>
 
+      {/* ScrollView com RefreshControl */}
       <Animated.ScrollView
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={{ flexGrow: 1 }}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
           { useNativeDriver: true }
         )}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
-        style={{ zIndex: 2 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={onRefresh}
+            progressBackgroundColor={dark ? "#333" : "#fff"}
+            colors={dark ? ["#66ccff", "#3399ff", "#00aaff"] : ["#2665ee", "#0084ff", "#1471dc"]}
+            progressViewOffset={10}
+            style={{ marginTop: 5 }}
+          />
+        }
       >
-        {children}
+        {/* Container interno para empurrar os cards visualmente */}
+        <View style={{ marginTop: SCREEN_HEIGHT * 0.6, paddingHorizontal: 16, paddingBottom: 100 }}>
+          {children}
+        </View>
       </Animated.ScrollView>
     </View>
   );
@@ -252,12 +230,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 150,
-    zIndex: 1,
-  },
-  scrollContent: {
-    paddingTop: SCREEN_HEIGHT * 0.6,
-    paddingHorizontal: 16,
-    paddingBottom: 100,
   },
   headerOverlay: {
     paddingTop: Platform.OS === "android" ? 80 : 100,
