@@ -1,3 +1,4 @@
+<<<<<<< HEAD:app/app/login.jsx
 import React, { useState, useEffect } from 'react';
 import {
   View,
