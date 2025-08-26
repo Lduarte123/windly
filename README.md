@@ -68,7 +68,7 @@ npm start
 ```
 Backend Principal
 ```bash
-cd api
+cd backend
 npm i
 npm start
 ```
