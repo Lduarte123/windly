@@ -156,32 +156,32 @@ export default function getStyles(isDark) {
       color: "#003366",
       fontWeight: "600",
       marginTop: "50%",
-      
+
     },
     input: {
-    borderWidth: 0,
-    borderColor: "#007bff",
-    backgroundColor: isDark ? "#404040" : "#f0f0f0",
-    borderRadius: 5,
-    padding: 12,
-    marginBottom: 12,
-    color: isDark ? "#fff" : "#003366",
-    width: 350,
-    alignSelf: 'center',
-    margin: 5,
-    // qwerfafsdd ← ❌ Remova isso
-  },
+      borderWidth: 0,
+      borderColor: "#007bff",
+      backgroundColor: isDark ? "#404040" : "#f0f0f0",
+      borderRadius: 5,
+      padding: 12,
+      marginBottom: 12,
+      color: isDark ? "#fff" : "#003366",
+      width: 350,
+      alignSelf: 'center',
+      margin: 5,
+      // qwerfafsdd ← ❌ Remova isso
+    },
     link: {
-      color: "#007bff",
+      color: isDark? "#007bff": "#fff",
       marginTop: 16,
       textAlign: "center",
       fontWeight: "500",
       borderRadius: 10,
     },
     botao: {
-      backgroundColor: "#2784DF",
+      backgroundColor: isDark? "#007bff" : "#fff",
       paddingVertical: 14,
-      borderRadius: 8,
+      borderRadius: 26,
       alignItems: "center",
       marginTop: 12,
       width: 350,
@@ -189,8 +189,7 @@ export default function getStyles(isDark) {
     },
 
     botaoTexto: {
-      color: "#fff",
-      fontWeight: "600",
+      color: isDark? "#fff" : "#000",
       fontSize: 16,
     },
 
@@ -387,25 +386,38 @@ export default function getStyles(isDark) {
       fontWeight: "bold",
       fontSize: 16,
     },
-    logo: {
-  width: 80,
-  height: 100,
-  resizeMode: 'contain',
+
+    logoTitleContainer: {
+      height: "34%",
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderBottomLeftRadius: 40,
+      borderBottomRightRadius: 40,
+      backgroundColor: isDark? "#3085F5" : "#fff",
     },
-
-logoTitleContainer: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'start',
-  marginTop: '50%',
-  left: "25%",
-  marginBottom: 40,
-},
-
-mainTitle: {
-  fontSize: 26,
-  fontWeight: "600",
-},
+    rowText:{
+      marginLeft: 20,
+    },
+    mainTitle: {
+      fontSize: 56,
+      fontWeight: "600",
+      color: isDark ? "white" : "#003366",
+    },
+    login2Text: {
+      color: isDark ? "white" : "#003366",
+      fontSize: 16,
+    },
+    login3Text: {
+      color: isDark ? "white" : "#003366",
+      fontSize: 12,
+    },
+    loginForm: {
+      marginTop: "23%",
+    },
+    login1container: {
+      flex: 1,
+      backgroundColor: isDark? theme.background : "#3085F5",
+    },
 
   });
 }
