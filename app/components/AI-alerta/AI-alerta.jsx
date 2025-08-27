@@ -21,7 +21,7 @@ const AIAlerta = () => {
         borderColor: dark ? '#404040' : '#e0e0e0',
       }
     ]}>
-      <Text style={styles.alertLabel}>Alerta</Text>
+      <Text style={[styles.alertLabel, { fontSize: 20, fontFamily: 'monospace', color: 'red', fontWeight: 'bold' }]}>Alerta:</Text>
       <Text style={[
         styles.alertMessage,
         { color: dark ? '#87ceeb' : '#000080' }
