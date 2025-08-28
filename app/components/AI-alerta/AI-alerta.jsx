@@ -9,7 +9,7 @@ const AIAlerta = () => {
   
   const { width, height } = Dimensions.get('window');
   const containerWidth = width - 32; // 16px de cada lado
-  const containerHeight = height * 0.4; // 40% da altura da tela
+  const containerHeight = height * 0.3; // 40% da altura da tela
 
   return (
     <View style={[

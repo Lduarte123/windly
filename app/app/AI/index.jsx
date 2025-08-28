@@ -1,6 +1,8 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 import AIAlerta from "../../components/AI-alerta/AI-alerta";
+import AIRoupa from "../../components/AI-roupa/AI-roupa";
+import AISearchBar from "../../components/AI-searchbar/AI-searchbar";
 import { useTheme } from "../../components/ThemeContext";
 import { Sparkles } from 'lucide-react-native'
 import styles from "../../components/styles";
@@ -21,11 +23,19 @@ export default function AIScreen() {
           color="#2D6BFD"
           style={themeStyles.cidadesHeaderIcon}
         />
-        <Text style={[themeStyles.cidadesHeaderTitle, { color: textColor, padding: 10}]}>
+        <Text style={[themeStyles.cidadesHeaderTitle, { color: textColor, padding: 10 }]}>
           Inteligência Artificial
         </Text>
       </View>
-      <AIAlerta />
+      <ScrollView 
+        style={localStyles.scrollView}
+        contentContainerStyle={localStyles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <AIAlerta />
+        <AIRoupa />
+        <AISearchBar />
+      </ScrollView>
     </View>
   );
 }
@@ -35,5 +45,13 @@ const localStyles = StyleSheet.create({
     flex: 1,
     padding: 1,
     alignItems: 'center',
+  },
+  scrollView: {
+    flex: 1,
+    width: '100%',
+  },
+  scrollContent: {
+    alignItems: 'center',
+    paddingBottom: 100, // Espaço extra no final para rolar
   },
 });
