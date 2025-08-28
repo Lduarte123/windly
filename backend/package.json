@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",
-    "axios": "^1.9.0",
+    "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
     "chalk": "^5.4.1",
     "cors": "^2.8.5",

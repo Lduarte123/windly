@@ -13,7 +13,7 @@ const authRoutes = require('./routes/authRoutes');
 const cidadeFavoritaRoutes = require('./routes/cidadeFavoritaRoutes');
 const userConfigRoutes = require('./routes/userConfigRoutes');
 const crossingRoutes = require('./routes/crossingRoutes');
-
+const notificacaoClimaRoutes = require('./routes/notificacaoClimaRoutes');
 
 class Server {
   constructor() {
@@ -37,6 +37,7 @@ class Server {
     this.app.use('/api/cidades-favoritas', cidadeFavoritaRoutes);
     this.app.use('/api/user-config', userConfigRoutes);
     this.app.use('/api/clima', crossingRoutes); // <-- ajustado
+    this.app.use('/api/notificacoes-clima', notificacaoClimaRoutes);
 
     this.app.get('/', (req, res) => {
       res.redirect('/api-docs');

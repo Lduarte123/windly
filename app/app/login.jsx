@@ -1,4 +1,3 @@
-<<<<<<< HEAD:app/app/login.jsx
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -13,7 +12,6 @@ import { useAuth } from '../components/authContext/AuthContext';
 import { useRouter } from "expo-router";
 import getStyles from '../components/styles';
 import { useTheme } from "../components/ThemeContext";
-
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
