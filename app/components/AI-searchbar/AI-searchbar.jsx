@@ -23,6 +23,7 @@ const AISearchBar = () => {
   const animation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    // Listener para fechar o teclado e voltar ao estado compacto
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       if (searchText.length === 0) {
         setIsExpanded(false);
@@ -35,6 +36,7 @@ const AISearchBar = () => {
   }, [searchText]);
 
   useEffect(() => {
+    // Animação de expansão ou contração do campo
     Animated.timing(animation, {
       toValue: isExpanded ? 1 : 0,
       duration: 300,
@@ -62,7 +64,7 @@ const AISearchBar = () => {
 
   const handleClear = () => {
     setSearchText('');
-    setIsExpanded(false);
+    setIsExpanded(false); // Volta ao estado compacto quando o campo for limpo
   };
 
   const handleSubmitEditing = () => {
@@ -118,7 +120,7 @@ const AISearchBar = () => {
               backgroundColor: dark ? '#2a2a2a' : '#ffffff',
             },
           ]}
-          placeholder="digite para a ia responder"
+          placeholder="Digite para a IA responder"
           placeholderTextColor={dark ? '#888888' : '#999999'}
           value={searchText}
           onChangeText={(text) => {
