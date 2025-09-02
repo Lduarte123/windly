@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
   TextInput,
   Alert,
   TouchableOpacity,
-  Image
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from 'react-native';
 import api from '../api/api';
 import { useAuth } from '../components/authContext/AuthContext';
@@ -22,6 +24,8 @@ export default function LoginScreen() {
   const { dark } = useTheme();
   const styles = getStyles(dark);
 
+  const scrollRef = useRef(null);
+
   useEffect(() => {
     if (!authLoading && user) {
       router.replace('/');
@@ -29,6 +33,11 @@ export default function LoginScreen() {
   }, [user, authLoading]);
 
   async function handleLogin() {
+    if (!email.trim() || !password.trim()) {
+      Alert.alert("Atenção", "Preencha todos os campos para continuar!");
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await api.post('/auth/login', { email, password });
@@ -49,55 +58,63 @@ export default function LoginScreen() {
   }
 
   return (
-    <View style={styles.login1container}>
+    <View style={[styles.login1container, { flex: 1 }]}>
+      {/* Logo e título fixos */}
       <View style={styles.logoTitleContainer}>
         <View style={styles.rowText}>
           <Text style={styles.login2Text}>Bem vindo ao,</Text>
-          <Text style={[styles.mainTitle]}>
-            Windly.
-          </Text>
+          <Text style={[styles.mainTitle]}>Windly.</Text>
           <Text style={styles.login3Text}>Informações metereológicas em tempo real.</Text>
         </View>
       </View>
-      <View style={styles.loginForm}>
-        <TextInput
-          style={[
-            styles.input,
-            { color: dark ? "#fff" : "#11181C" } // cor do texto digitado
-          ]}
-          placeholder="E-mail"
-          placeholderTextColor={dark ? "#fff" : "#888"}
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={[
-            styles.input,
-            { color: dark ? "#fff" : "#11181C" } // cor do texto digitado
-          ]}
-          placeholder="Senha"
-          placeholderTextColor={dark ? "#fff" : "#888"}
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
 
-        <TouchableOpacity
-          style={[styles.botao, loading && { opacity: 0.6 }]}
-          onPress={handleLogin}
-          disabled={loading}
+      {/* Formulário com KeyboardAvoidingView */}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 50}
+      >
+        <ScrollView
+          ref={scrollRef}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 20, paddingBottom: 100 }}
+          keyboardShouldPersistTaps="handled"
         >
-          <Text style={styles.botaoTexto}>
-            {loading ? "Entrando..." : "Entrar"}
-          </Text>
-        </TouchableOpacity>
+          <View style={styles.loginForm}>
+            <TextInput
+              style={[styles.input, { color: dark ? "#fff" : "#11181C", marginBottom: 15 }]}
+              placeholder="E-mail"
+              placeholderTextColor={dark ? "#fff" : "#888"}
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
 
-        <TouchableOpacity onPress={() => router.replace('register')}>
-          <Text style={styles.link}>Não tem conta? Cadastre-se</Text>
-        </TouchableOpacity>
-      </View>
+            <TextInput
+              style={[styles.input, { color: dark ? "#fff" : "#11181C", marginBottom: 15 }]}
+              placeholder="Senha"
+              placeholderTextColor={dark ? "#fff" : "#888"}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+
+            <TouchableOpacity
+              style={[styles.botao, loading && { opacity: 0.6 }]}
+              onPress={handleLogin}
+              disabled={loading}
+            >
+              <Text style={styles.botaoTexto}>
+                {loading ? "Entrando..." : "Entrar"}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => router.replace('register')}>
+              <Text style={styles.link}>Não tem conta? Cadastre-se</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }

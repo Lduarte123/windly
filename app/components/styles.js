@@ -394,6 +394,7 @@ export default function getStyles(isDark) {
       borderBottomLeftRadius: 40,
       borderBottomRightRadius: 40,
       backgroundColor: isDark? "#3085F5" : "#fff",
+      marginBottom: 10,
     },
     rowText:{
       marginLeft: 20,
@@ -416,7 +417,7 @@ export default function getStyles(isDark) {
     },
     login1container: {
       flex: 1,
-      backgroundColor: isDark? theme.background : "#3085F5",
+      backgroundColor: isDark? theme.background : "#1c77f0ff",
     },
 
   });
