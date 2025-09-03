@@ -14,7 +14,7 @@ import DiasSemChuvaCheckbox from "../components/diasSemChuva/DiasSemChuvaCheckbo
 import { Video } from "expo-av";
 import ErrorModal from "../components/errorModal/ErrorModal";
 import { useConfig } from "../components/configContext";
-import formatWind from "../utils/convertWind";
+import formatWind from "../utils/convertWind"; 
 import WeatherBackgroundWrapper from "../components/background/Background";
 import ThermalGauge from "../components/gauge/Gauge";
 import HumidityGauge from "../components/humidty/Humidity";
@@ -102,114 +102,120 @@ export default function App() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <WeatherBackgroundWrapper
-        weatherData={weatherData}
-        loading={loading && !initialLoading} // refresh loading apenas
-        onRefresh={onRefresh}
-        headerContent={
-          !errorMsg && weatherData ? (
-            <MainSection>
-              <MainStats city={city} desc={desc} temp={temp} />
-            </MainSection>
-          ) : null
-        }
-      >
-        {/* Conteúdo principal */}
-        {!errorMsg && weatherData && (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ flexGrow: 1 }}
-          >
-            <WeatherCard city={city} />
-            <HourlySlider city={city} />
-            <View
-              style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
-                justifyContent: "space-between",
-              }}
-            >
-              <StatsCard
-                titulo="Sensação"
-                desc="Sensação térmica"
-                stats={
-                  weatherData.feelsLike != null ? `${weatherData.feelsLike}°` : "--"
-                }
-                icon={<ThermalGauge value={weatherData.feelsLike} />}
-              />
-              <StatsCard
-                titulo="Umidade"
-                desc="Umidade relativa"
-                stats={
-                  weatherData.humidity != null ? `${weatherData.humidity}%` : "--"
-                }
-                icon={<HumidityGauge value={weatherData.humidity} />}
-              />
-              <StatsCard
-                titulo="Vento"
-                desc="Velocidade do vento"
-                stats={
-                  weatherData.windSpeed != null
-                    ? formatWind(weatherData.windSpeed, config.wind_unit)
-                    : "--"
-                }
-                icon={<Wind color="#fff" size={40} />}
-              />
-              <StatsCard
-                titulo="Nuvens"
-                desc="Cobertura de nuvens"
-                stats={
-                  weatherData.cloudiness != null
-                    ? `${weatherData.cloudiness}%`
-                    : "--"
-                }
-                icon={<Cloud color="#fff" size={40} />}
-              />
-              <StatsCard
-                titulo="Nascer do Sol"
-                desc="Horário do nascer do sol"
-                stats={weatherData.sunrise || "--"}
-                icon={<Sunrise color="#fff" size={40} />}
-              />
-              <StatsCard
-                titulo="Pôr do Sol"
-                desc="Horário do pôr do sol"
-                stats={weatherData.sunset || "--"}
-                icon={<Sunset color="#fff" size={40} />}
-              />
-            </View>
-            <DiasSemChuvaCheckbox />
-          </ScrollView>
-        )}
-
-        {/* Modal de erro */}
-        {errorMsg && !weatherData && <ErrorModal visible={showErrorModal} dark={dark} />}
-      </WeatherBackgroundWrapper>
-
-      {/* Loading inicial com vídeo absoluto, independente do layout */}
-      {initialLoading && (
-        <View
-          style={{
-            position: "absolute",
-            top: "40%", // ajuste para ficar mais pra cima
-            left: 0,
-            right: 0,
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 999,
-          }}
+  <View style={{ flex: 1 }}>
+    <WeatherBackgroundWrapper
+      weatherData={weatherData}
+      loading={loading && !initialLoading} // refresh loading apenas
+      onRefresh={onRefresh}
+      headerContent={
+        !errorMsg && weatherData ? (
+          <MainSection>
+            <MainStats city={city} desc={desc} temp={temp} />
+          </MainSection>
+        ) : null
+      }
+    >
+      {/* Conteúdo principal */}
+      {!errorMsg && weatherData && (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1 }}
         >
-          <Video
-            source={require("../assets/wind.mp4")}
-            style={{ width: 110, height: 110, borderRadius: 60 }}
-            resizeMode="cover"
-            isLooping
-            shouldPlay
-            isMuted
-          />
-        </View>
+          <WeatherCard city={city} />
+          <HourlySlider city={city} />
+
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+            }}
+          >
+            {/* continua usando icon para os gauges */}
+            <StatsCard
+              titulo="Sensação"
+              desc="Sensação térmica"
+              stats={
+                weatherData.feelsLike != null ? `${weatherData.feelsLike}°` : "--"
+              }
+              icon={<ThermalGauge value={weatherData.feelsLike} />}
+            />
+            <StatsCard
+              titulo="Umidade"
+              desc="Umidade relativa"
+              stats={
+                weatherData.humidity != null ? `${weatherData.humidity}%` : "--"
+              }
+              icon={<HumidityGauge value={weatherData.humidity} />}
+            />
+
+            {/* agora usa type para os ícones Lucide animados */}
+            <StatsCard
+              titulo="Vento"
+              desc="Velocidade do vento"
+              stats={
+                weatherData.windSpeed != null
+                  ? formatWind(weatherData.windSpeed, config.wind_unit)
+                  : "--"
+              }
+              type="wind"
+            />
+            <StatsCard
+              titulo="Nuvens"
+              desc="Cobertura de nuvens"
+              stats={
+                weatherData.cloudiness != null
+                  ? `${weatherData.cloudiness}%`
+                  : "--"
+              }
+              type="cloud"
+            />
+            <StatsCard
+              titulo="Nascer do Sol"
+              desc="Horário do nascer do sol"
+              stats={weatherData.sunrise || "--"}
+              type="sunrise"
+            />
+            <StatsCard
+              titulo="Pôr do Sol"
+              desc="Horário do pôr do sol"
+              stats={weatherData.sunset || "--"}
+              type="sunset"
+            />
+          </View>
+
+          <DiasSemChuvaCheckbox />
+        </ScrollView>
       )}
-    </View>
-  );
-}
+
+      {/* Modal de erro */}
+      {errorMsg && !weatherData && (
+        <ErrorModal visible={showErrorModal} dark={dark} />
+      )}
+    </WeatherBackgroundWrapper>
+
+    {/* Loading inicial com vídeo absoluto */}
+    {initialLoading && (
+      <View
+        style={{
+          position: "absolute",
+          top: "40%",
+          left: 0,
+          right: 0,
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 999,
+        }}
+      >
+        <Video
+          source={require("../assets/wind.mp4")}
+          style={{ width: 110, height: 110, borderRadius: 60 }}
+          resizeMode="cover"
+          isLooping
+          shouldPlay
+          isMuted
+        />
+      </View>
+    )}
+  </View>
+)};

@@ -3,8 +3,9 @@ import { View, Text } from "react-native";
 import { useConfig } from "../configContext";
 import { convertTemp } from "../../utils/convertTemp";
 import styles from "./styles";
+import AnimatedWeatherIcon from "../animateWeatherIcon/AnimatedWeatherIcon";
 
-export default function StatsCard({ titulo, stats, icon }) {
+export default function StatsCard({ titulo, stats, icon, type }) {
   const { config } = useConfig();
 
   let value = stats;
@@ -19,7 +20,9 @@ export default function StatsCard({ titulo, stats, icon }) {
         <Text style={styles.titulo}>{titulo}</Text>
         <Text style={styles.stats}>{value}</Text>
       </View>
-      {icon && <View style={styles.iconWrapper}>{icon}</View>}
+      <View style={styles.iconWrapper}>
+        {icon ? icon : type ? <AnimatedWeatherIcon type={type} /> : null}
+      </View>
     </View>
   );
 }
