@@ -1,4 +1,4 @@
-import google.generativeai as genai
+from google import genai
 from config import settings
 import logging
 

@@ -33,7 +33,6 @@ def check_dependencies():
     try:
         import fastapi
         import uvicorn
-        import google.generativeai
         import dotenv
         print("✅ Todas as dependências estão instaladas")
         return True
