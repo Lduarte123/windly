@@ -6,8 +6,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  TouchableOpacity,
-  Image
+  TouchableOpacity
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAuth } from '../components/authContext/AuthContext';
@@ -43,21 +42,24 @@ export default function Verificacao() {
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView
-        style={{ flex: 1 }}
+        style={{ flex: 1, justifyContent: "center" }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={60}
       >
-        <View style={styles.registerFormWrapper}>
-          {/* LOGO + TÍTULO CENTRALIZADO */}
-          <View style={styles.logoTitleContainer}>
-            <Image source={require('../../app/assets/logo.png')} style={styles.logo} />
-            <Text style={[styles.mainTitle, { color: dark ? "#ECEDEE" : "#003366", marginLeft: 12 }]}>
+        <View style={[styles.registerFormWrapper, { alignItems: "center" }]}>
+          {/* TÍTULO PRINCIPAL */}
+          <View style={{ marginBottom: 30, alignItems: "center" }}>
+            <Text style={[styles.mainTitle, { color: dark ? "#ECEDEE" : "#003366", fontSize: 28 }]}>
               Windly
+            </Text>
+            <Text style={{ fontSize: 18, color: dark ? "#ECEDEE" : "#555", marginTop: 5 }}>
+              Verifique sua conta
             </Text>
           </View>
 
+          {/* INPUT DE CÓDIGO */}
           <TextInput
-            style={styles.input}
+            style={[styles.input, { textAlign: "center" }]}
             keyboardType="numeric"
             value={code}
             onChangeText={setCode}
@@ -65,8 +67,9 @@ export default function Verificacao() {
             placeholderTextColor={dark ? "#fff" : "#888"}
           />
 
+          {/* BOTÃO DE VERIFICAR */}
           <TouchableOpacity
-            style={[styles.botao, loading && { opacity: 0.6 }]}
+            style={[styles.botao, { marginTop: 20 }, loading && { opacity: 0.6 }]}
             onPress={verificarCodigo}
             disabled={loading}
           >
@@ -75,8 +78,11 @@ export default function Verificacao() {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.replace('login')}>
-            <Text style={styles.link}>Voltar para login</Text>
+          {/* VOLTAR PARA LOGIN */}
+          <TouchableOpacity onPress={() => router.replace('login')} style={{ marginTop: 20 }}>
+            <Text style={[styles.link, { textAlign: "center" }]}>
+              Voltar para login
+            </Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
