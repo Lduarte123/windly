@@ -32,8 +32,8 @@ export default function AIScreen() {
         contentContainerStyle={localStyles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <AIAlerta />
         <AIRoupa />
+        <AIAlerta />
         <AISearchBar />
       </ScrollView>
     </View>
