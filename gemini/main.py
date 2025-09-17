@@ -1,33 +1,42 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from google import genai
+from google import generativeai as genai
 import os
 from dotenv import load_dotenv
+from pydantic import BaseModel
 
+# Loads the environment variables from the .env file
 load_dotenv()
 
+# Gets the API key
 GEMINI_API_KEY = os.getenv("GEMINI_KEY")
 
-# Inicializa cliente Gemini
-client = genai.Client(api_key=GEMINI_API_KEY)
+# Checks if the key was loaded
+if not GEMINI_API_KEY:
+    raise ValueError("The API key 'GEMINI_KEY' was not found. Make sure it is defined in your .env file.")
 
-# Prompt-base para análise do clima
+# Configures the Gemini client
+genai.configure(api_key=GEMINI_API_KEY)
+
+# Defines the base prompt for weather analysis
 ClimaPromptBase = """
-Você é um assistente especializado em meteorologia. Sua tarefa é analisar informações climáticas de uma cidade e gerar uma resposta amigável, clara e útil para o usuário.
+You are a meteorology specialist assistant. Your task is to analyze weather information for a city and generate a friendly, clear, and helpful response to the user.
 
-Inclua:
-1. Um resumo do clima atual
-2. Dicas relevantes baseadas nas condições (ex: levar guarda-chuva, se hidratar, etc)
-3. Riscos potenciais, se houver (ex: calor extremo, chuvas fortes)
-4. Sugestões de roupas ou cuidados
-5. Um tom acessível, útil e acolhedor
+Include:
+1. A summary of the current weather
+2. Relevant tips based on the conditions (e.g. take an umbrella, stay hydrated, etc.)
+3. Potential risks, if any (e.g. extreme heat, heavy rain)
+4. Clothing or care suggestions
+5. An accessible, helpful, and welcoming tone
 
-Não invente dados. Baseie-se estritamente nas informações fornecidas.
+Do not invent data. Base yourself strictly on the information provided.
 """
 
+# Creates the FastAPI application
 app = FastAPI()
 
+# Configures the CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -36,46 +45,42 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class AnaliseClimaInput(BaseModel):
+    cidade: str
+    dados_climaticos: str
+
+model = genai.GenerativeModel("gemini-2.5-flash")
+
 
 @app.post("/analise-clima")
-async def analisar_clima(request: Request):
+async def analisar_clima(input_data: AnaliseClimaInput):
     """
-    Espera um JSON com:
+    Expects a JSON with:
     {
-        "cidade": "Nome da cidade",
-        "dados_climaticos": "Texto descritivo com as condições atuais"
+        "cidade": "City name",
+        "dados_climaticos": "Descriptive text with current conditions"
     }
     """
     try:
-        body = await request.json()
-        cidade = body.get("cidade")
-        dados = body.get("dados_climaticos")
-
-        if not cidade or not dados:
-            return JSONResponse(
-                status_code=400,
-                content={"erro": "Parâmetros 'cidade' e 'dados_climaticos' são obrigatórios."}
-            )
-
-        # Monta o prompt final
+        # Assembles the final prompt
         prompt = f"""
-Cidade: {cidade}
-Condições Climáticas:
-{dados}
-"""
+            City: {input_data.cidade}
+            Weather Conditions:
+            {input_data.dados_climaticos}
+            """
 
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
+        response = model.generate_content(
             contents=ClimaPromptBase + "\n\n" + prompt,
         )
 
         return {
-            "cidade": cidade,
-            "analise": response.text
+            "cidade": input_data.cidade,
+            "analise": response.text  # .text to get the response text
         }
 
     except Exception as e:
-        return JSONResponse(
+        # Handles internal errors and returns a 500 JSON error
+        raise HTTPException(
             status_code=500,
-            content={"erro": f"Erro ao processar análise climática: {str(e)}"}
+            detail=f"Error processing weather analysis: {str(e)}"
         )
