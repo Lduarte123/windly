@@ -6,20 +6,15 @@ import os
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
-# Loads the environment variables from the .env file
 load_dotenv()
 
-# Gets the API key
 GEMINI_API_KEY = os.getenv("GEMINI_KEY")
 
-# Checks if the key was loaded
 if not GEMINI_API_KEY:
     raise ValueError("The API key 'GEMINI_KEY' was not found. Make sure it is defined in your .env file.")
 
-# Configures the Gemini client
 genai.configure(api_key=GEMINI_API_KEY)
 
-# Defines the base prompt for weather analysis
 ClimaPromptBase = """
 You are a meteorology specialist assistant. Your task is to analyze weather information for a city and generate a friendly, clear, and helpful response to the user.
 
@@ -29,14 +24,13 @@ Include:
 3. Potential risks, if any (e.g. extreme heat, heavy rain)
 4. Clothing or care suggestions
 5. An accessible, helpful, and welcoming tone
+6. The reponse must be in portuguese (Brazil) 
 
 Do not invent data. Base yourself strictly on the information provided.
 """
 
-# Creates the FastAPI application
 app = FastAPI()
 
-# Configures the CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -62,7 +56,6 @@ async def analisar_clima(input_data: AnaliseClimaInput):
     }
     """
     try:
-        # Assembles the final prompt
         prompt = f"""
             City: {input_data.cidade}
             Weather Conditions:
@@ -75,11 +68,10 @@ async def analisar_clima(input_data: AnaliseClimaInput):
 
         return {
             "cidade": input_data.cidade,
-            "analise": response.text  # .text to get the response text
+            "analise": response.text 
         }
 
     except Exception as e:
-        # Handles internal errors and returns a 500 JSON error
         raise HTTPException(
             status_code=500,
             detail=f"Error processing weather analysis: {str(e)}"
