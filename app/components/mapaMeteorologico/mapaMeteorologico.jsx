@@ -33,6 +33,18 @@ const createLeafletHTML = (filters) => `
         right: auto !important;
         bottom: -59em !important;
       }
+      
+       /* Estilo personalizado para a camada de precipitação - tema claro (azul) */
+       .precipitation-layer {
+         filter: contrast(9.0) saturate(10.5) brightness(0.8) hue-rotate(700deg);
+         mix-blend-mode: multiply;
+       }
+       
+       /* Contraste roxo-violeta para tema escuro */
+       .dark-theme .precipitation-layer {
+         filter: contrast(9.2) saturate(10.5) brightness(5.2) hue-rotate(370deg);
+         mix-blend-mode: screen;
+       }
     </style>
   </head>
   <body>
@@ -56,9 +68,16 @@ const createLeafletHTML = (filters) => `
         minZoom: 3, // Limita o zoom mínimo
         maxZoom: 10, // Limita o zoom máximo
         worldCopyJump: true, // Impede o mapa de se deslocar fora dos limites
-      }).setView([-23.55, -46.63], 4);
+       }).setView([-23.55, -46.63], 4);
 
-      // Mapa base (tema escuro ou claro)
+       // Aplicar classe de tema ao body
+       if (${filters.temaEscuro}) {
+         document.body.classList.add('dark-theme');
+       } else {
+         document.body.classList.remove('dark-theme');
+       }
+
+       // Mapa base (tema escuro ou claro)
       const baseLayer = L.tileLayer('${filters.temaEscuro ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'}', {
         attribution: '© OpenStreetMap, © CartoDB'
       }).addTo(map);
@@ -73,6 +92,12 @@ const createLeafletHTML = (filters) => `
         opacity: 0.4
       });
 
+      // Camada de precipitação
+      const precipLayer = L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=69b60137458925882b3d327be216c401', {
+        opacity: 0.9,
+        className: 'precipitation-layer'
+      });
+
       // Adicionar camadas baseado nos filtros
       if (${filters.nuvens}) {
         map.addLayer(cloudsLayer);
@@ -80,6 +105,10 @@ const createLeafletHTML = (filters) => `
       
       if (${filters.temperatura}) {
         map.addLayer(tempLayer);
+      }
+
+      if (${filters.precipitacao}) {
+        map.addLayer(precipLayer);
       }
 
       // Dados de vento reais (via GitHub) - apenas se filtro de ventos estiver ativo
@@ -109,7 +138,7 @@ const createLeafletHTML = (filters) => `
   </html>
 `;
 
-export default function MapaMeteorologico({ filters = { ventos: true, nuvens: true, temperatura: true, temaEscuro: true } }) {
+export default function MapaMeteorologico({ filters = { ventos: true, nuvens: true, temperatura: true, precipitacao: true, temaEscuro: true } }) {
   return (
     <WebView
       originWhitelist={['*']}
