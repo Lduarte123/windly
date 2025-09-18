@@ -137,7 +137,7 @@ const createLeafletHTML = (filters) => `
   </body>
   </html>
 `;
-
+// ODKEOOED
 export default function MapaMeteorologico({ filters = { ventos: true, nuvens: true, temperatura: true, precipitacao: true, temaEscuro: true } }) {
   return (
     <WebView
