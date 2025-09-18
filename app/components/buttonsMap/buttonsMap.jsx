@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   sidebar: {
     position: 'absolute',
     right: 0,
-    top: 0,
+    top: 50,
     flexDirection: 'column',
     gap: 8,
     paddingHorizontal: 12,
