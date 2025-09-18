@@ -29,6 +29,18 @@ Include:
 Do not invent data. Base yourself strictly on the information provided.
 """
 
+
+
+SugestaoRoupaPrompt = """
+Você é um assistente pessoal climático. Você deve analisar o clima e a cidade atual para gerar sugestão ou sugestões de roupas
+de acordo com o clima e cidade que o usuário está
+
+- Você só pode responder sobre algo pertinente às vestimentas relacionados ao clima
+- Use como base apenas os dados que você receber de cidade e seus status atual
+- Responda apenas as recomendações vestuárias, NÃO PRECISA DIZER O LOCAL
+
+"""
+
 app = FastAPI()
 
 app.add_middleware(
@@ -43,7 +55,42 @@ class AnaliseClimaInput(BaseModel):
     cidade: str
     dados_climaticos: str
 
+class RecomendacaoRequest(BaseModel):
+    cidade: str
+    clima: dict 
+
 model = genai.GenerativeModel("gemini-2.5-flash")
+
+
+@app.post("/sugerir-roupa")
+async def sugerir_roupa(input_data: RecomendacaoRequest):
+    """
+    Expects a JSON with:
+    {
+        "cidade": "City name",
+        "dados_climaticos": "Descriptive text with current conditions"
+    }
+    """
+    try:
+        prompt = f"""
+            City: {input_data.cidade}
+            Weather Conditions:
+            {input_data.clima}
+            """
+
+        response = model.generate_content(
+            contents=SugestaoRoupaPrompt + "\n\n" + prompt,
+        )
+
+        return {
+            "analise": response.text
+        }
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error processing weather analysis: {str(e)}"
+        )
 
 
 @app.post("/analise-clima")
