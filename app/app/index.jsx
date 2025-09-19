@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, Dimensions } from "react-native";
+import { View, ScrollView, Image, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MainSection from "../components/mainSection/MainSection";
 import MainStats from "../components/mainStats/MainStats";
 import WeatherCard from "../components/weatherCard/WeatherCard";
 import StatsCard from "../components/statsCard/StatsCard";
-import { Thermometer, Wind, Cloud, Sunrise, Sunset } from "lucide-react-native";
 import { useTheme } from "../components/ThemeContext";
 import getStyles from "../components/styles";
 import api from "../api/api";
@@ -16,11 +15,7 @@ import ErrorModal from "../components/errorModal/ErrorModal";
 import { useConfig } from "../components/configContext";
 import formatWind from "../utils/convertWind";
 import WeatherBackgroundWrapper from "../components/background/Background";
-import ThermalGauge from "../components/gauge/Gauge";
-import HumidityGauge from "../components/humidty/Humidity";
-import HourlySlider from "../components/dayCard/dayCard";
 
-const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function App() {
   const { dark } = useTheme();
@@ -122,61 +117,72 @@ export default function App() {
             contentContainerStyle={{ flexGrow: 1 }}
           >
             <WeatherCard city={city} />
-            <HourlySlider city={city} />
-            <View
-              style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
-                justifyContent: "space-between",
-              }}
-            >
+            <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
               <StatsCard
                 titulo="Sensação"
                 desc="Sensação térmica"
-                stats={
-                  weatherData.feelsLike != null ? `${weatherData.feelsLike}°` : "--"
+                stats={weatherData.feelsLike != null ? `${weatherData.feelsLike}°` : "--"}
+                icon={
+                  <Image
+                    source={require('../assets/animations/warm.gif')}
+                    style={{ width: 40, height: 40 }}
+                  />
                 }
-                icon={<ThermalGauge value={weatherData.feelsLike} />}
               />
               <StatsCard
                 titulo="Umidade"
                 desc="Umidade relativa"
-                stats={
-                  weatherData.humidity != null ? `${weatherData.humidity}%` : "--"
+                stats={weatherData.humidity != null ? `${weatherData.humidity}%` : "--"}
+                icon={
+                  <Image
+                    source={require('../assets/animations/humidity.gif')}
+                    style={{ width: 40, height: 40 }}
+                  />
                 }
-                icon={<HumidityGauge value={weatherData.humidity} />}
               />
               <StatsCard
                 titulo="Vento"
                 desc="Velocidade do vento"
-                stats={
-                  weatherData.windSpeed != null
-                    ? formatWind(weatherData.windSpeed, config.wind_unit)
-                    : "--"
+                stats={weatherData.windSpeed != null ? formatWind(weatherData.windSpeed, config.wind_unit) : "--"}
+                icon={
+                  <Image
+                    source={require('../assets/animations/wind.gif')}
+                    style={{ width: 40, height: 40 }}
+                  />
                 }
-                icon={<Wind color="#fff" size={40} />}
               />
               <StatsCard
                 titulo="Nuvens"
                 desc="Cobertura de nuvens"
-                stats={
-                  weatherData.cloudiness != null
-                    ? `${weatherData.cloudiness}%`
-                    : "--"
+                stats={weatherData.cloudiness != null ? `${weatherData.cloudiness}%` : "--"}
+                icon={
+                  <Image
+                    source={require('../assets/animations/cloud.gif')}
+                    style={{ width: 40, height: 40 }}
+                  />
                 }
-                icon={<Cloud color="#fff" size={40} />}
               />
               <StatsCard
                 titulo="Nascer do Sol"
                 desc="Horário do nascer do sol"
                 stats={weatherData.sunrise || "--"}
-                icon={<Sunrise color="#fff" size={40} />}
+                icon={
+                  <Image
+                    source={require('../assets/animations/sunrise.gif')}
+                    style={{ width: 40, height: 40 }}
+                  />
+                }
               />
               <StatsCard
                 titulo="Pôr do Sol"
                 desc="Horário do pôr do sol"
                 stats={weatherData.sunset || "--"}
-                icon={<Sunset color="#fff" size={40} />}
+                icon={
+                  <Image
+                    source={require('../assets/animations/sunset.gif')}
+                    style={{ width: 40, height: 40 }}
+                  />
+                }
               />
             </View>
             <DiasSemChuvaCheckbox />
@@ -187,12 +193,12 @@ export default function App() {
         {errorMsg && !weatherData && <ErrorModal visible={showErrorModal} dark={dark} />}
       </WeatherBackgroundWrapper>
 
-      {/* Loading inicial com vídeo absoluto, independente do layout */}
+      {/* Loading inicial com vídeo absoluto */}
       {initialLoading && (
         <View
           style={{
             position: "absolute",
-            top: "40%", // ajuste para ficar mais pra cima
+            top: "40%",
             left: 0,
             right: 0,
             justifyContent: "center",
