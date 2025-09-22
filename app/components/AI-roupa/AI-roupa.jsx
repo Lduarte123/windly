@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native';
 import { useTheme } from '../ThemeContext';
 import { useConfig } from '../configContext';
 import Constants from 'expo-constants';
@@ -48,7 +48,7 @@ const AIRoupa = () => {
 
   const gerarRecomendacaoRoupa = async (cidade, clima) => {
     try {
-      const response = await fetch('http://10.0.30.116:8000/sugerir-roupa', {
+      const response = await fetch('http://10.0.30.151:8000/sugerir-roupa', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const AIRoupa = () => {
       {loading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#2D6BFD" />
-          <Text style={[styles.loadingText, { color: dark ? '#cccccc' : '#666666', fontSize: 13, fontFamily: 'monospace', fontWeight: 'bold' }]}>
+          <Text style={[styles.loadingText, { color: dark ? '#cccccc' : '#666666', fontSize: 13, fontWeight: 'bold' }]}>
             Gerando recomendação...
           </Text>
         </View>
@@ -115,12 +115,14 @@ const AIRoupa = () => {
           </TouchableOpacity>
         </View>
       ) : (
-        <Text style={[
+        <ScrollView showsVerticalScrollIndicator={false}>
+            <Text style={[
           styles.recomendacaoText,
-          { color: dark ? '#0000' : '#333333' }
+          { color: dark ? '#ffff' : '#0000' }
         ]}>
           {recomendacao}
         </Text>
+        </ScrollView>
       )}
     </View>
   );
@@ -184,12 +186,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   recomendacaoText: {
+    marginTop: "10%",
     fontSize: 16,
-    fontWeight: '500',
-    textAlign: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 12,
     lineHeight: 24,
-    marginBottom: 20,
     flex: 1,
   },
   tempInfo: {
