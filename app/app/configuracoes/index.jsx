@@ -1,6 +1,6 @@
+// app/configuracoes/index.jsx
 import React, { useState, useEffect } from "react";
-import useLogout from "../logout";
-import { ScrollView, Text, View, Switch, TouchableOpacity, Alert, Platform, StyleSheet } from "react-native";
+import { ScrollView, Text, View, Switch, TouchableOpacity, StyleSheet, Platform, Alert } from "react-native";
 import { useTheme } from "../../components/ThemeContext";
 import getStyles from "../../components/styles";
 import Feather from "react-native-vector-icons/Feather";
@@ -9,19 +9,15 @@ import { useRouter } from "expo-router";
 import RNPickerSelect from "react-native-picker-select";
 import { useConfig } from "../../components/configContext";
 import api from "../../api/api";
-import UsuarioInfo from "../../components/UsuarioInfo/UsuarioInfo";
 
 export default function Configuracoes() {
   const { dark, toggleTheme } = useTheme();
   const styles = getStyles(dark);
-  const logout = useLogout();
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
   const { config, setConfig } = useConfig();
 
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [showAbout, setShowAbout] = useState(false);
-  const [showPrivacy, setShowPrivacy] = useState(false);
 
   useEffect(() => {
     async function fetchConfig() {
@@ -29,9 +25,7 @@ export default function Configuracoes() {
         try {
           const res = await api.get(`/user-config/${user.id}`);
           setConfig(res.data);
-        } catch (e) {
-          // Se não existir, pode criar aqui se quiser
-        }
+        } catch (e) {}
       }
     }
     fetchConfig();
@@ -39,22 +33,10 @@ export default function Configuracoes() {
 
   const backgroundColor = dark ? "#151718" : "#fff";
   const textColor = dark ? "#ECEDEE" : "#11181C";
-  const cardBackground = dark ? "#1F2223" : "#F1F1F1";
-
-  const handleAbout = () => {
-    Alert.alert("Sobre o App", "Windly App\nVersão 1.0.0\nDesenvolvido por Você");
-  };
-
-  const handlePrivacy = () => {
-    Alert.alert("Privacidade", "Suas informações estão protegidas de acordo com nossa política de privacidade.");
-  };
 
   const showAlert = (message) => {
-    if (Platform.OS === "web") {
-      window.alert(message);
-    } else {
-      Alert.alert(message);
-    }
+    if (Platform.OS === "web") window.alert(message);
+    else Alert.alert(message);
   };
 
   const handleToggleNotifications = () => {
@@ -75,38 +57,17 @@ export default function Configuracoes() {
 
   return (
     <View style={{ flex: 1, backgroundColor }}>
-      <ScrollView
-        style={{ flex: 1 }}
-        contentContainerStyle={{ padding: 16, paddingBottom: 80 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={[styles.configContainer]}>
-          {/* Linha do título e botão do usuário */}
+      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 80 }} showsVerticalScrollIndicator={false}>
+        <View style={styles.configContainer}>
+          {/* Header com título e botão de perfil */}
           <View style={localStyles.headerRow}>
-            <Text style={[styles.configTitle, { color: textColor }]}>
-              Configurações
-            </Text>
+            <Text style={[styles.configTitle, { color: textColor }]}>Configurações</Text>
             <TouchableOpacity
               style={localStyles.profileButton}
               onPress={() => {
-                if (!user) {
-                  Alert.alert(
-                    "Alerta",
-                    "Você não está logado",
-                    [
-                      {
-                        text: "Logar",
-                        onPress: () => router.push("/login"),
-                        style: "default"
-                      },
-                      { text: "Cancelar", style: "cancel" }
-                    ]
-                  );
-                } else {
-                  router.push("/configuracoes/perfil");
-                }
+                if (!user) router.push("/login");
+                else router.push("/configuracoes/perfil");
               }}
-              activeOpacity={0.8}
             >
               <Feather name="user" size={26} color="#2D6BFD" />
             </TouchableOpacity>
@@ -116,9 +77,7 @@ export default function Configuracoes() {
           <View style={styles.section}>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
               <Feather name="moon" size={18} color={textColor} />
-              <Text style={[styles.label, { color: textColor }]}>
-                Tema escuro
-              </Text>
+              <Text style={[styles.label, { color: textColor }]}>Tema escuro</Text>
             </View>
             <Switch
               value={dark}
@@ -132,9 +91,7 @@ export default function Configuracoes() {
           <View style={styles.section}>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
               <Feather name="bell" size={18} color={textColor} />
-              <Text style={[styles.label, { color: textColor }]}>
-                Notificações
-              </Text>
+              <Text style={[styles.label, { color: textColor }]}>Notificações</Text>
             </View>
             <Switch
               value={notificationsEnabled}
@@ -145,35 +102,13 @@ export default function Configuracoes() {
           </View>
 
           {/* Sobre */}
-          <View style={styles.section}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-              <Feather name="info" size={18} color={textColor} />
-              <Text style={[styles.label, { color: textColor }]}>Sobre</Text>
-            </View>
-            <TouchableOpacity onPress={() => setShowAbout(!showAbout)}>
-              <Text style={{ color: "#2D6BFD", fontWeight: "600" }}>
-                {showAbout ? "Ocultar" : "Ver"}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          {showAbout && (
-            <View
-              style={{
-                backgroundColor: cardBackground,
-                padding: 12,
-                borderRadius: 8,
-                marginBottom: 16,
-                borderWidth: 1,
-                borderColor: dark ? "#333" : "#ccc",
-              }}
-            >
-              <Text style={{ color: textColor }}>Windly App</Text>
-              <Text style={{ color: textColor }}>Versão 1.0.0</Text>
-            </View>
-          )}
+          <TouchableOpacity style={styles.section} onPress={() => router.push("/configuracoes/sobre")}>
+            <Text style={[styles.label, { color: textColor }]}>Sobre</Text>
+            <Text style={{ color: "#2D6BFD", fontWeight: "600" }}>Ver</Text>
+          </TouchableOpacity>
 
           {/* Privacidade */}
-          <TouchableOpacity style={styles.section} onPress={handlePrivacy}>
+          <TouchableOpacity style={styles.section} onPress={() => router.push("/configuracoes/privacidade")}>
             <Text style={[styles.label, { color: textColor }]}>Privacidade</Text>
             <Text style={{ color: "#2D6BFD", fontWeight: "600" }}>Ver</Text>
           </TouchableOpacity>
@@ -218,7 +153,6 @@ export default function Configuracoes() {
               placeholder={{}}
             />
           </View>
-
         </View>
       </ScrollView>
     </View>
