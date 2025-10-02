@@ -5,6 +5,7 @@ import { useConfig } from '../configContext';
 import Constants from 'expo-constants';
 import { getUserCity } from '../../api/getUserCity';
 import api from '../../api/api';
+import apiAI from '../../api/apiAI';
 
 const AIRoupa = () => {
   const { dark } = useTheme();
@@ -48,23 +49,23 @@ const AIRoupa = () => {
 
   const gerarRecomendacaoRoupa = async (cidade, clima) => {
     try {
-      const response = await fetch('http://10.0.30.151:8000/sugerir-roupa', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const response = await apiAI.post(
+        "/sugerir-roupa",
+        {
           cidade: cidade,
           clima: clima,
-        }),
-      });
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      const recomendacao = await response.json();
-      console.log('Recomendação de roupa:', recomendacao);
-      return recomendacao;
+      return response.data; // retorna os dados da API
     } catch (error) {
-      console.error('Erro ao gerar recomendação de roupa:', error);
-
+      console.error("Erro ao gerar recomendação:", error);
+      throw error;
     }
   };
 
@@ -84,7 +85,7 @@ const AIRoupa = () => {
       styles.container,
       {
         width: containerWidth,
-        height: containerHeight,
+        minHeight: containerHeight,
         backgroundColor: dark ? '#2a2a2a' : '#ffffff',
       }
     ]}>
@@ -101,7 +102,7 @@ const AIRoupa = () => {
       {loading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#2D6BFD" />
-          <Text style={[styles.loadingText, { color: dark ? '#cccccc' : '#666666', fontSize: 13, fontWeight: 'bold' }]}>
+          <Text style={[styles.loadingText, { color: dark ? '#cccccc' : '#666666', fontSize: 13}]}>
             Gerando recomendação...
           </Text>
         </View>
@@ -116,12 +117,12 @@ const AIRoupa = () => {
         </View>
       ) : (
         <ScrollView showsVerticalScrollIndicator={false}>
-            <Text style={[
-          styles.recomendacaoText,
-          { color: dark ? '#ffff' : '#0000' }
-        ]}>
-          {recomendacao}
-        </Text>
+          <Text style={[
+            styles.recomendacaoText,
+            { color: dark ? '#ffff' : '#000' }
+          ]}>
+            {recomendacao}
+          </Text>
         </ScrollView>
       )}
     </View>
@@ -186,11 +187,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   recomendacaoText: {
-    marginTop: "10%",
+    marginTop: 40,
     fontSize: 16,
     paddingHorizontal: 12,
     lineHeight: 24,
-    flex: 1,
   },
   tempInfo: {
     fontSize: 14,
