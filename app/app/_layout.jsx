@@ -6,6 +6,7 @@ import { AuthProvider } from '../components/authContext/AuthContext';
 import { ConfigProvider } from '../components/configContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Sparkles } from 'lucide-react-native'
 
 function ThemedTabs() {
   const { dark } = useTheme();
@@ -68,6 +69,17 @@ function ThemedTabs() {
         options={{
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="map" size={24} color={color} />
+          ),
+          tabBarButton: (props) => (
+            <TouchableOpacity activeOpacity={0.7} {...props} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="AI/index"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Sparkles color={color} size={24}/>
           ),
           tabBarButton: (props) => (
             <TouchableOpacity activeOpacity={0.7} {...props} />
