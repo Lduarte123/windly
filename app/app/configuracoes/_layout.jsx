@@ -1,12 +1,11 @@
-// app/configuracoes/_layout.jsx
 import { Stack } from "expo-router";
 
 export default function ConfiguracoesLayout() {
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false, // Se quiser um header automático, mude para true
-      }}
-    />
+    <Stack>
+      <Stack.Screen name="index" options={{ title: "Configurações" }} />
+      <Stack.Screen name="sobre" options={{ title: "Sobre o App" }} />
+      <Stack.Screen name="privacidade" options={{ title: "Privacidade" }} />
+    </Stack>
   );
 }
