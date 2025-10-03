@@ -47,6 +47,17 @@ services:
   #   volumes:
   #     - mongodata:/data/db
 
+  fastapi-app:
+      build: ./gemini
+      container_name: clima_ai
+      ports:
+        - "8000:8000"
+      env_file:
+        - ./gemini/.env
+      volumes:
+        - .:/app
+      restart: always
+    
 volumes:
   pgdata:
   mongodata:

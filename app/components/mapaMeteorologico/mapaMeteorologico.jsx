@@ -1,7 +1,7 @@
 import React from "react";
 import { WebView } from "react-native-webview";
 
-const leafletHTML = `
+const createLeafletHTML = (filters) => `
   <!DOCTYPE html>
   <html>
   <head>
@@ -33,6 +33,18 @@ const leafletHTML = `
         right: auto !important;
         bottom: -59em !important;
       }
+      
+       /* Estilo personalizado para a camada de precipitação - tema claro (azul) */
+       .precipitation-layer {
+         filter: contrast(9.0) saturate(10.5) brightness(0.8) hue-rotate(700deg);
+         mix-blend-mode: multiply;
+       }
+       
+       /* Contraste roxo-violeta para tema escuro */
+       .dark-theme .precipitation-layer {
+         filter: contrast(9.2) saturate(10.5) brightness(5.2) hue-rotate(370deg);
+         mix-blend-mode: screen;
+       }
     </style>
   </head>
   <body>
@@ -56,53 +68,81 @@ const leafletHTML = `
         minZoom: 3, // Limita o zoom mínimo
         maxZoom: 10, // Limita o zoom máximo
         worldCopyJump: true, // Impede o mapa de se deslocar fora dos limites
-      }).setView([-23.55, -46.63], 4);
+       }).setView([-23.55, -46.63], 4);
 
-      // Mapa base escuro
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+       // Aplicar classe de tema ao body
+       if (${filters.temaEscuro}) {
+         document.body.classList.add('dark-theme');
+       } else {
+         document.body.classList.remove('dark-theme');
+       }
+
+       // Mapa base (tema escuro ou claro)
+      const baseLayer = L.tileLayer('${filters.temaEscuro ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'}', {
         attribution: '© OpenStreetMap, © CartoDB'
       }).addTo(map);
 
       // Camada de nuvens
-      L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=69b60137458925882b3d327be216c401', {
+      const cloudsLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=69b60137458925882b3d327be216c401', {
         opacity: 0.7
-      }).addTo(map);
+      });
 
       // Camada de temperatura
-      L.tileLayer('https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=69b60137458925882b3d327be216c401', {
+      const tempLayer = L.tileLayer('https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=69b60137458925882b3d327be216c401', {
         opacity: 0.4
-      }).addTo(map);
+      });
 
-      // Dados de vento reais (via GitHub)
-      fetch("https://raw.githubusercontent.com/danwild/leaflet-velocity/master/demo/wind-global.json")
-        .then(res => res.json())
-        .then(data => {
-          const velocityLayer = L.velocityLayer({
-            displayValues: true,
-            displayOptions: {
-              velocityType: "Global Wind",
-              position: "bottomleft",
-              emptyString: "Sem dados de vento",
-              angleConvention: "bearingCW",
-              speedUnit: "kt"
-            },
-            data: data,
-            maxVelocity: 15
-          });
+      // Camada de precipitação
+      const precipLayer = L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=69b60137458925882b3d327be216c401', {
+        opacity: 0.9,
+        className: 'precipitation-layer'
+      });
 
-          map.addLayer(velocityLayer);
-        })
-        .catch(err => console.error("Erro ao carregar dados de vento:", err));
+      // Adicionar camadas baseado nos filtros
+      if (${filters.nuvens}) {
+        map.addLayer(cloudsLayer);
+      }
+      
+      if (${filters.temperatura}) {
+        map.addLayer(tempLayer);
+      }
+
+      if (${filters.precipitacao}) {
+        map.addLayer(precipLayer);
+      }
+
+      // Dados de vento reais (via GitHub) - apenas se filtro de ventos estiver ativo
+      if (${filters.ventos}) {
+        fetch("https://raw.githubusercontent.com/danwild/leaflet-velocity/master/demo/wind-global.json")
+          .then(res => res.json())
+          .then(data => {
+            const velocityLayer = L.velocityLayer({
+              displayValues: true,
+              displayOptions: {
+                velocityType: "Global Wind",
+                position: "bottomleft",
+                emptyString: "Sem dados de vento",
+                angleConvention: "bearingCW",
+                speedUnit: "kt"
+              },
+              data: data,
+              maxVelocity: 15
+            });
+
+            map.addLayer(velocityLayer);
+          })
+          .catch(err => console.error("Erro ao carregar dados de vento:", err));
+      }
     </script>
   </body>
   </html>
 `;
-
-export default function MapaMeteorologico() {
+// ODKEOOED
+export default function MapaMeteorologico({ filters = { ventos: true, nuvens: true, temperatura: true, precipitacao: true, temaEscuro: true } }) {
   return (
     <WebView
       originWhitelist={['*']}
-      source={{ html: leafletHTML }}
+      source={{ html: createLeafletHTML(filters) }}
       style={{ flex: 1 }}
     />
   );
