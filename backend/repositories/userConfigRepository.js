@@ -11,9 +11,7 @@ class UserConfigRepository {
 
   async create(usuario_id) {
     const result = await db.query(
-      `INSERT INTO user_config (usuario_id, temp_unit, pressure_unit, wind_unit, notifications_enabled)
-       VALUES ($1, 'C', 'hPa', 'm/s', true)
-       RETURNING *`,
+      `INSERT INTO user_config (usuario_id, temp_unit, pressure_unit, wind_unit, notifications_enabled) VALUES ($1, 'C', 'hPa', 'm/s', true) RETURNING *`,
       [usuario_id]
     );
     return result.rows[0] || null;
@@ -21,13 +19,7 @@ class UserConfigRepository {
 
   async update(usuario_id, { temp_unit, pressure_unit, wind_unit, notifications_enabled }) {
     const result = await db.query(
-      `UPDATE user_config
-       SET temp_unit = $1,
-           pressure_unit = $2,
-           wind_unit = $3,
-           notifications_enabled = $4
-       WHERE usuario_id = $5
-       RETURNING *`,
+      `UPDATE user_config SET temp_unit = $1, pressure_unit = $2, wind_unit = $3, notifications_enabled = $4 WHERE usuario_id = $5 RETURNING *`,
       [temp_unit, pressure_unit, wind_unit, notifications_enabled, usuario_id]
     );
     return result.rows[0] || null;
