@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1760483638949" clover="3.2.0">
-  <project timestamp="1760483638949" name="All files">
-    <metrics statements="606" coveredstatements="486" conditionals="184" coveredconditionals="109" methods="116" coveredmethods="69" elements="906" coveredelements="664" complexity="0" loc="606" ncloc="606" packages="8" files="36" classes="36"/>
+<coverage generated="1760483885953" clover="3.2.0">
+  <project timestamp="1760483885954" name="All files">
+    <metrics statements="610" coveredstatements="490" conditionals="184" coveredconditionals="109" methods="116" coveredmethods="69" elements="910" coveredelements="668" complexity="0" loc="610" ncloc="610" packages="9" files="37" classes="37"/>
     <package name="controllers">
       <metrics statements="249" coveredstatements="231" conditionals="72" coveredconditionals="62" methods="29" coveredmethods="29"/>
       <file name="authController.js" path="D:\Users\Aluno\Documents\windly\backend\controllers\authController.js">
@@ -710,6 +710,16 @@
         <line num="34" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="35" count="1" type="stmt"/>
         <line num="39" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="swagger">
+      <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="swaggerConfig.js" path="D:\Users\Aluno\Documents\windly\backend\swagger\swaggerConfig.js">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="80" count="1" type="stmt"/>
+        <line num="82" count="1" type="stmt"/>
       </file>
     </package>
     <package name="utils">
