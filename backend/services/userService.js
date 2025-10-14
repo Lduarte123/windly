@@ -23,12 +23,16 @@ class UserService {
     return userRepository.getUserByEmail(email);
   }
 
-  static updateUser(id, name, email) {
-    return userRepository.updateUser(id, name, email);
+  static async updateUser(id, name, email) {
+    const updatedUser = await userRepository.updateUser(id, name, email);
+    if (!updatedUser) throw new Error('Usuário não encontrado');
+    return updatedUser;
   }
 
-  static deleteUser(id) {
-    return userRepository.deleteUser(id);
+  static async deleteUser(id) {
+    const deleted = await userRepository.deleteUser(id);
+    if (!deleted) throw new Error('Usuário não encontrado');
+    return deleted;
   }
 }
 

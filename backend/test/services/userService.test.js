@@ -2,7 +2,6 @@ const UserService = require('../../services/userService');
 const userRepository = require('../../repositories/userRepository');
 const userConfigRepository = require('../../repositories/userConfigRepository');
 
-// Mock do repositório
 jest.mock('../../repositories/userRepository');
 jest.mock('../../repositories/userConfigRepository');
 
@@ -42,6 +41,23 @@ describe('UserService', () => {
       });
       expect(userConfigRepository.create).toHaveBeenCalledWith(1); 
     });
+
+    it('deve lançar erro se a criação da configuração do usuário falhar', async () => {
+      userRepository.getUserByEmail.mockResolvedValue(null);
+      
+      userRepository.createUser.mockResolvedValue({
+        id: 1,
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        password: 'password123',
+      });
+
+      userConfigRepository.create.mockRejectedValue(new Error('Erro ao criar configuração'));
+
+      await expect(UserService.createUser('John Doe', 'john.doe@example.com', 'password123'))
+        .rejects
+        .toThrow('Erro ao criar configuração');
+    });
   });
 
   describe('getUserById', () => {
@@ -51,6 +67,13 @@ describe('UserService', () => {
 
       const result = await UserService.getUserById(1);
       expect(result).toEqual(mockUser);
+    });
+
+    it('deve retornar null se o usuário não for encontrado', async () => {
+      userRepository.getUserById.mockResolvedValue(null);
+
+      const result = await UserService.getUserById(999);
+      expect(result).toBeNull();
     });
   });
 
@@ -65,6 +88,13 @@ describe('UserService', () => {
       const result = await UserService.getAllUsers();
       expect(result).toEqual(mockUsers);
     });
+
+    it('deve retornar uma lista vazia quando não houver usuários', async () => {
+      userRepository.getAllUsers.mockResolvedValue([]);
+
+      const result = await UserService.getAllUsers();
+      expect(result).toEqual([]);
+    });
   });
 
   describe('updateUser', () => {
@@ -75,6 +105,14 @@ describe('UserService', () => {
       const result = await UserService.updateUser(1, 'John Smith', 'john.smith@example.com');
       expect(result).toEqual(updatedUser);
     });
+
+    it('deve lançar erro se o usuário não for encontrado para atualizar', async () => {
+      userRepository.updateUser.mockResolvedValue(null);
+
+      await expect(UserService.updateUser(999, 'Non-existent', 'no.email@example.com'))
+        .rejects
+        .toThrow('Usuário não encontrado');
+    });
   });
 
   describe('deleteUser', () => {
@@ -82,6 +120,12 @@ describe('UserService', () => {
       userRepository.deleteUser.mockResolvedValue(true);
 
       await expect(UserService.deleteUser(1)).resolves.toBe(true);
+    });
+
+    it('deve lançar erro se o usuário não for encontrado para deletar', async () => {
+      userRepository.deleteUser.mockResolvedValue(false); 
+
+      await expect(UserService.deleteUser(999)).rejects.toThrow('Usuário não encontrado');
     });
   });
 });
