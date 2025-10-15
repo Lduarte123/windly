@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const userRepository = require('../repositories/userRepository');
 const userConfigRepository = require('../repositories/userConfigRepository');
 
@@ -6,7 +7,10 @@ class UserService {
     const existingUser = await userRepository.getUserByEmail(email);
     if (existingUser) throw new Error('EMAIL_IN_USE');
 
-    const user = await userRepository.createUser(name, email, password);
+    // ✅ Criptografa a senha
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await userRepository.createUser(name, email, hashedPassword);
     await userConfigRepository.create(user.id);
     return user;
   }
