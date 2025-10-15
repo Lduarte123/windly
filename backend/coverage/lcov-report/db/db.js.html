@@ -23,30 +23,52 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">63.63% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>7/11</span>
+=======
                 <span class="strong">70% </span>
                 <span class="quiet">Statements</span>
                 <span class='fraction'>7/10</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">60% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>6/10</span>
+=======
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
                 <span class='fraction'>0/0</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
+<<<<<<< HEAD
+                <span class='fraction'>0/3</span>
+=======
                 <span class='fraction'>0/1</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">70% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>7/10</span>
+=======
                 <span class="strong">77.77% </span>
                 <span class="quiet">Lines</span>
                 <span class='fraction'>7/9</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         
             
@@ -84,6 +106,29 @@
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
+<<<<<<< HEAD
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+=======
 <a name='L22'></a><a href='#L22'>22</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -97,11 +142,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<<<<<<< HEAD
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// db/index.js
+require('dotenv').config(); // Carrega variáveis de ambiente do .env
+const { Pool } = require('pg'); // Módulo para conexão PostgreSQL
+&nbsp;
+const pool = new Pool({
+  host: process.env.DB_HOST || <span class="branch-1 cbranch-no" title="branch not covered" >'localhost',</span>
+  port: Number(process.env.DB_PORT) || <span class="branch-1 cbranch-no" title="branch not covered" >5432,</span>
+  user: process.env.DB_USER || <span class="branch-1 cbranch-no" title="branch not covered" >'postgres',</span>
+  password: process.env.DB_PASS || 'postgres', // atenção ao nome da variável
+  database: process.env.DB_NAME || <span class="branch-1 cbranch-no" title="branch not covered" >'postgres',</span>
+});
+&nbsp;
+pool.on('connect', <span class="fstat-no" title="function not covered" >()</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >  console.log('✅ Conexão com o banco de dados estabelecida com sucesso.');</span>
+});
+&nbsp;
+pool.on('error', <span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
+<span class="cstat-no" title="statement not covered" >  console.error('❌ Erro com o pool do banco de dados:', err.message);</span>
+<span class="cstat-no" title="statement not covered" >  process.exit(1);</span>
+});
+=======
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
@@ -121,6 +192,7 @@ try {
 <span class="cstat-no" title="statement not covered" >  console.error('❌ Erro ao conectar ao banco de dados:', error.message);</span>
 <span class="cstat-no" title="statement not covered" >  process.exit(1); </span>// Encerra a aplicação em caso de falha de conexão
 }
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
 &nbsp;
 // Função para executar queries
 const query = <span class="fstat-no" title="function not covered" >(t</span>ext, params) =&gt; <span class="cstat-no" title="statement not covered" >pool.query(text, params);</span>
@@ -133,7 +205,11 @@ module.exports = { query };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+<<<<<<< HEAD
+                at 2025-10-15T21:05:26.896Z
+=======
                 at 2025-10-14T23:18:05.800Z
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         <script src="../prettify.js"></script>
         <script>

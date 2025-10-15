@@ -1,4 +1,4 @@
-// test/repositories/UserConfigRepository.test.js
+
 
 const db = require('../../db/db');
 const userConfigRepo = require('../../repositories/userConfigRepository');
@@ -6,7 +6,6 @@ const userConfigRepo = require('../../repositories/userConfigRepository');
 jest.mock('../../db/db', () => ({
   query: jest.fn(),
 }));
-
 
 describe('UserConfigRepository', () => {
   beforeEach(() => {
@@ -60,6 +59,14 @@ describe('UserConfigRepository', () => {
         [42]
       );
       expect(result).toEqual(mockRow);
+    });
+
+    it('deve retornar null se não conseguir criar configuração', async () => {
+      db.query.mockResolvedValue({ rows: [] });
+
+      const result = await userConfigRepo.create(999);
+
+      expect(result).toBeNull();
     });
   });
 

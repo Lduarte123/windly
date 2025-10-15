@@ -23,30 +23,54 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>14/14</span>
+=======
                 <span class="strong">21.42% </span>
                 <span class="quiet">Statements</span>
                 <span class='fraction'>3/14</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>6/6</span>
+=======
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
                 <span class='fraction'>0/6</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>6/6</span>
+=======
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
                 <span class='fraction'>0/6</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>13/13</span>
+=======
                 <span class="strong">23.07% </span>
                 <span class="quiet">Lines</span>
                 <span class='fraction'>3/13</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         
             
@@ -61,7 +85,11 @@
             </div>
         </template>
     </div>
+<<<<<<< HEAD
+    <div class='status-line high'></div>
+=======
     <div class='status-line low'></div>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -99,6 +127,77 @@
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
+<<<<<<< HEAD
+<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const db = require('../db/db');
+const Lembrete = require('../models/lembreteModel');
+&nbsp;
+class LembreteRepository {
+  async findAllByUser(usuario_id) {
+    const result = await db.query('SELECT * FROM lembrete WHERE usuario_id = $1', [usuario_id]);
+    return result.rows.map(row =&gt; new Lembrete(row));
+  }
+&nbsp;
+  async findById(id) {
+    const result = await db.query('SELECT * FROM lembrete WHERE id = $1', [id]);
+    return result.rows[0] ? new Lembrete(result.rows[0]) : null;
+  }
+&nbsp;
+  async create({ usuario_id, titulo, descricao }) {
+    const result = await db.query(
+      'INSERT INTO lembrete (usuario_id, titulo, descricao) VALUES ($1, $2, $3) RETURNING *',
+      [usuario_id, titulo, descricao]
+    );
+    return new Lembrete(result.rows[0]);
+  }
+&nbsp;
+  async update(id, { titulo, descricao }) {
+    const result = await db.query(
+      'UPDATE lembrete SET titulo = $1, descricao = $2 WHERE id = $3 RETURNING *',
+      [titulo, descricao, id]
+    );
+    return result.rows[0] ? new Lembrete(result.rows[0]) : null;
+  }
+&nbsp;
+  async remove(id) {
+    const result = await db.query('DELETE FROM lembrete WHERE id = $1 RETURNING *', [id]);
+    return result.rows[0] ? new Lembrete(result.rows[0]) : null;
+=======
 <a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -168,6 +267,7 @@ class LembreteRepository {
 <span class="fstat-no" title="function not covered" >  as</span>ync remove(id) {
     const result = <span class="cstat-no" title="statement not covered" >await db.query('DELETE FROM lembrete WHERE id = $1 RETURNING *', [id]);</span>
 <span class="cstat-no" title="statement not covered" >    return result.rows[0] ? new Lembrete(result.rows[0]) : null;</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
   }
 }
 &nbsp;
@@ -178,7 +278,11 @@ module.exports = new LembreteRepository();</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+<<<<<<< HEAD
+                at 2025-10-15T21:05:26.896Z
+=======
                 at 2025-10-14T23:18:05.800Z
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         <script src="../prettify.js"></script>
         <script>

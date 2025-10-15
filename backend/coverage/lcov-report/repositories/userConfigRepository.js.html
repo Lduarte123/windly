@@ -23,30 +23,54 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>8/8</span>
+=======
                 <span class="strong">25% </span>
                 <span class="quiet">Statements</span>
                 <span class='fraction'>2/8</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>6/6</span>
+=======
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
                 <span class='fraction'>0/6</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>3/3</span>
+=======
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
                 <span class='fraction'>0/3</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>8/8</span>
+=======
                 <span class="strong">25% </span>
                 <span class="quiet">Lines</span>
                 <span class='fraction'>2/8</span>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         
             
@@ -61,7 +85,11 @@
             </div>
         </template>
     </div>
+<<<<<<< HEAD
+    <div class='status-line high'></div>
+=======
     <div class='status-line low'></div>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -92,6 +120,67 @@
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
+<<<<<<< HEAD
+<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const db = require('../db/db');
+&nbsp;
+class UserConfigRepository {
+  async findByUserId(usuario_id) {
+    const result = await db.query(
+      `SELECT * FROM user_config WHERE usuario_id = $1`,
+      [usuario_id]
+    );
+    return result.rows[0] || null;
+  }
+&nbsp;
+  async create(usuario_id) {
+    const result = await db.query(
+      `INSERT INTO user_config (usuario_id, temp_unit, pressure_unit, wind_unit, notifications_enabled) VALUES ($1, 'C', 'hPa', 'm/s', true) RETURNING *`,
+      [usuario_id]
+    );
+    return result.rows[0] || null;
+  }
+&nbsp;
+  async update(usuario_id, { temp_unit, pressure_unit, wind_unit, notifications_enabled }) {
+    const result = await db.query(
+      `UPDATE user_config SET temp_unit = $1, pressure_unit = $2, wind_unit = $3, notifications_enabled = $4 WHERE usuario_id = $5 RETURNING *`,
+      [temp_unit, pressure_unit, wind_unit, notifications_enabled, usuario_id]
+    );
+    return result.rows[0] || null;
+  }
+}
+&nbsp;
+module.exports = new UserConfigRepository();
+&nbsp;</pre></td></tr></table></pre>
+=======
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
@@ -172,13 +261,18 @@ class UserConfigRepository {
 }
 &nbsp;
 module.exports = new UserConfigRepository();</pre></td></tr></table></pre>
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+<<<<<<< HEAD
+                at 2025-10-15T21:05:26.896Z
+=======
                 at 2025-10-14T23:18:05.800Z
+>>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
             </div>
         <script src="../prettify.js"></script>
         <script>
