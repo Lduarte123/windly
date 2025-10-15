@@ -20,11 +20,10 @@ describe('Database Connection', () => {
       on: jest.fn((event, callback) => {
         if (event === 'connect') callback();
       }),
+      query: jest.fn()
     };
 
     Pool.mockImplementation(() => mockPool);
-
-    jest.clearAllMocks();
     delete require.cache[require.resolve('../../db/db')];
   });
 
@@ -46,5 +45,10 @@ describe('Database Connection', () => {
     );
 
     consoleSpy.mockRestore();
+  });
+
+  test('deve exportar função query', () => {
+    const db = require('../../db/db');
+    expect(typeof db.query).toBe('function');
   });
 });
