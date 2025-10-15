@@ -1,205 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
-<coverage generated="1760562326953" clover="3.2.0">
-  <project timestamp="1760562326954" name="All files">
-    <metrics statements="135" coveredstatements="127" conditionals="74" coveredconditionals="68" methods="50" coveredmethods="42" elements="259" coveredelements="237" complexity="0" loc="135" ncloc="135" packages="6" files="13" classes="13"/>
-    <package name="db">
-      <metrics statements="10" coveredstatements="7" conditionals="10" coveredconditionals="6" methods="3" coveredmethods="0"/>
-      <file name="db.js" path="D:\Users\Aluno\Documents\windly\backend\db\db.js">
-        <metrics statements="10" coveredstatements="7" conditionals="10" coveredconditionals="6" methods="3" coveredmethods="0"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="3" count="3" type="stmt"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="13" count="3" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="17" count="3" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="23" count="3" type="stmt"/>
-        <line num="25" count="3" type="stmt"/>
-      </file>
-    </package>
-    <package name="middleware">
-      <metrics statements="36" coveredstatements="36" conditionals="19" coveredconditionals="19" methods="7" coveredmethods="7"/>
-      <file name="authMiddleware.js" path="D:\Users\Aluno\Documents\windly\backend\middleware\authMiddleware.js">
-        <metrics statements="11" coveredstatements="11" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="6" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="8" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="10" count="2" type="stmt"/>
-        <line num="11" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-      </file>
-      <file name="cidadeMiddleware.js" path="D:\Users\Aluno\Documents\windly\backend\middleware\cidadeMiddleware.js">
-        <metrics statements="16" coveredstatements="16" conditionals="8" coveredconditionals="8" methods="3" coveredmethods="3"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="2" type="stmt"/>
-        <line num="3" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
-        <line num="11" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
-        <line num="19" count="2" type="cond" truecount="4" falsecount="0"/>
-        <line num="20" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-      </file>
-      <file name="errorMiddleware.js" path="D:\Users\Aluno\Documents\windly\backend\middleware\errorMiddleware.js">
-        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-      </file>
-      <file name="validateUser.js" path="D:\Users\Aluno\Documents\windly\backend\middleware\validateUser.js">
-        <metrics statements="6" coveredstatements="6" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="4" count="3" type="cond" truecount="5" falsecount="0"/>
-        <line num="5" count="2" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="models">
-      <metrics statements="18" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="5"/>
-      <file name="cidadeFavoritaModel.js" path="D:\Users\Aluno\Documents\windly\backend\models\cidadeFavoritaModel.js">
-        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="3" count="8" type="stmt"/>
-        <line num="4" count="8" type="stmt"/>
-        <line num="5" count="8" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="17" count="2" type="stmt"/>
-      </file>
-      <file name="lembreteModel.js" path="D:\Users\Aluno\Documents\windly\backend\models\lembreteModel.js">
-        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="3" count="7" type="stmt"/>
-        <line num="4" count="7" type="stmt"/>
-        <line num="5" count="7" type="stmt"/>
-        <line num="6" count="7" type="stmt"/>
-        <line num="7" count="7" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
-      </file>
-      <file name="userModel.js" path="D:\Users\Aluno\Documents\windly\backend\models\userModel.js">
-        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="4" count="2" type="stmt"/>
-        <line num="5" count="2" type="stmt"/>
-        <line num="6" count="2" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="20" count="2" type="stmt"/>
-      </file>
-    </package>
-    <package name="repositories">
-      <metrics statements="34" coveredstatements="34" conditionals="18" coveredconditionals="18" methods="15" coveredmethods="15"/>
-      <file name="cidadeFavoritaRepository.js" path="D:\Users\Aluno\Documents\windly\backend\repositories\cidadeFavoritaRepository.js">
-        <metrics statements="13" coveredstatements="13" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="6"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="8" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="20" count="2" type="stmt"/>
-        <line num="24" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="28" count="2" type="stmt"/>
-        <line num="32" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="36" count="2" type="stmt"/>
-        <line num="37" count="2" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
-      </file>
-      <file name="lembreteRepository.js" path="D:\Users\Aluno\Documents\windly\backend\repositories\lembreteRepository.js">
-        <metrics statements="13" coveredstatements="13" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="6"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
-        <line num="12" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
-        <line num="24" count="2" type="stmt"/>
-        <line num="28" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="32" count="2" type="stmt"/>
-        <line num="33" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="37" count="1" type="stmt"/>
-      </file>
-      <file name="userConfigRepository.js" path="D:\Users\Aluno\Documents\windly\backend\repositories\userConfigRepository.js">
-        <metrics statements="8" coveredstatements="8" conditionals="6" coveredconditionals="6" methods="3" coveredmethods="3"/>
-        <line num="1" count="2" type="stmt"/>
-        <line num="5" count="2" type="stmt"/>
-        <line num="9" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="13" count="2" type="stmt"/>
-        <line num="17" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="21" count="2" type="stmt"/>
-        <line num="25" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="29" count="2" type="stmt"/>
-      </file>
-    </package>
-    <package name="services">
-      <metrics statements="15" coveredstatements="10" conditionals="2" coveredconditionals="2" methods="6" coveredmethods="1"/>
-      <file name="userService.js" path="D:\Users\Aluno\Documents\windly\backend\services\userService.js">
-        <metrics statements="15" coveredstatements="10" conditionals="2" coveredconditionals="2" methods="6" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="8" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="utils">
-      <metrics statements="22" coveredstatements="22" conditionals="25" coveredconditionals="23" methods="14" coveredmethods="14"/>
-      <file name="responseFormatter.js" path="D:\Users\Aluno\Documents\windly\backend\utils\responseFormatter.js">
-        <metrics statements="22" coveredstatements="22" conditionals="25" coveredconditionals="23" methods="14" coveredmethods="14"/>
-        <line num="2" count="2" type="stmt"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="4" count="2" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="30" count="2" type="stmt"/>
-        <line num="44" count="2" type="stmt"/>
-        <line num="54" count="1" type="stmt"/>
-        <line num="56" count="1" type="stmt"/>
-        <line num="57" count="1" type="stmt"/>
-        <line num="58" count="2" type="stmt"/>
-        <line num="66" count="1" type="stmt"/>
-        <line num="72" count="1" type="stmt"/>
-        <line num="74" count="1" type="stmt"/>
-        <line num="75" count="3" type="stmt"/>
-        <line num="76" count="3" type="stmt"/>
-        <line num="78" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="79" count="2" type="stmt"/>
-        <line num="82" count="3" type="cond" truecount="1" falsecount="1"/>
-        <line num="85" count="2" type="stmt"/>
-        <line num="93" count="2" type="stmt"/>
-        <line num="101" count="1" type="stmt"/>
-=======
-<coverage generated="1760483885953" clover="3.2.0">
-  <project timestamp="1760483885954" name="All files">
-    <metrics statements="610" coveredstatements="490" conditionals="184" coveredconditionals="109" methods="116" coveredmethods="69" elements="910" coveredelements="668" complexity="0" loc="610" ncloc="610" packages="9" files="37" classes="37"/>
+<coverage generated="1760568552506" clover="3.2.0">
+  <project timestamp="1760568552506" name="All files">
+    <metrics statements="622" coveredstatements="582" conditionals="199" coveredconditionals="175" methods="120" coveredmethods="110" elements="941" coveredelements="867" complexity="0" loc="622" ncloc="622" packages="9" files="39" classes="39"/>
     <package name="controllers">
       <metrics statements="249" coveredstatements="231" conditionals="72" coveredconditionals="62" methods="29" coveredmethods="29"/>
-      <file name="authController.js" path="D:\Users\Aluno\Documents\windly\backend\controllers\authController.js">
+      <file name="authController.js" path="C:\Users\cauae\Documents\windly\backend\controllers\authController.js">
         <metrics statements="57" coveredstatements="42" conditionals="18" coveredconditionals="11" methods="4" coveredmethods="4"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -259,7 +64,7 @@
         <line num="118" count="0" type="stmt"/>
         <line num="121" count="2" type="stmt"/>
       </file>
-      <file name="cidadeFavoritaController.js" path="D:\Users\Aluno\Documents\windly\backend\controllers\cidadeFavoritaController.js">
+      <file name="cidadeFavoritaController.js" path="C:\Users\cauae\Documents\windly\backend\controllers\cidadeFavoritaController.js">
         <metrics statements="33" coveredstatements="30" conditionals="6" coveredconditionals="6" methods="5" coveredmethods="5"/>
         <line num="1" count="2" type="stmt"/>
         <line num="5" count="2" type="stmt"/>
@@ -295,7 +100,7 @@
         <line num="56" count="0" type="stmt"/>
         <line num="61" count="2" type="stmt"/>
       </file>
-      <file name="climaController.js" path="D:\Users\Aluno\Documents\windly\backend\controllers\climaController.js">
+      <file name="climaController.js" path="C:\Users\cauae\Documents\windly\backend\controllers\climaController.js">
         <metrics statements="13" coveredstatements="13" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -311,7 +116,7 @@
         <line num="22" count="1" type="stmt"/>
         <line num="27" count="2" type="stmt"/>
       </file>
-      <file name="crossingController.js" path="D:\Users\Aluno\Documents\windly\backend\controllers\crossingController.js">
+      <file name="crossingController.js" path="C:\Users\cauae\Documents\windly\backend\controllers\crossingController.js">
         <metrics statements="38" coveredstatements="38" conditionals="18" coveredconditionals="15" methods="5" coveredmethods="5"/>
         <line num="1" count="2" type="stmt"/>
         <line num="7" count="2" type="stmt"/>
@@ -352,7 +157,7 @@
         <line num="73" count="1" type="stmt"/>
         <line num="77" count="2" type="stmt"/>
       </file>
-      <file name="lembreteController.js" path="D:\Users\Aluno\Documents\windly\backend\controllers\lembreteController.js">
+      <file name="lembreteController.js" path="C:\Users\cauae\Documents\windly\backend\controllers\lembreteController.js">
         <metrics statements="34" coveredstatements="34" conditionals="10" coveredconditionals="10" methods="5" coveredmethods="5"/>
         <line num="1" count="2" type="stmt"/>
         <line num="5" count="2" type="stmt"/>
@@ -389,7 +194,7 @@
         <line num="59" count="1" type="stmt"/>
         <line num="64" count="2" type="stmt"/>
       </file>
-      <file name="previsaoController.js" path="D:\Users\Aluno\Documents\windly\backend\controllers\previsaoController.js">
+      <file name="previsaoController.js" path="C:\Users\cauae\Documents\windly\backend\controllers\previsaoController.js">
         <metrics statements="13" coveredstatements="13" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -405,7 +210,7 @@
         <line num="22" count="1" type="stmt"/>
         <line num="27" count="2" type="stmt"/>
       </file>
-      <file name="userConfigController.js" path="D:\Users\Aluno\Documents\windly\backend\controllers\userConfigController.js">
+      <file name="userConfigController.js" path="C:\Users\cauae\Documents\windly\backend\controllers\userConfigController.js">
         <metrics statements="19" coveredstatements="19" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
         <line num="1" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -427,7 +232,7 @@
         <line num="26" count="3" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
       </file>
-      <file name="userController.js" path="D:\Users\Aluno\Documents\windly\backend\controllers\userController.js">
+      <file name="userController.js" path="C:\Users\cauae\Documents\windly\backend\controllers\userController.js">
         <metrics statements="42" coveredstatements="42" conditionals="8" coveredconditionals="8" methods="6" coveredmethods="6"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -474,20 +279,21 @@
       </file>
     </package>
     <package name="db">
-      <metrics statements="34" coveredstatements="32" conditionals="8" coveredconditionals="8" methods="2" coveredmethods="1"/>
-      <file name="db.js" path="D:\Users\Aluno\Documents\windly\backend\db\db.js">
-        <metrics statements="9" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <metrics statements="35" coveredstatements="32" conditionals="18" coveredconditionals="14" methods="4" coveredmethods="1"/>
+      <file name="db.js" path="C:\Users\cauae\Documents\windly\backend\db\db.js">
+        <metrics statements="10" coveredstatements="7" conditionals="10" coveredconditionals="6" methods="3" coveredmethods="0"/>
         <line num="2" count="17" type="stmt"/>
-        <line num="4" count="17" type="stmt"/>
-        <line num="8" count="17" type="stmt"/>
-        <line num="9" count="17" type="stmt"/>
-        <line num="12" count="17" type="stmt"/>
+        <line num="3" count="17" type="stmt"/>
+        <line num="5" count="17" type="stmt"/>
+        <line num="13" count="17" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="19" count="17" type="stmt"/>
-        <line num="21" count="17" type="stmt"/>
+        <line num="17" count="17" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="23" count="17" type="stmt"/>
+        <line num="25" count="17" type="stmt"/>
       </file>
-      <file name="dbInit.js" path="D:\Users\Aluno\Documents\windly\backend\db\dbInit.js">
+      <file name="dbInit.js" path="C:\Users\cauae\Documents\windly\backend\db\dbInit.js">
         <metrics statements="25" coveredstatements="25" conditionals="8" coveredconditionals="8" methods="1" coveredmethods="1"/>
         <line num="1" count="7" type="stmt"/>
         <line num="4" count="7" type="stmt"/>
@@ -517,117 +323,132 @@
       </file>
     </package>
     <package name="middleware">
-      <metrics statements="27" coveredstatements="8" conditionals="14" coveredconditionals="0" methods="5" coveredmethods="0"/>
-      <file name="authMiddleware.js" path="D:\Users\Aluno\Documents\windly\backend\middleware\authMiddleware.js">
-        <metrics statements="11" coveredstatements="4" conditionals="6" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
+      <metrics statements="36" coveredstatements="36" conditionals="19" coveredconditionals="19" methods="7" coveredmethods="7"/>
+      <file name="authMiddleware.js" path="C:\Users\cauae\Documents\windly\backend\middleware\authMiddleware.js">
+        <metrics statements="11" coveredstatements="11" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="6" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
       </file>
-      <file name="cidadeMiddleware.js" path="D:\Users\Aluno\Documents\windly\backend\middleware\cidadeMiddleware.js">
-        <metrics statements="16" coveredstatements="4" conditionals="8" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <file name="cidadeMiddleware.js" path="C:\Users\cauae\Documents\windly\backend\middleware\cidadeMiddleware.js">
+        <metrics statements="16" coveredstatements="16" conditionals="8" coveredconditionals="8" methods="3" coveredmethods="3"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="19" count="2" type="cond" truecount="4" falsecount="0"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+      </file>
+      <file name="errorMiddleware.js" path="C:\Users\cauae\Documents\windly\backend\middleware\errorMiddleware.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+      </file>
+      <file name="validateUser.js" path="C:\Users\cauae\Documents\windly\backend\middleware\validateUser.js">
+        <metrics statements="6" coveredstatements="6" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="4" count="3" type="cond" truecount="5" falsecount="0"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
       </file>
     </package>
     <package name="models">
-      <metrics statements="18" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
-      <file name="cidadeFavoritaModel.js" path="D:\Users\Aluno\Documents\windly\backend\models\cidadeFavoritaModel.js">
-        <metrics statements="5" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="17" count="3" type="stmt"/>
+      <metrics statements="18" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="5"/>
+      <file name="cidadeFavoritaModel.js" path="C:\Users\cauae\Documents\windly\backend\models\cidadeFavoritaModel.js">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="3" count="8" type="stmt"/>
+        <line num="4" count="8" type="stmt"/>
+        <line num="5" count="8" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="17" count="5" type="stmt"/>
       </file>
-      <file name="lembreteModel.js" path="D:\Users\Aluno\Documents\windly\backend\models\lembreteModel.js">
-        <metrics statements="6" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="11" count="3" type="stmt"/>
+      <file name="lembreteModel.js" path="C:\Users\cauae\Documents\windly\backend\models\lembreteModel.js">
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="3" count="7" type="stmt"/>
+        <line num="4" count="7" type="stmt"/>
+        <line num="5" count="7" type="stmt"/>
+        <line num="6" count="7" type="stmt"/>
+        <line num="7" count="7" type="stmt"/>
+        <line num="11" count="5" type="stmt"/>
       </file>
-      <file name="userModel.js" path="D:\Users\Aluno\Documents\windly\backend\models\userModel.js">
-        <metrics statements="7" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="20" count="4" type="stmt"/>
+      <file name="userModel.js" path="C:\Users\cauae\Documents\windly\backend\models\userModel.js">
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="20" count="6" type="stmt"/>
       </file>
     </package>
     <package name="repositories">
-      <metrics statements="55" coveredstatements="12" conditionals="24" coveredconditionals="0" methods="21" coveredmethods="0"/>
-      <file name="cidadeFavoritaRepository.js" path="D:\Users\Aluno\Documents\windly\backend\repositories\cidadeFavoritaRepository.js">
-        <metrics statements="13" coveredstatements="3" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="24" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="41" count="3" type="stmt"/>
+      <metrics statements="55" coveredstatements="38" conditionals="24" coveredconditionals="18" methods="21" coveredmethods="15"/>
+      <file name="cidadeFavoritaRepository.js" path="C:\Users\cauae\Documents\windly\backend\repositories\cidadeFavoritaRepository.js">
+        <metrics statements="13" coveredstatements="13" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="6"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="8" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="24" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="32" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="36" count="2" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+        <line num="41" count="4" type="stmt"/>
       </file>
-      <file name="lembreteRepository.js" path="D:\Users\Aluno\Documents\windly\backend\repositories\lembreteRepository.js">
-        <metrics statements="13" coveredstatements="3" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="28" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="37" count="3" type="stmt"/>
+      <file name="lembreteRepository.js" path="C:\Users\cauae\Documents\windly\backend\repositories\lembreteRepository.js">
+        <metrics statements="13" coveredstatements="13" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="6"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="12" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="28" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="33" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="37" count="4" type="stmt"/>
       </file>
-      <file name="userConfigRepository.js" path="D:\Users\Aluno\Documents\windly\backend\repositories\userConfigRepository.js">
-        <metrics statements="8" coveredstatements="2" conditionals="6" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="7" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="9" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="37" count="7" type="stmt"/>
+      <file name="userConfigRepository.js" path="C:\Users\cauae\Documents\windly\backend\repositories\userConfigRepository.js">
+        <metrics statements="8" coveredstatements="8" conditionals="6" coveredconditionals="6" methods="3" coveredmethods="3"/>
+        <line num="1" count="9" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="9" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="17" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="25" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="9" type="stmt"/>
       </file>
-      <file name="userRepository.js" path="D:\Users\Aluno\Documents\windly\backend\repositories\userRepository.js">
+      <file name="userRepository.js" path="C:\Users\cauae\Documents\windly\backend\repositories\userRepository.js">
         <metrics statements="21" coveredstatements="4" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -654,7 +475,7 @@
     </package>
     <package name="routes">
       <metrics statements="62" coveredstatements="62" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
-      <file name="authRoutes.js" path="D:\Users\Aluno\Documents\windly\backend\routes\authRoutes.js">
+      <file name="authRoutes.js" path="C:\Users\cauae\Documents\windly\backend\routes\authRoutes.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -663,7 +484,7 @@
         <line num="92" count="1" type="stmt"/>
         <line num="94" count="1" type="stmt"/>
       </file>
-      <file name="cidadeFavoritaRoutes.js" path="D:\Users\Aluno\Documents\windly\backend\routes\cidadeFavoritaRoutes.js">
+      <file name="cidadeFavoritaRoutes.js" path="C:\Users\cauae\Documents\windly\backend\routes\cidadeFavoritaRoutes.js">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -676,7 +497,7 @@
         <line num="163" count="1" type="stmt"/>
         <line num="165" count="1" type="stmt"/>
       </file>
-      <file name="climaRoutes.js" path="D:\Users\Aluno\Documents\windly\backend\routes\climaRoutes.js">
+      <file name="climaRoutes.js" path="C:\Users\cauae\Documents\windly\backend\routes\climaRoutes.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -684,7 +505,7 @@
         <line num="6" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
-      <file name="crossingRoutes.js" path="D:\Users\Aluno\Documents\windly\backend\routes\crossingRoutes.js">
+      <file name="crossingRoutes.js" path="C:\Users\cauae\Documents\windly\backend\routes\crossingRoutes.js">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -695,7 +516,7 @@
         <line num="8" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
       </file>
-      <file name="lembreteRoutes.js" path="D:\Users\Aluno\Documents\windly\backend\routes\lembreteRoutes.js">
+      <file name="lembreteRoutes.js" path="C:\Users\cauae\Documents\windly\backend\routes\lembreteRoutes.js">
         <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -710,7 +531,7 @@
         <line num="133" count="1" type="stmt"/>
         <line num="137" count="1" type="stmt"/>
       </file>
-      <file name="previsaoRoutes.js" path="D:\Users\Aluno\Documents\windly\backend\routes\previsaoRoutes.js">
+      <file name="previsaoRoutes.js" path="C:\Users\cauae\Documents\windly\backend\routes\previsaoRoutes.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -718,7 +539,7 @@
         <line num="6" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
-      <file name="userConfigRoutes.js" path="D:\Users\Aluno\Documents\windly\backend\routes\userConfigRoutes.js">
+      <file name="userConfigRoutes.js" path="C:\Users\cauae\Documents\windly\backend\routes\userConfigRoutes.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -727,7 +548,7 @@
         <line num="67" count="1" type="stmt"/>
         <line num="69" count="1" type="stmt"/>
       </file>
-      <file name="userRoutes.js" path="D:\Users\Aluno\Documents\windly\backend\routes\userRoutes.js">
+      <file name="userRoutes.js" path="C:\Users\cauae\Documents\windly\backend\routes\userRoutes.js">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -742,8 +563,8 @@
       </file>
     </package>
     <package name="services">
-      <metrics statements="139" coveredstatements="137" conditionals="41" coveredconditionals="39" methods="37" coveredmethods="36"/>
-      <file name="cidadeFavoritaService.js" path="D:\Users\Aluno\Documents\windly\backend\services\cidadeFavoritaService.js">
+      <metrics statements="141" coveredstatements="139" conditionals="41" coveredconditionals="39" methods="37" coveredmethods="36"/>
+      <file name="cidadeFavoritaService.js" path="C:\Users\cauae\Documents\windly\backend\services\cidadeFavoritaService.js">
         <metrics statements="13" coveredstatements="13" conditionals="2" coveredconditionals="2" methods="5" coveredmethods="5"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -759,7 +580,7 @@
         <line num="28" count="1" type="stmt"/>
         <line num="32" count="3" type="stmt"/>
       </file>
-      <file name="climaService.js" path="D:\Users\Aluno\Documents\windly\backend\services\climaService.js">
+      <file name="climaService.js" path="C:\Users\cauae\Documents\windly\backend\services\climaService.js">
         <metrics statements="15" coveredstatements="15" conditionals="6" coveredconditionals="6" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -777,7 +598,7 @@
         <line num="34" count="1" type="stmt"/>
         <line num="39" count="3" type="stmt"/>
       </file>
-      <file name="crossingService.js" path="D:\Users\Aluno\Documents\windly\backend\services\crossingService.js">
+      <file name="crossingService.js" path="C:\Users\cauae\Documents\windly\backend\services\crossingService.js">
         <metrics statements="42" coveredstatements="42" conditionals="21" coveredconditionals="20" methods="11" coveredmethods="11"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -822,7 +643,7 @@
         <line num="91" count="1" type="stmt"/>
         <line num="98" count="3" type="stmt"/>
       </file>
-      <file name="emailService.js" path="D:\Users\Aluno\Documents\windly\backend\services\emailService.js">
+      <file name="emailService.js" path="C:\Users\cauae\Documents\windly\backend\services\emailService.js">
         <metrics statements="14" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -830,8 +651,8 @@
         <line num="14" count="3" type="stmt"/>
         <line num="15" count="4" type="stmt"/>
         <line num="16" count="4" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="29" count="3" type="stmt"/>
+        <line num="27" count="3" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
         <line num="33" count="3" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
         <line num="35" count="1" type="stmt"/>
@@ -839,7 +660,7 @@
         <line num="44" count="0" type="stmt"/>
         <line num="48" count="3" type="stmt"/>
       </file>
-      <file name="lembreteService.js" path="D:\Users\Aluno\Documents\windly\backend\services\lembreteService.js">
+      <file name="lembreteService.js" path="C:\Users\cauae\Documents\windly\backend\services\lembreteService.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="5"/>
         <line num="1" count="3" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
@@ -849,7 +670,7 @@
         <line num="21" count="1" type="stmt"/>
         <line num="25" count="3" type="stmt"/>
       </file>
-      <file name="previsaoService.js" path="D:\Users\Aluno\Documents\windly\backend\services\previsaoService.js">
+      <file name="previsaoService.js" path="C:\Users\cauae\Documents\windly\backend\services\previsaoService.js">
         <metrics statements="26" coveredstatements="26" conditionals="6" coveredconditionals="5" methods="4" coveredmethods="4"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -878,7 +699,7 @@
         <line num="59" count="1" type="stmt"/>
         <line num="64" count="3" type="stmt"/>
       </file>
-      <file name="userConfigService.js" path="D:\Users\Aluno\Documents\windly\backend\services\userConfigService.js">
+      <file name="userConfigService.js" path="C:\Users\cauae\Documents\windly\backend\services\userConfigService.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="3" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
@@ -886,30 +707,32 @@
         <line num="13" count="1" type="stmt"/>
         <line num="17" count="3" type="stmt"/>
       </file>
-      <file name="userService.js" path="D:\Users\Aluno\Documents\windly\backend\services\userService.js">
-        <metrics statements="17" coveredstatements="16" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="5"/>
-        <line num="1" count="4" type="stmt"/>
-        <line num="2" count="4" type="stmt"/>
-        <line num="6" count="3" type="stmt"/>
-        <line num="7" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
+      <file name="userService.js" path="C:\Users\cauae\Documents\windly\backend\services\userService.js">
+        <metrics statements="19" coveredstatements="18" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="5"/>
+        <line num="1" count="5" type="stmt"/>
+        <line num="2" count="5" type="stmt"/>
+        <line num="3" count="5" type="stmt"/>
+        <line num="7" count="5" type="stmt"/>
+        <line num="8" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
         <line num="15" count="2" type="stmt"/>
         <line num="19" count="2" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="27" count="2" type="stmt"/>
-        <line num="28" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="29" count="1" type="stmt"/>
-        <line num="33" count="2" type="stmt"/>
-        <line num="34" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="35" count="1" type="stmt"/>
-        <line num="39" count="4" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="32" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+        <line num="38" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="43" count="5" type="stmt"/>
       </file>
     </package>
     <package name="swagger">
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="swaggerConfig.js" path="D:\Users\Aluno\Documents\windly\backend\swagger\swaggerConfig.js">
+      <file name="swaggerConfig.js" path="C:\Users\cauae\Documents\windly\backend\swagger\swaggerConfig.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -918,32 +741,31 @@
       </file>
     </package>
     <package name="utils">
-      <metrics statements="22" coveredstatements="1" conditionals="25" coveredconditionals="0" methods="14" coveredmethods="0"/>
-      <file name="responseFormatter.js" path="D:\Users\Aluno\Documents\windly\backend\utils\responseFormatter.js">
-        <metrics statements="22" coveredstatements="1" conditionals="25" coveredconditionals="0" methods="14" coveredmethods="0"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="66" count="0" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
-        <line num="78" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="82" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="85" count="0" type="stmt"/>
-        <line num="93" count="0" type="stmt"/>
-        <line num="101" count="6" type="stmt"/>
->>>>>>> 1e9a9c6ea071bcdbb246522ed2c8b3701fe7f57f
+      <metrics statements="22" coveredstatements="22" conditionals="25" coveredconditionals="23" methods="14" coveredmethods="14"/>
+      <file name="responseFormatter.js" path="C:\Users\cauae\Documents\windly\backend\utils\responseFormatter.js">
+        <metrics statements="22" coveredstatements="22" conditionals="25" coveredconditionals="23" methods="14" coveredmethods="14"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
+        <line num="66" count="1" type="stmt"/>
+        <line num="72" count="1" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="75" count="3" type="stmt"/>
+        <line num="76" count="3" type="stmt"/>
+        <line num="78" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="79" count="2" type="stmt"/>
+        <line num="82" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="85" count="2" type="stmt"/>
+        <line num="93" count="2" type="stmt"/>
+        <line num="101" count="7" type="stmt"/>
       </file>
     </package>
   </project>

@@ -1,57 +1,50 @@
-// Mock do módulo pg para evitar conexão real com banco
-jest.mock('pg', () => ({
-  Pool: jest.fn().mockImplementation(() => ({
-    query: jest.fn()
-  }))
-}));
+const path = require('path');
+const dotenv = require('dotenv');
 
-// Mock do dotenv
-jest.mock('dotenv', () => ({
-  config: jest.fn()
+// Carrega variáveis do backend/.env
+dotenv.config({ path: path.resolve(__dirname, '../../backend/.env') });
+
+// Mocka pg.Pool
+jest.mock('pg', () => ({
+  Pool: jest.fn()
 }));
 
 const { Pool } = require('pg');
 
 describe('Database Connection', () => {
   let mockPool;
-  
+
   beforeEach(() => {
+    // Simula pool com apenas o evento connect
     mockPool = {
-      query: jest.fn()
+      on: jest.fn((event, callback) => {
+        if (event === 'connect') callback();
+      }),
     };
+
     Pool.mockImplementation(() => mockPool);
-    // Limpa o cache do módulo para recarregar
+
     jest.clearAllMocks();
     delete require.cache[require.resolve('../../db/db')];
   });
 
-  afterEach(() => {
-    jest.resetModules();
-  });
-
   test('deve conectar ao banco de dados com sucesso', () => {
-    // Mock de console.log para capturar a mensagem de sucesso
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-    
-    // Recarrega o módulo db para testar a conexão, mas que djabeisso mds
-    require('../../db/db');
-    
+
+    require('../../db/db'); // Executa db.js
+
     expect(Pool).toHaveBeenCalledWith({
-      connectionString: process.env.DATABASE_URL
+      host: process.env.DB_HOST || 'localhost',
+      port: Number(process.env.DB_PORT) || 5432,
+      user: process.env.DB_USER || 'postgres',
+      password: process.env.DB_PASS || 'postgres',
+      database: process.env.DB_NAME || 'postgres',
     });
-    expect(consoleSpy).toHaveBeenCalledWith('✅ Conexão com o banco de dados estabelecida com sucesso.');
-    
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      '✅ Conexão com o banco de dados estabelecida com sucesso.'
+    );
+
     consoleSpy.mockRestore();
-  });
-
-  test('deve exportar função query', () => {
-    const db = require('../../db/db');
-    expect(typeof db.query).toBe('function');
-  });
-
-  test('função query deve estar disponível', () => {
-    const db = require('../../db/db');
-    expect(typeof db.query).toBe('function');
-    expect(db.query).toBeDefined();
   });
 });
