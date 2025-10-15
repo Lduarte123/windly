@@ -27,13 +27,13 @@
     "nodemailer": "^7.0.9",
     "nodemon": "^3.1.10",
     "pg": "^8.16.0",
-    "supertest": "^7.1.4",
+    "superTest": "npm:supertest@^7.1.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
+    "axios-mock-adapter": "^2.1.0",
     "jest": "^30.2.0",
     "supertest": "^7.1.4"
-    "axios-mock-adapter": "^2.1.0",
   }
 }
